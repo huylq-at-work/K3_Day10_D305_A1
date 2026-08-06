@@ -8,7 +8,7 @@
 | ------------------ | -------------------------- |
 | Họ và tên       | Nguyễn Tiến Đạt             |
 | MSSV               | 2A202601387                     |
-| Khóa/Lớp         | K3              |
+| Khóa/Lớp         | K3 / D305            |
 | Tên nhóm         | Fathom     |
 | Vai trò chính    | Evaluation & observability                 |
 | Repository         | https://github.com/huylq-at-work/K3_Day10_D305_A1.git |
