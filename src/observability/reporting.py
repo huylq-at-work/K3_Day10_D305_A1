@@ -54,18 +54,43 @@ def generate_corruption_report(
     md = f"""# Corruption & Repair Comparison Report
 
 ## 1. Data Quality Comparison
-| Metric | Corrupted | Repaired |
-|---|---|---|
-| Row Count | {corrupted_quality.get('row_count', 'N/A')} | {repaired_quality.get('row_count', 'N/A')} |
-| Paper ID Nulls | {corrupted_quality.get('paper_id_nulls', 'N/A')} | {repaired_quality.get('paper_id_nulls', 'N/A')} |
-| Title Nulls | {corrupted_quality.get('title_nulls', 'N/A')} | {repaired_quality.get('title_nulls', 'N/A')} |
 
-## 2. Evaluation Metrics Comparison
-| Metric | Baseline | Corrupted | Repaired |
+Cac tin hieu duoi day la bang chung pipeline PHAT HIEN duoc du lieu hong,
+va phat hien duoc no da het hong sau khi repair.
+
+| Signal | Corrupted | Repaired | Ky vong sau repair |
 |---|---|---|---|
-| Retrieval Hit Rate | {baseline_metrics.get('retrieval_hit_rate', 0):.2%} | {corrupted_metrics.get('retrieval_hit_rate', 0):.2%} | {repaired_metrics.get('retrieval_hit_rate', 0):.2%} |
-| Mean Token F1 | {baseline_metrics.get('mean_token_f1', 0):.4f} | {corrupted_metrics.get('mean_token_f1', 0):.4f} | {repaired_metrics.get('mean_token_f1', 0):.4f} |
-| Mean Judge Score | {baseline_metrics.get('mean_judge_score', 0):.2f} | {corrupted_metrics.get('mean_judge_score', 0):.2f} | {repaired_metrics.get('mean_judge_score', 0):.2f} |
+| Row Count | {corrupted_quality.get('row_count', 'N/A')} | {repaired_quality.get('row_count', 'N/A')} | ve bang baseline |
+| Paper ID Nulls | {corrupted_quality.get('paper_id_nulls', 'N/A')} | {repaired_quality.get('paper_id_nulls', 'N/A')} | 0 |
+| Paper ID Duplicates | {corrupted_quality.get('paper_id_duplicates', 'N/A')} | {repaired_quality.get('paper_id_duplicates', 'N/A')} | 0 |
+| Title Nulls | {corrupted_quality.get('title_nulls', 'N/A')} | {repaired_quality.get('title_nulls', 'N/A')} | 0 |
+| Summary Missing/Empty | {corrupted_quality.get('summary_nulls', 'N/A')} | {repaired_quality.get('summary_nulls', 'N/A')} | 0 |
+| Short Summaries | {corrupted_quality.get('short_summaries', 'N/A')} | {repaired_quality.get('short_summaries', 'N/A')} | 0 |
+| Stale Rows | {corrupted_quality.get('stale_rows', 'N/A')} | {repaired_quality.get('stale_rows', 'N/A')} | 0 |
+
+## 2. Freshness Comparison
+
+| Attribute | Corrupted | Repaired |
+|---|---|---|
+| Latest Published | {corrupted_freshness.get('latest_published', 'N/A')} | {repaired_freshness.get('latest_published', 'N/A')} |
+| Oldest Published | {corrupted_freshness.get('oldest_published', 'N/A')} | {repaired_freshness.get('oldest_published', 'N/A')} |
+| Stale Rows | {corrupted_freshness.get('stale_rows', 'N/A')} | {repaired_freshness.get('stale_rows', 'N/A')} |
+| Total Rows | {corrupted_freshness.get('total_rows', 'N/A')} | {repaired_freshness.get('total_rows', 'N/A')} |
+| Status | {'Fresh' if corrupted_freshness.get('is_fresh') else 'Stale'} | {'Fresh' if repaired_freshness.get('is_fresh') else 'Stale'} |
+
+## 3. Evaluation Metrics Comparison
+
+Ba trang thai dung chung mot test set, cung top_k va cung evaluator.
+
+| Metric | Baseline | Corrupted | Repaired | Delta corruption | Recovered |
+|---|---|---|---|---|---|
+| Retrieval Hit Rate | {baseline_metrics.get('retrieval_hit_rate', 0):.2%} | {corrupted_metrics.get('retrieval_hit_rate', 0):.2%} | {repaired_metrics.get('retrieval_hit_rate', 0):.2%} | {corrupted_metrics.get('retrieval_hit_rate', 0) - baseline_metrics.get('retrieval_hit_rate', 0):+.2%} | {'yes' if abs(repaired_metrics.get('retrieval_hit_rate', 0) - baseline_metrics.get('retrieval_hit_rate', 0)) < 1e-9 else 'no'} |
+| Mean Token F1 | {baseline_metrics.get('mean_token_f1', 0):.4f} | {corrupted_metrics.get('mean_token_f1', 0):.4f} | {repaired_metrics.get('mean_token_f1', 0):.4f} | {corrupted_metrics.get('mean_token_f1', 0) - baseline_metrics.get('mean_token_f1', 0):+.4f} | {'yes' if abs(repaired_metrics.get('mean_token_f1', 0) - baseline_metrics.get('mean_token_f1', 0)) < 1e-9 else 'no'} |
+| Judge Accuracy | {baseline_metrics.get('judge_accuracy', 0):.2%} | {corrupted_metrics.get('judge_accuracy', 0):.2%} | {repaired_metrics.get('judge_accuracy', 0):.2%} | {corrupted_metrics.get('judge_accuracy', 0) - baseline_metrics.get('judge_accuracy', 0):+.2%} | {'yes' if abs(repaired_metrics.get('judge_accuracy', 0) - baseline_metrics.get('judge_accuracy', 0)) < 1e-9 else 'no'} |
+| Mean Judge Score | {baseline_metrics.get('mean_judge_score', 0):.2f} | {corrupted_metrics.get('mean_judge_score', 0):.2f} | {repaired_metrics.get('mean_judge_score', 0):.2f} | {corrupted_metrics.get('mean_judge_score', 0) - baseline_metrics.get('mean_judge_score', 0):+.2f} | {'yes' if abs(repaired_metrics.get('mean_judge_score', 0) - baseline_metrics.get('mean_judge_score', 0)) < 1e-9 else 'no'} |
+
+Samples: {baseline_metrics.get('samples', 'N/A')} cau hoi cho moi trang thai.
+
 """
     os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, "w", encoding="utf-8") as f:
