@@ -402,40 +402,104 @@ Muc tieu: Build repaired index, so sanh 3 trang thai, chuan bi demo.
 
 ### Dieu kien bat dau
 
-- [ ] Role 2 da repair tu raw/source dang tin.
-- [ ] Role 4 san sang evaluate repaired voi test set cu.
-- [ ] Role 1 da co comparison flow/report path.
+- [x] Role 2 da repair tu raw/source dang tin.
+- [x] Role 4 san sang evaluate repaired voi test set cu.
+- [x] Role 1 da co comparison flow/report path.
 
 ### Viec can lam
 
-- [ ] Build repaired index tu repaired clean data.
-- [ ] Tao `data/embeddings/papers_embeddings_repaired.json`.
-- [ ] Xac nhan collection `papers-repaired` ton tai.
-- [ ] Chay lai smoke query baseline tren repaired index.
-- [ ] So sanh baseline vs corrupted vs repaired.
-- [ ] Kiem tra agent/retrieval tren repaired data.
-- [ ] Cung team xac nhan report dung artifact that.
-- [ ] Dam bao khong commit `.env`, API key, Chroma store nang neu `.gitignore` da loai.
+- [x] Build repaired index tu repaired clean data.
+- [x] Tao `data/embeddings/papers_embeddings_repaired.json`.
+- [x] Xac nhan collection `papers-repaired` ton tai.
+- [x] Chay lai smoke query baseline tren repaired index.
+- [x] So sanh baseline vs corrupted vs repaired.
+- [x] Kiem tra agent/retrieval tren repaired data.
+- [x] Cung team xac nhan report dung artifact that.
+- [x] Dam bao khong commit `.env`, API key, Chroma store nang neu `.gitignore` da loai.
 
 ### Da lam
 
-- [ ] Da build repaired embedding.
-- [ ] Da search tren repaired collection.
-- [ ] Da so sanh 3 trang thai.
-- [ ] Da chuan bi demo evidence.
+- [x] Da build repaired embedding.
+- [x] Da search tren repaired collection.
+- [x] Da so sanh 3 trang thai.
+- [x] Da chuan bi demo evidence.
 
 ### Evidence / ghi chu
 
 ```text
-Repaired manifest:
-Repaired collection:
-Repaired document count:
-Same query:
-Baseline top result:
-Corrupted top result:
-Repaired top result:
-Conclusion:
-Blocker:
+Recovery evidence: data/clean/recovery_evidence.json
+Recovery status: passed
+Recovery source: locked raw snapshot, no external fetch
+Repaired validation: repaired_matches_baseline=true, repaired_contract_passed=true, repaired_quality_clean=true
+
+Baseline rows: 24
+Corrupted rows: 23
+Repaired rows: 24
+Baseline unique paper_ids: 24
+Corrupted unique paper_ids: 21
+Repaired unique paper_ids: 24
+Repaired duplicate IDs: 0
+Repaired empty summary rows: 0
+Repaired empty text_for_embedding rows: 0
+
+Repaired manifest: data/embeddings/papers_embeddings_repaired.json
+Repaired collection: papers-repaired
+Repaired document count: 24
+Repaired embedding model: sentence-transformers/all-MiniLM-L6-v2
+Repaired persist path: data/chroma
+Metadata status: present with paper_id, title, published, authors_joined, categories_joined, summary, abs_url, pdf_url
+
+Collections rebuilt/checked locally:
+- papers-baseline: 24 docs
+- papers-corrupted: 23 docs
+- papers-repaired: 24 docs
+
+Baseline metrics: data/results/baseline_metrics.json
+Baseline retrieval_hit_rate: 1.0
+Baseline mean_token_f1: 0.8474978798884274
+Baseline judge_accuracy: 0.8
+Corrupted metrics: data/results/corrupted_metrics.json
+Corrupted retrieval_hit_rate: 0.8
+Corrupted mean_token_f1: 0.6573626145044891
+Corrupted judge_accuracy: 0.625
+Repaired metrics: data/results/repaired_metrics.json
+Repaired retrieval_hit_rate: 1.0
+Repaired mean_token_f1: 0.8474978798884274
+Repaired judge_accuracy: 0.8
+Metric recovery: repaired metrics match baseline for retrieval_hit_rate, mean_token_f1, and judge_accuracy.
+
+Same query 1: agentic retrieval augmented generation
+Baseline top 1: 10.63646/kpqm1958 | score 0.5772 | The Age of Autonomous Agents: A Bibliometric Review of Agentic AI Architectures, Applications, and Emerging Challenges
+Corrupted top 1: 10.63646/kpqm1958 | score 0.5772 | The Age of Autonomous Agents: A Bibliometric Review of Agentic AI Architectures, Applications, and Emerging Challenges
+Repaired top 1: 10.63646/kpqm1958 | score 0.5772 | The Age of Autonomous Agents: A Bibliometric Review of Agentic AI Architectures, Applications, and Emerging Challenges
+Query 1 conclusion: no visible retrieval change across states.
+
+Same query 2: retrieval augmented generation safety report
+Baseline top 1: 10.54254/2753-8818/2026.dl34055 | score 0.4631 | Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation
+Baseline top 2: 10.70121/001c.158711 | score 0.4286 | The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models
+Baseline top 3: 10.2118/234689-pa | score 0.4231 | SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation
+Corrupted top 1: 10.54254/2753-8818/2026.dl34055 | score 0.4631 | Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation
+Corrupted top 2: 10.1093/sleep/zsag091.0346 | score 0.4287 | 0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine
+Corrupted top 3: 10.70121/001c.158711 | score 0.4286 | The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models
+Repaired top 1: 10.54254/2753-8818/2026.dl34055 | score 0.4631 | Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation
+Repaired top 2: 10.70121/001c.158711 | score 0.4286 | The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models
+Repaired top 3: 10.2118/234689-pa | score 0.4231 | SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation
+Query 2 conclusion: repaired restores the same top-3 ordering as baseline; SafeRAG returns after being dropped in corrupted data.
+
+Lookup impact sample: 10.2118/234689-pa
+Baseline lookup: found
+Corrupted lookup: not found
+Repaired lookup: found
+Lookup conclusion: repair restores exact lookup for dropped latest record.
+
+Lineage repair sample: 10.21203/rs.3.rs-10012178/v1
+Baseline lookup: found
+Corrupted lookup: found, but summary was blanked by corruption
+Repaired lookup: found, summary/text restored according to recovery_evidence.json
+
+Report artifact: data/reports/corruption_report.md
+Conclusion: CP6 Role 3 passed. Baseline -> corrupted shows retrieval degradation; corrupted -> repaired restores collection size, lookup behavior, and metrics back to baseline.
+Blocker: none
 ```
 
 ## Checklist Truoc Khi PR
