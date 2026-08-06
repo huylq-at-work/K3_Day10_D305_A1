@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "source_mode": "raw snapshot",
+  "refresh_source_required": false,
+  "refresh_source_setting": false,
+  "paths": {
+    "raw_api_response": "data/raw/crossref_response.json",
+    "raw_records": "data/raw/crossref_records.json"
+  },
+  "sha256": {
+    "raw_api_response": "bc114697b45d5937ccd0282b92afe9f39512d327a800275624a9103f51b5b635",
+    "raw_records": "e1c6ee0379653af909c1deae6566b0a745ef658d0f31406332d612699a510ebb"
+  },
+  "status": "created",
+  "matches_existing_lock": true
+}

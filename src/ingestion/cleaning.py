@@ -69,18 +69,24 @@ def _run_date(run_date: datetime) -> datetime:
     return run_date.astimezone(UTC)
 
 
-def _embedding_text(
+def build_text_for_embedding(
     title: str,
     summary: str,
     authors_joined: str,
     categories_joined: str,
 ) -> str:
+    """Build the exact clean text contract consumed by the embedding index."""
+
     return (
         f"Title: {title}\n"
         f"Authors: {authors_joined}\n"
         f"Categories: {categories_joined}\n"
         f"Abstract: {summary}"
     )
+
+
+# Compatibility alias for CP1 code; new audits use the public helper above.
+_embedding_text = build_text_for_embedding
 
 
 def build_clean_dataframe(records: list[PaperRecord], run_date: datetime) -> pd.DataFrame:

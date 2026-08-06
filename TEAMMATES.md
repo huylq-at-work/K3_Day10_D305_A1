@@ -461,6 +461,141 @@ Thứ tự xử lý đề xuất trước khi sang phase 2:
 2. **R4 + R3** chốt cách xử lý Blocker 1 (ngôn ngữ test set) và Blocker 2 (`ground_truth` dạng list).
 3. **R1** điền API key, chạy lại `run_phase1.py` rồi `verify_baseline.py` cho tới khi 32/32 pass.
 
+## 2f. Checkpoint 4 — baseline checklist trước giờ nghỉ (Role 1)
+
+Mốc này là **nghỉ 15 phút**. Việc của Role 1: chốt checklist baseline và blocker còn lại để
+quay lại làm phase 2 ngay, không phải dò lại từ đầu.
+
+### Baseline checklist — trạng thái tại giờ nghỉ
+
+Chạy lại `uv run python script/verify_baseline.py` sau khi rebase: **29/32 pass**.
+
+| # | Hạng mục | Trạng thái |
+| :-: | :-- | :-- |
+| 1 | 10 artifact bắt buộc tồn tại và đọc được | ✅ |
+| 2 | Clean contract còn pass trên file đã ghi | ✅ 0 blocker |
+| 3 | Count khớp xuyên tầng: 24 raw → 24 clean → 24 manifest → 24 Chroma | ✅ |
+| 4 | Collection `papers-baseline`, model MiniLM khớp `Settings` | ✅ |
+| 5 | 3 trạng thái dùng collection và path riêng | ✅ chưa ghi đè gì |
+| 6 | 30/30 `ground_truth_doc_ids` tồn tại trong clean data | ✅ |
+| 7 | 4 metric tính lại từ answers khớp file metrics | ✅ |
+| 8 | Report chứa đúng số của metrics, Source Summary có số thật | ✅ |
+| 9 | Freshness phản ánh dữ liệu thật | ❌ `latest/oldest_published: null` |
+| 10 | Judge gọi LLM thật | ❌ 30/30 heuristic fallback |
+| 11 | Agent demo chạy được | ❌ thiếu API key |
+| 12 | `retrieval_hit_rate` đo được chất lượng retrieval | ❌ bão hoà 1.00 |
+
+### Blocker còn lại — ưu tiên số 1 khi quay lại
+
+**Ngưỡng freshness hard-code 365 (Blocker 7).** Sau rebase kiểm lại: chưa sửa, và tệ hơn dự
+đoán ban đầu — `df["age_days"].gt(365)` xuất hiện ở **cả hai** hàm trong
+`src/observability/quality.py`: `run_data_quality_checks` (dòng 27) và `build_freshness_report`
+(dòng 58). `settings.freshness_threshold_days` là **180**.
+
+Chọn đây làm blocker số 1 vì phase 2 sẽ bắt đầu bằng corruption, mà "làm cũ dữ liệu" là một
+trong sáu kịch bản bắt buộc. Với ngưỡng 365, làm 24 dòng cũ đi 200 ngày vẫn cho `stale_rows: 0`
+và `is_fresh: true` ở **cả hai** report. Nhóm sẽ ghi vào báo cáo "corruption không bị phát hiện"
+trong khi thực tế là checker hỏng.
+
+Việc quay lại làm ngay, theo thứ tự:
+
+1. **R4** — `published_date` → `published`; thay `365` bằng `settings.freshness_threshold_days`
+   ở cả hai hàm; xem lại `is_fresh` (hiện là "stale < 50%", nên 11/24 dòng cũ 400 ngày vẫn báo fresh).
+2. **R4 + R3** — chốt Blocker 1 (test set tiếng Việt vs router tiếng Anh trong `qa.py`) và
+   Blocker 2 (`ground_truth` của authors/categories đang là list). Kiểm lại sau rebase:
+   `ground_truth` của câu summary đã là `str`, nhưng câu hỏi vẫn tiếng Việt.
+3. **R1** — điền API key, chạy lại `run_phase1.py` → `verify_baseline.py` tới khi 32/32 pass,
+   **rồi mới** chạy corruption.
+
+Ràng buộc không đổi khi sang phase 2: giữ nguyên `test_set.json`, `top_k`, evaluator; ba trạng
+thái dùng ba collection riêng; repair chạy lại từ `data/raw/`, không sửa tay metrics.
+
+## 2g. Checkpoint 5 — kết quả Role 1 (Lê Quang Huy)
+
+> Cảnh báo BTC: *"Lỗi data phải có chủ đích, có log và đo được tác động; không tạo corruption
+> chỉ để có file."*
+
+### (1) Implement `corruption_flow.py`
+
+[`src/pipelines/corruption_flow.py`](src/pipelines/corruption_flow.py) — 7 bước:
+
+```
+0. kiem baseline    -> BaselineMissing neu thieu artifact
+1. corrupt          -> corrupted clean CSV/JSON + corruption_log.json
+2. index + evaluate -> papers-corrupted, test set GOC
+3. repair tu raw    -> contract gate, FAIL la dung han
+4. index + evaluate -> papers-repaired, test set GOC
+5. comparison report
+6. kiem baseline nguyen ven -> BaselineMutated neu bi cham
+```
+
+Ba chốt chặn được cài sẵn:
+
+- **Bước 0** — không có đủ baseline artifact thì raise `BaselineMissing`. So sánh chỉ có nghĩa
+  khi baseline là mốc có thật.
+- **Bước 3** — dữ liệu repaired phải qua `validate_clean_dataframe`. Không đạt thì raise, **không
+  vá JSON kết quả** (đúng yêu cầu ý 3 của mốc này).
+- **Bước 6** — chụp dấu vân tay baseline (kích thước `clean.json`, nội dung `baseline_metrics`,
+  tên collection trong manifest, kích thước test set) trước khi chạy, đối chiếu lại sau khi
+  chạy; lệch là raise `BaselineMutated`.
+
+Repair đọc `data/raw/crossref_records.json`, **không fetch lại source** — fetch mới sẽ đổi tập
+record và làm bảng so sánh mất công bằng.
+
+### (2) Kiểm path/collection riêng — đã chạy thật
+
+`corrupt_clean_dataframe` của R2 còn là TODO nên chưa chạy được bằng dữ liệu thật. Để kiểm
+orchestration, Role 1 chạy thử flow với **stub corruption tạm trong scratchpad** (drop 3 record
+mới nhất, blank 2 summary, làm cũ 4 dòng, thêm 2 duplicate). Stub **không commit** và toàn bộ
+artifact do nó sinh ra **đã xoá sạch** sau khi kiểm — repo hiện chỉ còn artifact baseline thật.
+
+Kết quả kiểm:
+
+| Kiểm | Kết quả |
+| :-- | :-- |
+| `baseline_metrics.json` sau khi chạy | giống hệt trước khi chạy |
+| Chroma sau khi chạy | `papers-baseline` 24 · `papers-corrupted` 23 · `papers-repaired` 24 |
+| clean / embeddings / metrics / answers | đủ 3 bản riêng biệt, không ghi đè |
+| quality + freshness | file riêng cho từng trạng thái |
+| Contract gate ở bước repair | PASS, 24 record khôi phục đủ |
+
+Flow chạy thông cả 7 bước và tạo ra đúng chuỗi nhân quả mà bài lab cần:
+
+| metric | baseline | corrupted | repaired |
+| :-- | --: | --: | --: |
+| `retrieval_hit_rate` | 1.0000 | **0.8000** | 1.0000 |
+| `mean_token_f1` | 0.1357 | **0.1202** | 0.1357 |
+
+Repaired khớp baseline tuyệt đối — đúng như kỳ vọng, vì cả hai cùng dẫn xuất từ một
+`data/raw/` không đổi.
+
+### (3) Blocker mới phát hiện khi chạy thử
+
+**BLOCKER 8 — `summary_nulls` không đếm chuỗi rỗng. (chặn)**
+
+Stub blank 2 summary thành `""`, nhưng `data/quality/corrupted.json` báo `summary_nulls: 0`.
+Nguyên nhân: `run_data_quality_checks` dùng `df["summary"].isnull()`, mà chuỗi rỗng **không
+phải** null trong pandas.
+
+"Summary rỗng" là một trong sáu kịch bản corruption bắt buộc. Với check hiện tại, kịch bản đó
+chạy xong mà quality report vẫn báo 0 — nhóm không chứng minh được là pipeline **phát hiện**
+được lỗi. Cần đếm cả `.fillna("").str.strip() == ""`.
+
+**Blocker 7 nặng hơn ước tính.** Stub cố tình làm cũ 4 dòng lên **400 ngày** thì mới bị bắt
+(`stale_rows: 4`), vì ngưỡng hard-code là 365. Nếu R2 làm cũ theo ngưỡng thật của lab (180 ngày,
+ví dụ 200–300 ngày) thì `stale_rows` sẽ là **0** và corruption "làm cũ dữ liệu" hoàn toàn tàng
+hình. Ngoài ra `freshness_corrupted.json` vẫn ghi `is_fresh: true` dù có 4 dòng stale và 2
+`paper_id` trùng — vì `is_fresh` định nghĩa là "stale < 50% số dòng".
+
+### Việc còn lại của mốc này
+
+- **R2** — implement `corrupt_clean_dataframe`, log đủ `type`, `paper_ids`, tham số và
+  before/after count cho từng kịch bản.
+- **R4** — Blocker 6, 7, 8 đều nằm trong `src/observability/quality.py`. Không sửa thì corruption
+  chạy xong vẫn không có signal nào đổi, và mục 10 của report không kết luận được gì.
+- **R1** — sau khi R2 xong: chạy `run_corruption_flow.py` thật, rồi `verify_baseline.py` để chắc
+  baseline chưa bị đụng.
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement
