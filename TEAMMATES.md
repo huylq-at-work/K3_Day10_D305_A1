@@ -510,6 +510,92 @@ Việc quay lại làm ngay, theo thứ tự:
 Ràng buộc không đổi khi sang phase 2: giữ nguyên `test_set.json`, `top_k`, evaluator; ba trạng
 thái dùng ba collection riêng; repair chạy lại từ `data/raw/`, không sửa tay metrics.
 
+## 2g. Checkpoint 5 — kết quả Role 1 (Lê Quang Huy)
+
+> Cảnh báo BTC: *"Lỗi data phải có chủ đích, có log và đo được tác động; không tạo corruption
+> chỉ để có file."*
+
+### (1) Implement `corruption_flow.py`
+
+[`src/pipelines/corruption_flow.py`](src/pipelines/corruption_flow.py) — 7 bước:
+
+```
+0. kiem baseline    -> BaselineMissing neu thieu artifact
+1. corrupt          -> corrupted clean CSV/JSON + corruption_log.json
+2. index + evaluate -> papers-corrupted, test set GOC
+3. repair tu raw    -> contract gate, FAIL la dung han
+4. index + evaluate -> papers-repaired, test set GOC
+5. comparison report
+6. kiem baseline nguyen ven -> BaselineMutated neu bi cham
+```
+
+Ba chốt chặn được cài sẵn:
+
+- **Bước 0** — không có đủ baseline artifact thì raise `BaselineMissing`. So sánh chỉ có nghĩa
+  khi baseline là mốc có thật.
+- **Bước 3** — dữ liệu repaired phải qua `validate_clean_dataframe`. Không đạt thì raise, **không
+  vá JSON kết quả** (đúng yêu cầu ý 3 của mốc này).
+- **Bước 6** — chụp dấu vân tay baseline (kích thước `clean.json`, nội dung `baseline_metrics`,
+  tên collection trong manifest, kích thước test set) trước khi chạy, đối chiếu lại sau khi
+  chạy; lệch là raise `BaselineMutated`.
+
+Repair đọc `data/raw/crossref_records.json`, **không fetch lại source** — fetch mới sẽ đổi tập
+record và làm bảng so sánh mất công bằng.
+
+### (2) Kiểm path/collection riêng — đã chạy thật
+
+`corrupt_clean_dataframe` của R2 còn là TODO nên chưa chạy được bằng dữ liệu thật. Để kiểm
+orchestration, Role 1 chạy thử flow với **stub corruption tạm trong scratchpad** (drop 3 record
+mới nhất, blank 2 summary, làm cũ 4 dòng, thêm 2 duplicate). Stub **không commit** và toàn bộ
+artifact do nó sinh ra **đã xoá sạch** sau khi kiểm — repo hiện chỉ còn artifact baseline thật.
+
+Kết quả kiểm:
+
+| Kiểm | Kết quả |
+| :-- | :-- |
+| `baseline_metrics.json` sau khi chạy | giống hệt trước khi chạy |
+| Chroma sau khi chạy | `papers-baseline` 24 · `papers-corrupted` 23 · `papers-repaired` 24 |
+| clean / embeddings / metrics / answers | đủ 3 bản riêng biệt, không ghi đè |
+| quality + freshness | file riêng cho từng trạng thái |
+| Contract gate ở bước repair | PASS, 24 record khôi phục đủ |
+
+Flow chạy thông cả 7 bước và tạo ra đúng chuỗi nhân quả mà bài lab cần:
+
+| metric | baseline | corrupted | repaired |
+| :-- | --: | --: | --: |
+| `retrieval_hit_rate` | 1.0000 | **0.8000** | 1.0000 |
+| `mean_token_f1` | 0.1357 | **0.1202** | 0.1357 |
+
+Repaired khớp baseline tuyệt đối — đúng như kỳ vọng, vì cả hai cùng dẫn xuất từ một
+`data/raw/` không đổi.
+
+### (3) Blocker mới phát hiện khi chạy thử
+
+**BLOCKER 8 — `summary_nulls` không đếm chuỗi rỗng. (chặn)**
+
+Stub blank 2 summary thành `""`, nhưng `data/quality/corrupted.json` báo `summary_nulls: 0`.
+Nguyên nhân: `run_data_quality_checks` dùng `df["summary"].isnull()`, mà chuỗi rỗng **không
+phải** null trong pandas.
+
+"Summary rỗng" là một trong sáu kịch bản corruption bắt buộc. Với check hiện tại, kịch bản đó
+chạy xong mà quality report vẫn báo 0 — nhóm không chứng minh được là pipeline **phát hiện**
+được lỗi. Cần đếm cả `.fillna("").str.strip() == ""`.
+
+**Blocker 7 nặng hơn ước tính.** Stub cố tình làm cũ 4 dòng lên **400 ngày** thì mới bị bắt
+(`stale_rows: 4`), vì ngưỡng hard-code là 365. Nếu R2 làm cũ theo ngưỡng thật của lab (180 ngày,
+ví dụ 200–300 ngày) thì `stale_rows` sẽ là **0** và corruption "làm cũ dữ liệu" hoàn toàn tàng
+hình. Ngoài ra `freshness_corrupted.json` vẫn ghi `is_fresh: true` dù có 4 dòng stale và 2
+`paper_id` trùng — vì `is_fresh` định nghĩa là "stale < 50% số dòng".
+
+### Việc còn lại của mốc này
+
+- **R2** — implement `corrupt_clean_dataframe`, log đủ `type`, `paper_ids`, tham số và
+  before/after count cho từng kịch bản.
+- **R4** — Blocker 6, 7, 8 đều nằm trong `src/observability/quality.py`. Không sửa thì corruption
+  chạy xong vẫn không có signal nào đổi, và mục 10 của report không kết luận được gì.
+- **R1** — sau khi R2 xong: chạy `run_corruption_flow.py` thật, rồi `verify_baseline.py` để chắc
+  baseline chưa bị đụng.
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement
