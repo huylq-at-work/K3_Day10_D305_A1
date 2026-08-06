@@ -1,5 +1,5 @@
 {
-  "status": "passed",
+  "status": "failed",
   "lineage": {
     "paper_id": "10.21203/rs.3.rs-10012178/v1",
     "passed": true,
@@ -65,10 +65,21 @@
       }
     },
     "test_set_references": [
-      "d47fe500-c670-404f-96c9-47adad7fa20c",
-      "e7697da0-c94b-46a4-ae59-f8e5a7ad2524",
-      "6544edd5-bc1d-46a5-b50f-7593c5d9775b"
+      "090febc1-a15a-42ec-a986-14b51a8430b1",
+      "64cb8a80-5947-44ff-ae3c-2e9cbcf320e4",
+      "a4e3e125-0191-430d-962f-8c2148899704"
     ]
+  },
+  "raw_clean_count_reconciliation": {
+    "raw_response_items": 24,
+    "raw_parsed_records": 24,
+    "clean_records": 24,
+    "filtered_records": 0,
+    "deduplicated_records": 0,
+    "raw_audit_readable_and_passed": true,
+    "lineage_sample_readable": true,
+    "difference_raw_to_clean": 0,
+    "difference_explained": true
   },
   "clean_index_checks": {
     "clean_rows": 24,
@@ -80,6 +91,69 @@
     "clean_and_index_id_sets_match": true,
     "missing_clean_contract_columns": [],
     "missing_index_metadata_fields": []
+  },
+  "artifact_validation": {
+    "age_days_mismatch_count": 0,
+    "age_days_mismatch_ids": [],
+    "text_for_embedding_mismatch_count": 0,
+    "text_for_embedding_mismatch_ids": [],
+    "quality_report": {
+      "path": "data/quality/baseline.json",
+      "expected_from_clean": {
+        "row_count": 24,
+        "paper_id_nulls": 0,
+        "paper_id_duplicates": 0,
+        "title_nulls": 0,
+        "summary_nulls": 0,
+        "short_summaries": 0,
+        "stale_rows": 0
+      },
+      "recorded": {
+        "row_count": 24,
+        "paper_id_nulls": 0,
+        "paper_id_duplicates": 0,
+        "title_nulls": 0,
+        "summary_nulls": 0,
+        "short_summaries": 0,
+        "stale_rows": 0
+      },
+      "field_matches": {
+        "row_count": true,
+        "paper_id_nulls": true,
+        "paper_id_duplicates": true,
+        "title_nulls": true,
+        "summary_nulls": true,
+        "short_summaries": true,
+        "stale_rows": true
+      },
+      "reflects_clean_artifact": true,
+      "contains_hardcoded_pass_flag": false
+    },
+    "freshness_report": {
+      "path": "data/quality/freshness_report.json",
+      "expected_from_clean": {
+        "latest_published": "2026-08-01",
+        "oldest_published": "2026-02-12",
+        "stale_rows": 0,
+        "total_rows": 24,
+        "is_fresh": true
+      },
+      "recorded": {
+        "latest_published": null,
+        "oldest_published": null,
+        "stale_rows": 0,
+        "total_rows": 24,
+        "is_fresh": true
+      },
+      "field_matches": {
+        "latest_published": false,
+        "oldest_published": false,
+        "stale_rows": true,
+        "total_rows": true,
+        "is_fresh": true
+      },
+      "reflects_clean_artifact": false
+    }
   },
   "test_set_audit": {
     "samples": 30,
@@ -117,7 +191,7 @@
     "rows": [
       {
         "sample_index": 0,
-        "id": "d47fe500-c670-404f-96c9-47adad7fa20c",
+        "id": "090febc1-a15a-42ec-a986-14b51a8430b1",
         "question_type": "summary",
         "paper_id": "10.21203/rs.3.rs-10012178/v1",
         "raw_record_found": true,
@@ -129,7 +203,7 @@
       },
       {
         "sample_index": 1,
-        "id": "e7697da0-c94b-46a4-ae59-f8e5a7ad2524",
+        "id": "64cb8a80-5947-44ff-ae3c-2e9cbcf320e4",
         "question_type": "authors",
         "paper_id": "10.21203/rs.3.rs-10012178/v1",
         "raw_record_found": true,
@@ -143,7 +217,7 @@
       },
       {
         "sample_index": 2,
-        "id": "6544edd5-bc1d-46a5-b50f-7593c5d9775b",
+        "id": "a4e3e125-0191-430d-962f-8c2148899704",
         "question_type": "categories",
         "paper_id": "10.21203/rs.3.rs-10012178/v1",
         "raw_record_found": true,
@@ -158,7 +232,7 @@
       },
       {
         "sample_index": 3,
-        "id": "03781fb0-026e-49a7-aa4c-37288458716d",
+        "id": "5f06ff2d-e3a8-4aba-b41b-9a2651a7ff4f",
         "question_type": "summary",
         "paper_id": "10.1093/sleep/zsag091.0346",
         "raw_record_found": true,
@@ -170,7 +244,7 @@
       },
       {
         "sample_index": 4,
-        "id": "1e4e2ceb-b6a5-45d1-aa26-9b682e69592e",
+        "id": "ee1a1fb2-77e9-4b90-9ca4-e2a3084eb169",
         "question_type": "authors",
         "paper_id": "10.1093/sleep/zsag091.0346",
         "raw_record_found": true,
@@ -184,7 +258,7 @@
       },
       {
         "sample_index": 5,
-        "id": "1997fe0c-6043-4efe-ace3-4162d7839120",
+        "id": "23d82763-0b92-461c-ac7b-7c27428fe0c7",
         "question_type": "categories",
         "paper_id": "10.1093/sleep/zsag091.0346",
         "raw_record_found": true,
@@ -198,7 +272,7 @@
       },
       {
         "sample_index": 6,
-        "id": "361129a6-3a03-400e-971f-1b80d05d8e29",
+        "id": "ee73e723-7704-4be5-b3f2-081cbc0c2aad",
         "question_type": "summary",
         "paper_id": "10.2118/234689-pa",
         "raw_record_found": true,
@@ -210,7 +284,7 @@
       },
       {
         "sample_index": 7,
-        "id": "6c0531c0-522f-477e-959c-cae33f679d2a",
+        "id": "dfb00be2-49d5-4ce7-a98d-ebc93f35caae",
         "question_type": "authors",
         "paper_id": "10.2118/234689-pa",
         "raw_record_found": true,
@@ -224,7 +298,7 @@
       },
       {
         "sample_index": 8,
-        "id": "dacedc3f-27e7-4256-b3db-f6122de09400",
+        "id": "63672bdf-ed22-4931-985c-0dd6df6bf571",
         "question_type": "categories",
         "paper_id": "10.2118/234689-pa",
         "raw_record_found": true,
@@ -238,7 +312,7 @@
       },
       {
         "sample_index": 9,
-        "id": "fcb8c026-d83f-4c1c-9132-455bcaaed77e",
+        "id": "d565a8c6-1cd2-4004-990f-1067b7b5a975",
         "question_type": "summary",
         "paper_id": "10.70121/001c.158711",
         "raw_record_found": true,
@@ -250,7 +324,7 @@
       },
       {
         "sample_index": 10,
-        "id": "dbfc66bc-c88c-4458-94ba-4925e0e2f569",
+        "id": "fb53d397-ea08-4db4-b859-e86959a4c712",
         "question_type": "authors",
         "paper_id": "10.70121/001c.158711",
         "raw_record_found": true,
@@ -264,7 +338,7 @@
       },
       {
         "sample_index": 11,
-        "id": "4ec43d72-28e7-454c-a7bc-abdfe6f951de",
+        "id": "b3843c4a-ac16-4291-9ad1-4baeb2c765fc",
         "question_type": "categories",
         "paper_id": "10.70121/001c.158711",
         "raw_record_found": true,
@@ -278,7 +352,7 @@
       },
       {
         "sample_index": 12,
-        "id": "a37a47e5-5415-4cd6-83a5-4605d915c100",
+        "id": "a1d2da7c-73b6-46dd-8297-d59b39684efc",
         "question_type": "summary",
         "paper_id": "10.1148/radiol.251581",
         "raw_record_found": true,
@@ -290,7 +364,7 @@
       },
       {
         "sample_index": 13,
-        "id": "2a7e4710-e037-47b8-891d-23b398cb635d",
+        "id": "bef12b66-139e-4651-882b-702a903cb4b6",
         "question_type": "authors",
         "paper_id": "10.1148/radiol.251581",
         "raw_record_found": true,
@@ -304,7 +378,7 @@
       },
       {
         "sample_index": 14,
-        "id": "1bcaade6-ead3-49a8-bfea-d571f3deaf5a",
+        "id": "fb8f1640-617e-475e-8e23-e7fe3df2eab5",
         "question_type": "categories",
         "paper_id": "10.1148/radiol.251581",
         "raw_record_found": true,
@@ -318,7 +392,7 @@
       },
       {
         "sample_index": 15,
-        "id": "ce64f321-50e9-4106-b6f5-2632f1b9df16",
+        "id": "14e1ca87-67ff-4114-bcca-18deb93c3a2c",
         "question_type": "summary",
         "paper_id": "10.47576/2949-1894.2026.7.7.023",
         "raw_record_found": true,
@@ -330,7 +404,7 @@
       },
       {
         "sample_index": 16,
-        "id": "88fc7ffb-c418-4eb0-82ef-76e1d9909163",
+        "id": "7cbc384e-6e7c-4955-8c34-216beafca0a3",
         "question_type": "authors",
         "paper_id": "10.47576/2949-1894.2026.7.7.023",
         "raw_record_found": true,
@@ -344,7 +418,7 @@
       },
       {
         "sample_index": 17,
-        "id": "981c20b4-a729-49e0-b8c6-230f1aa450a4",
+        "id": "dcf08bb8-5474-46d6-88ec-ed3f9fe9f2b6",
         "question_type": "categories",
         "paper_id": "10.47576/2949-1894.2026.7.7.023",
         "raw_record_found": true,
@@ -358,7 +432,7 @@
       },
       {
         "sample_index": 18,
-        "id": "b7535086-1265-4c28-b265-de6fee657fd5",
+        "id": "1e43a5ef-92c1-435b-8aec-f7e53c210151",
         "question_type": "summary",
         "paper_id": "10.54254/2753-8818/2026.dl34055",
         "raw_record_found": true,
@@ -370,7 +444,7 @@
       },
       {
         "sample_index": 19,
-        "id": "09723899-0d49-4fea-a7a5-20aba9bd5afd",
+        "id": "1d7995de-a7d0-43aa-8161-ea746957dff2",
         "question_type": "authors",
         "paper_id": "10.54254/2753-8818/2026.dl34055",
         "raw_record_found": true,
@@ -384,7 +458,7 @@
       },
       {
         "sample_index": 20,
-        "id": "d416e0cf-1616-4be8-9767-ad417566c5d3",
+        "id": "d8adec4a-1072-4b51-b76d-8559c6951a7d",
         "question_type": "categories",
         "paper_id": "10.54254/2753-8818/2026.dl34055",
         "raw_record_found": true,
@@ -398,7 +472,7 @@
       },
       {
         "sample_index": 21,
-        "id": "c8af5a86-056e-41f2-b089-60c9f93645fe",
+        "id": "950be911-28f3-4197-a8e5-e29013e93c66",
         "question_type": "summary",
         "paper_id": "10.1007/s10278-026-02086-9",
         "raw_record_found": true,
@@ -410,7 +484,7 @@
       },
       {
         "sample_index": 22,
-        "id": "c4a9e4b7-000e-4417-a3cf-954a5c4a97b9",
+        "id": "87ec06bf-f93a-4f7c-afeb-9119348320b4",
         "question_type": "authors",
         "paper_id": "10.1007/s10278-026-02086-9",
         "raw_record_found": true,
@@ -424,7 +498,7 @@
       },
       {
         "sample_index": 23,
-        "id": "86859102-5152-4ca7-b024-973a35aae09a",
+        "id": "efd8a7d0-aab4-4885-b194-75cbd5b67b93",
         "question_type": "categories",
         "paper_id": "10.1007/s10278-026-02086-9",
         "raw_record_found": true,
@@ -438,7 +512,7 @@
       },
       {
         "sample_index": 24,
-        "id": "44ba386c-ba30-426a-957d-22674b67633a",
+        "id": "e4e1d1a5-b1af-40d2-a07b-ff70a6a36681",
         "question_type": "summary",
         "paper_id": "10.3390/app16052244",
         "raw_record_found": true,
@@ -450,7 +524,7 @@
       },
       {
         "sample_index": 25,
-        "id": "61a1774b-0c90-4275-b83d-dc5cb0e7aa40",
+        "id": "f7354e2c-058f-46a6-a0b1-00c3e1570bcc",
         "question_type": "authors",
         "paper_id": "10.3390/app16052244",
         "raw_record_found": true,
@@ -464,7 +538,7 @@
       },
       {
         "sample_index": 26,
-        "id": "85e49127-ea50-4369-b747-3fcb14d2ae8d",
+        "id": "6a2cc946-a702-4d76-8480-279c370014d3",
         "question_type": "categories",
         "paper_id": "10.3390/app16052244",
         "raw_record_found": true,
@@ -478,7 +552,7 @@
       },
       {
         "sample_index": 27,
-        "id": "3a0bd65e-c5c5-435b-ba73-4abedc4f2837",
+        "id": "6c09a490-0074-4c67-9e53-51ddcf087aa5",
         "question_type": "summary",
         "paper_id": "10.21079/11681/50309",
         "raw_record_found": true,
@@ -490,7 +564,7 @@
       },
       {
         "sample_index": 28,
-        "id": "0bff3f7a-8a29-4c54-9bac-a7ed88d11a9b",
+        "id": "f37cfeb8-a5e3-4f7c-afab-d6fb7e5b782c",
         "question_type": "authors",
         "paper_id": "10.21079/11681/50309",
         "raw_record_found": true,
@@ -504,7 +578,7 @@
       },
       {
         "sample_index": 29,
-        "id": "18b32e71-2f74-44aa-8e5b-fbf08af97491",
+        "id": "0941ddf9-3170-47f3-8267-4e892d672d6c",
         "question_type": "categories",
         "paper_id": "10.21079/11681/50309",
         "raw_record_found": true,
@@ -520,7 +594,9 @@
   },
   "incorrect_answer_source_evidence": [
     {
-      "question_id": "d47fe500-c670-404f-96c9-47adad7fa20c",
+      "question_id": "090febc1-a15a-42ec-a986-14b51a8430b1",
+      "baseline_answer_id": "090febc1-a15a-42ec-a986-14b51a8430b1",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.21203/rs.3.rs-10012178/v1",
       "raw_source_pointer": {
@@ -565,7 +641,9 @@
       }
     },
     {
-      "question_id": "e7697da0-c94b-46a4-ae59-f8e5a7ad2524",
+      "question_id": "64cb8a80-5947-44ff-ae3c-2e9cbcf320e4",
+      "baseline_answer_id": "64cb8a80-5947-44ff-ae3c-2e9cbcf320e4",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.21203/rs.3.rs-10012178/v1",
       "raw_source_pointer": {
@@ -610,7 +688,9 @@
       }
     },
     {
-      "question_id": "6544edd5-bc1d-46a5-b50f-7593c5d9775b",
+      "question_id": "a4e3e125-0191-430d-962f-8c2148899704",
+      "baseline_answer_id": "a4e3e125-0191-430d-962f-8c2148899704",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.21203/rs.3.rs-10012178/v1",
       "raw_source_pointer": {
@@ -655,7 +735,9 @@
       }
     },
     {
-      "question_id": "03781fb0-026e-49a7-aa4c-37288458716d",
+      "question_id": "5f06ff2d-e3a8-4aba-b41b-9a2651a7ff4f",
+      "baseline_answer_id": "5f06ff2d-e3a8-4aba-b41b-9a2651a7ff4f",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.1093/sleep/zsag091.0346",
       "raw_source_pointer": {
@@ -700,7 +782,9 @@
       }
     },
     {
-      "question_id": "1e4e2ceb-b6a5-45d1-aa26-9b682e69592e",
+      "question_id": "ee1a1fb2-77e9-4b90-9ca4-e2a3084eb169",
+      "baseline_answer_id": "ee1a1fb2-77e9-4b90-9ca4-e2a3084eb169",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.1093/sleep/zsag091.0346",
       "raw_source_pointer": {
@@ -745,7 +829,9 @@
       }
     },
     {
-      "question_id": "1997fe0c-6043-4efe-ace3-4162d7839120",
+      "question_id": "23d82763-0b92-461c-ac7b-7c27428fe0c7",
+      "baseline_answer_id": "23d82763-0b92-461c-ac7b-7c27428fe0c7",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.1093/sleep/zsag091.0346",
       "raw_source_pointer": {
@@ -790,7 +876,9 @@
       }
     },
     {
-      "question_id": "361129a6-3a03-400e-971f-1b80d05d8e29",
+      "question_id": "ee73e723-7704-4be5-b3f2-081cbc0c2aad",
+      "baseline_answer_id": "ee73e723-7704-4be5-b3f2-081cbc0c2aad",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.2118/234689-pa",
       "raw_source_pointer": {
@@ -835,7 +923,9 @@
       }
     },
     {
-      "question_id": "6c0531c0-522f-477e-959c-cae33f679d2a",
+      "question_id": "dfb00be2-49d5-4ce7-a98d-ebc93f35caae",
+      "baseline_answer_id": "dfb00be2-49d5-4ce7-a98d-ebc93f35caae",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.2118/234689-pa",
       "raw_source_pointer": {
@@ -880,7 +970,9 @@
       }
     },
     {
-      "question_id": "dacedc3f-27e7-4256-b3db-f6122de09400",
+      "question_id": "63672bdf-ed22-4931-985c-0dd6df6bf571",
+      "baseline_answer_id": "63672bdf-ed22-4931-985c-0dd6df6bf571",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.2118/234689-pa",
       "raw_source_pointer": {
@@ -925,7 +1017,9 @@
       }
     },
     {
-      "question_id": "fcb8c026-d83f-4c1c-9132-455bcaaed77e",
+      "question_id": "d565a8c6-1cd2-4004-990f-1067b7b5a975",
+      "baseline_answer_id": "d565a8c6-1cd2-4004-990f-1067b7b5a975",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.70121/001c.158711",
       "raw_source_pointer": {
@@ -970,7 +1064,9 @@
       }
     },
     {
-      "question_id": "dbfc66bc-c88c-4458-94ba-4925e0e2f569",
+      "question_id": "fb53d397-ea08-4db4-b859-e86959a4c712",
+      "baseline_answer_id": "fb53d397-ea08-4db4-b859-e86959a4c712",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.70121/001c.158711",
       "raw_source_pointer": {
@@ -1015,7 +1111,9 @@
       }
     },
     {
-      "question_id": "4ec43d72-28e7-454c-a7bc-abdfe6f951de",
+      "question_id": "b3843c4a-ac16-4291-9ad1-4baeb2c765fc",
+      "baseline_answer_id": "b3843c4a-ac16-4291-9ad1-4baeb2c765fc",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.70121/001c.158711",
       "raw_source_pointer": {
@@ -1060,7 +1158,9 @@
       }
     },
     {
-      "question_id": "2a7e4710-e037-47b8-891d-23b398cb635d",
+      "question_id": "bef12b66-139e-4651-882b-702a903cb4b6",
+      "baseline_answer_id": "bef12b66-139e-4651-882b-702a903cb4b6",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.1148/radiol.251581",
       "raw_source_pointer": {
@@ -1105,7 +1205,9 @@
       }
     },
     {
-      "question_id": "1bcaade6-ead3-49a8-bfea-d571f3deaf5a",
+      "question_id": "fb8f1640-617e-475e-8e23-e7fe3df2eab5",
+      "baseline_answer_id": "fb8f1640-617e-475e-8e23-e7fe3df2eab5",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.1148/radiol.251581",
       "raw_source_pointer": {
@@ -1150,7 +1252,9 @@
       }
     },
     {
-      "question_id": "ce64f321-50e9-4106-b6f5-2632f1b9df16",
+      "question_id": "14e1ca87-67ff-4114-bcca-18deb93c3a2c",
+      "baseline_answer_id": "14e1ca87-67ff-4114-bcca-18deb93c3a2c",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.47576/2949-1894.2026.7.7.023",
       "raw_source_pointer": {
@@ -1195,7 +1299,9 @@
       }
     },
     {
-      "question_id": "88fc7ffb-c418-4eb0-82ef-76e1d9909163",
+      "question_id": "7cbc384e-6e7c-4955-8c34-216beafca0a3",
+      "baseline_answer_id": "7cbc384e-6e7c-4955-8c34-216beafca0a3",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.47576/2949-1894.2026.7.7.023",
       "raw_source_pointer": {
@@ -1240,7 +1346,9 @@
       }
     },
     {
-      "question_id": "981c20b4-a729-49e0-b8c6-230f1aa450a4",
+      "question_id": "dcf08bb8-5474-46d6-88ec-ed3f9fe9f2b6",
+      "baseline_answer_id": "dcf08bb8-5474-46d6-88ec-ed3f9fe9f2b6",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.47576/2949-1894.2026.7.7.023",
       "raw_source_pointer": {
@@ -1285,7 +1393,9 @@
       }
     },
     {
-      "question_id": "b7535086-1265-4c28-b265-de6fee657fd5",
+      "question_id": "1e43a5ef-92c1-435b-8aec-f7e53c210151",
+      "baseline_answer_id": "1e43a5ef-92c1-435b-8aec-f7e53c210151",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.54254/2753-8818/2026.dl34055",
       "raw_source_pointer": {
@@ -1330,7 +1440,9 @@
       }
     },
     {
-      "question_id": "09723899-0d49-4fea-a7a5-20aba9bd5afd",
+      "question_id": "1d7995de-a7d0-43aa-8161-ea746957dff2",
+      "baseline_answer_id": "1d7995de-a7d0-43aa-8161-ea746957dff2",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.54254/2753-8818/2026.dl34055",
       "raw_source_pointer": {
@@ -1375,7 +1487,9 @@
       }
     },
     {
-      "question_id": "d416e0cf-1616-4be8-9767-ad417566c5d3",
+      "question_id": "d8adec4a-1072-4b51-b76d-8559c6951a7d",
+      "baseline_answer_id": "d8adec4a-1072-4b51-b76d-8559c6951a7d",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.54254/2753-8818/2026.dl34055",
       "raw_source_pointer": {
@@ -1420,7 +1534,9 @@
       }
     },
     {
-      "question_id": "c8af5a86-056e-41f2-b089-60c9f93645fe",
+      "question_id": "950be911-28f3-4197-a8e5-e29013e93c66",
+      "baseline_answer_id": "950be911-28f3-4197-a8e5-e29013e93c66",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.1007/s10278-026-02086-9",
       "raw_source_pointer": {
@@ -1465,7 +1581,9 @@
       }
     },
     {
-      "question_id": "c4a9e4b7-000e-4417-a3cf-954a5c4a97b9",
+      "question_id": "87ec06bf-f93a-4f7c-afeb-9119348320b4",
+      "baseline_answer_id": "87ec06bf-f93a-4f7c-afeb-9119348320b4",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.1007/s10278-026-02086-9",
       "raw_source_pointer": {
@@ -1510,7 +1628,9 @@
       }
     },
     {
-      "question_id": "86859102-5152-4ca7-b024-973a35aae09a",
+      "question_id": "efd8a7d0-aab4-4885-b194-75cbd5b67b93",
+      "baseline_answer_id": "efd8a7d0-aab4-4885-b194-75cbd5b67b93",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.1007/s10278-026-02086-9",
       "raw_source_pointer": {
@@ -1555,7 +1675,9 @@
       }
     },
     {
-      "question_id": "44ba386c-ba30-426a-957d-22674b67633a",
+      "question_id": "e4e1d1a5-b1af-40d2-a07b-ff70a6a36681",
+      "baseline_answer_id": "e4e1d1a5-b1af-40d2-a07b-ff70a6a36681",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.3390/app16052244",
       "raw_source_pointer": {
@@ -1600,7 +1722,9 @@
       }
     },
     {
-      "question_id": "61a1774b-0c90-4275-b83d-dc5cb0e7aa40",
+      "question_id": "f7354e2c-058f-46a6-a0b1-00c3e1570bcc",
+      "baseline_answer_id": "f7354e2c-058f-46a6-a0b1-00c3e1570bcc",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.3390/app16052244",
       "raw_source_pointer": {
@@ -1645,7 +1769,9 @@
       }
     },
     {
-      "question_id": "85e49127-ea50-4369-b747-3fcb14d2ae8d",
+      "question_id": "6a2cc946-a702-4d76-8480-279c370014d3",
+      "baseline_answer_id": "6a2cc946-a702-4d76-8480-279c370014d3",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.3390/app16052244",
       "raw_source_pointer": {
@@ -1690,7 +1816,9 @@
       }
     },
     {
-      "question_id": "3a0bd65e-c5c5-435b-ba73-4abedc4f2837",
+      "question_id": "6c09a490-0074-4c67-9e53-51ddcf087aa5",
+      "baseline_answer_id": "6c09a490-0074-4c67-9e53-51ddcf087aa5",
+      "answer_match_mode": "id",
       "question_type": "summary",
       "paper_id": "10.21079/11681/50309",
       "raw_source_pointer": {
@@ -1735,7 +1863,9 @@
       }
     },
     {
-      "question_id": "0bff3f7a-8a29-4c54-9bac-a7ed88d11a9b",
+      "question_id": "f37cfeb8-a5e3-4f7c-afab-d6fb7e5b782c",
+      "baseline_answer_id": "f37cfeb8-a5e3-4f7c-afab-d6fb7e5b782c",
+      "answer_match_mode": "id",
       "question_type": "authors",
       "paper_id": "10.21079/11681/50309",
       "raw_source_pointer": {
@@ -1780,7 +1910,9 @@
       }
     },
     {
-      "question_id": "18b32e71-2f74-44aa-8e5b-fbf08af97491",
+      "question_id": "0941ddf9-3170-47f3-8267-4e892d672d6c",
+      "baseline_answer_id": "0941ddf9-3170-47f3-8267-4e892d672d6c",
+      "answer_match_mode": "id",
       "question_type": "categories",
       "paper_id": "10.21079/11681/50309",
       "raw_source_pointer": {
@@ -1825,6 +1957,13 @@
       }
     }
   ],
+  "baseline_answer_alignment": {
+    "test_samples": 30,
+    "baseline_answers": 30,
+    "missing_answer_ids": [],
+    "orphan_answer_ids": [],
+    "ids_match": true
+  },
   "schema_decision": {
     "clean_contract_change_required": false,
     "missing_clean_contract_columns": [],

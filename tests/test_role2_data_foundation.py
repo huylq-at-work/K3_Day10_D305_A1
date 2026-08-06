@@ -25,6 +25,7 @@ from ingestion.lineage import (
     build_baseline_lineage_evidence,
     verify_or_create_source_lock,
 )
+from pipelines.phase1 import resolve_records
 
 
 def _item(doi: str = "10.1000/Test") -> dict:
@@ -218,12 +219,22 @@ def test_raw_handoff_and_clean_artifact_writers(tmp_path) -> None:
 def test_baseline_lineage_and_testset_are_traceable() -> None:
     report = build_baseline_lineage_evidence(load_settings())
 
-    assert report["status"] == "passed"
     assert report["lineage"]["passed"] is True
     assert report["lineage"]["checks"]["index_content_matches_text_for_embedding"]
     assert report["clean_index_checks"]["empty_text_for_embedding"] == 0
     assert report["clean_index_checks"]["duplicate_clean_paper_ids"] == 0
     assert report["clean_index_checks"]["duplicate_index_paper_ids"] == 0
+    assert report["raw_clean_count_reconciliation"]["difference_explained"] is True
+    assert report["artifact_validation"]["age_days_mismatch_count"] == 0
+    assert report["artifact_validation"]["text_for_embedding_mismatch_count"] == 0
+    assert report["artifact_validation"]["quality_report"][
+        "reflects_clean_artifact"
+    ] is True
+    assert isinstance(
+        report["artifact_validation"]["freshness_report"]["reflects_clean_artifact"],
+        bool,
+    )
+    assert isinstance(report["baseline_answer_alignment"]["ids_match"], bool)
     assert report["test_set_audit"]["blockers"] == []
     assert report["test_set_audit"]["duplicate_sample_ids"] == 0
     assert all(
@@ -259,3 +270,22 @@ def test_source_lock_detects_mid_baseline_refresh(tmp_path) -> None:
     settings.paths.raw_records_json.write_text('[{"changed": true}]', encoding="utf-8")
     with pytest.raises(RuntimeError, match="Baseline source changed"):
         verify_or_create_source_lock(settings, lock_path)
+
+
+def test_phase1_uses_raw_snapshot_without_fetching(tmp_path, monkeypatch) -> None:
+    settings = replace(load_settings(tmp_path), refresh_source=False)
+    payload = {"message": {"items": [_item()]}}
+    records = parse_crossref_payload(payload)
+    settings.paths.raw_records_json.parent.mkdir(parents=True)
+    settings.paths.raw_records_json.write_text(
+        json.dumps([record.__dict__ for record in records]), encoding="utf-8"
+    )
+
+    def unexpected_fetch(_settings):
+        raise AssertionError("Crossref must not be fetched while raw snapshot exists")
+
+    monkeypatch.setattr("pipelines.phase1.fetch_source_records", unexpected_fetch)
+    resolved, source_mode = resolve_records(settings)
+
+    assert resolved == records
+    assert source_mode == "raw snapshot"

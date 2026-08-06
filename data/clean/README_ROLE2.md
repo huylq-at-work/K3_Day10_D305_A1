@@ -71,3 +71,9 @@ the checkpoint instead of silently changing the baseline.
 - raw source pointers plus clean/answer hashes and previews for incorrect
   evaluator/agent answers;
 - whether the clean schema actually needs a contract change.
+
+The command exits non-zero when downstream baseline artifacts contradict the
+clean data. This is intentional: a valid clean contract does not make a stale
+freshness report or mismatched evaluation IDs valid. It recomputes quality and
+freshness values from `papers_clean.json` rather than trusting a stored `pass`
+flag.

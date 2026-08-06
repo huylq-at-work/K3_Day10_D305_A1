@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import ast
 from collections import Counter
+from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
@@ -13,6 +14,7 @@ from typing import Any
 from core.config import Settings, load_settings
 from core.contract import CHROMA_METADATA_COLUMNS, CLEAN_COLUMNS, MARKUP
 from core.utils import write_json
+from ingestion.cleaning import build_text_for_embedding
 from ingestion.crossref import normalize_doi
 
 
@@ -175,6 +177,10 @@ def build_baseline_lineage_evidence(
     baseline_answers = (
         _read_json(paths.baseline_answers) if paths.baseline_answers.exists() else []
     )
+    cleaning_report_path = paths.clean_json.parent / "cleaning_report.json"
+    cleaning_report = _read_json(cleaning_report_path)
+    raw_audit_path = paths.raw_records_json.parent / "raw_snapshot_audit.json"
+    raw_audit = _read_json(raw_audit_path)
 
     raw_by_id = {normalize_doi(record.get("paper_id")): record for record in raw_records}
     clean_by_id = {normalize_doi(record.get("paper_id")): record for record in clean_records}
@@ -256,6 +262,107 @@ def build_baseline_lineage_evidence(
         "clean_and_index_id_sets_match": set(clean_ids) == set(index_ids),
         "missing_clean_contract_columns": missing_clean_columns,
         "missing_index_metadata_fields": missing_index_metadata,
+    }
+
+    run_date = datetime.fromisoformat(cleaning_report["run_date"]).date()
+    bad_age_ids: list[str] = []
+    bad_embedding_ids: list[str] = []
+    for record in clean_records:
+        try:
+            expected_age = (
+                run_date - datetime.fromisoformat(str(record["published"])).date()
+            ).days
+        except (KeyError, TypeError, ValueError):
+            expected_age = None
+        if expected_age is None or record.get("age_days") != expected_age:
+            bad_age_ids.append(str(record.get("paper_id", "")))
+        expected_text = build_text_for_embedding(
+            str(record.get("title", "")),
+            str(record.get("summary", "")),
+            str(record.get("authors_joined", "")),
+            str(record.get("categories_joined", "")),
+        )
+        if record.get("text_for_embedding") != expected_text:
+            bad_embedding_ids.append(str(record.get("paper_id", "")))
+
+    raw_clean_count_reconciliation = {
+        "raw_response_items": len(payload.get("message", {}).get("items", [])),
+        "raw_parsed_records": len(raw_records),
+        "clean_records": len(clean_records),
+        "filtered_records": int(cleaning_report.get("filtered_records", -1)),
+        "deduplicated_records": int(cleaning_report.get("deduplicated_records", -1)),
+        "raw_audit_readable_and_passed": bool(raw_audit.get("passed")),
+        "lineage_sample_readable": True,
+    }
+    raw_clean_count_reconciliation["difference_raw_to_clean"] = (
+        raw_clean_count_reconciliation["raw_parsed_records"]
+        - raw_clean_count_reconciliation["clean_records"]
+    )
+    raw_clean_count_reconciliation["difference_explained"] = (
+        raw_clean_count_reconciliation["difference_raw_to_clean"]
+        == raw_clean_count_reconciliation["filtered_records"]
+        + raw_clean_count_reconciliation["deduplicated_records"]
+    )
+
+    recorded_quality_path = paths.quality_dir / "baseline.json"
+    recorded_quality = _read_json(recorded_quality_path)
+    empty = lambda value: value is None or not str(value).strip()
+    expected_quality = {
+        "row_count": len(clean_records),
+        "paper_id_nulls": sum(empty(record.get("paper_id")) for record in clean_records),
+        "paper_id_duplicates": len(clean_ids) - len(set(clean_ids)),
+        "title_nulls": sum(empty(record.get("title")) for record in clean_records),
+        "summary_nulls": sum(empty(record.get("summary")) for record in clean_records),
+        "short_summaries": sum(
+            len(str(record.get("summary", ""))) < 10 for record in clean_records
+        ),
+        "stale_rows": sum(
+            int(record.get("age_days", 0)) > settings.freshness_threshold_days
+            for record in clean_records
+        ),
+    }
+    quality_field_matches = {
+        field: recorded_quality.get(field) == expected
+        for field, expected in expected_quality.items()
+    }
+    freshness = _read_json(paths.freshness_report)
+    published_dates = sorted(str(record["published"]) for record in clean_records)
+    expected_freshness = {
+        "latest_published": published_dates[-1] if published_dates else None,
+        "oldest_published": published_dates[0] if published_dates else None,
+        "stale_rows": expected_quality["stale_rows"],
+        "total_rows": len(clean_records),
+        "is_fresh": expected_quality["stale_rows"] == 0,
+    }
+    freshness_field_matches = {
+        "latest_published": str(freshness.get("latest_published", ""))[:10]
+        == str(expected_freshness["latest_published"]),
+        "oldest_published": str(freshness.get("oldest_published", ""))[:10]
+        == str(expected_freshness["oldest_published"]),
+        "stale_rows": freshness.get("stale_rows") == expected_freshness["stale_rows"],
+        "total_rows": freshness.get("total_rows") == expected_freshness["total_rows"],
+        "is_fresh": freshness.get("is_fresh") == expected_freshness["is_fresh"],
+    }
+    artifact_validation = {
+        "age_days_mismatch_count": len(bad_age_ids),
+        "age_days_mismatch_ids": bad_age_ids,
+        "text_for_embedding_mismatch_count": len(bad_embedding_ids),
+        "text_for_embedding_mismatch_ids": bad_embedding_ids,
+        "quality_report": {
+            "path": _portable_path(recorded_quality_path, paths.project_dir),
+            "expected_from_clean": expected_quality,
+            "recorded": recorded_quality,
+            "field_matches": quality_field_matches,
+            "reflects_clean_artifact": all(quality_field_matches.values()),
+            "contains_hardcoded_pass_flag": "passed" in recorded_quality,
+        },
+        "freshness_report": {
+            "path": _portable_path(paths.freshness_report, paths.project_dir),
+            "expected_from_clean": expected_freshness,
+            "recorded": freshness,
+            "field_matches": freshness_field_matches,
+            "reflects_clean_artifact": all(freshness_field_matches.values()),
+        },
     }
 
     category_counts = Counter(record.get("categories_joined", "") for record in clean_records)
@@ -348,6 +455,23 @@ def build_baseline_lineage_evidence(
         )
 
     answer_by_id = {answer.get("id"): answer for answer in baseline_answers}
+    answer_by_content_key = {
+        (
+            answer.get("question_type"),
+            answer.get("question"),
+            tuple(normalize_doi(value) for value in answer.get("ground_truth_doc_ids", [])),
+        ): answer
+        for answer in baseline_answers
+    }
+    test_sample_id_set = {sample.get("id") for sample in test_set}
+    answer_id_set = {answer.get("id") for answer in baseline_answers}
+    baseline_answer_alignment = {
+        "test_samples": len(test_set),
+        "baseline_answers": len(baseline_answers),
+        "missing_answer_ids": sorted(str(value) for value in test_sample_id_set - answer_id_set),
+        "orphan_answer_ids": sorted(str(value) for value in answer_id_set - test_sample_id_set),
+        "ids_match": test_sample_id_set == answer_id_set,
+    }
     incorrect_evidence: list[dict[str, Any]] = []
     trace_by_id = {
         normalize_doi(item.get("DOI")): index
@@ -356,6 +480,18 @@ def build_baseline_lineage_evidence(
     }
     for sample in test_set:
         answer = answer_by_id.get(sample.get("id"))
+        answer_match_mode = "id"
+        if not answer:
+            content_key = (
+                sample.get("question_type"),
+                sample.get("question"),
+                tuple(
+                    normalize_doi(value)
+                    for value in sample.get("ground_truth_doc_ids", [])
+                ),
+            )
+            answer = answer_by_content_key.get(content_key)
+            answer_match_mode = "content_fallback" if answer else "missing"
         if not answer:
             continue
         judge_correct = bool(answer.get("judge", {}).get("correct"))
@@ -375,6 +511,8 @@ def build_baseline_lineage_evidence(
         incorrect_evidence.append(
             {
                 "question_id": sample.get("id"),
+                "baseline_answer_id": answer.get("id"),
+                "answer_match_mode": answer_match_mode,
                 "question_type": question_type,
                 "paper_id": doc_id,
                 "raw_source_pointer": {
@@ -460,6 +598,12 @@ def build_baseline_lineage_evidence(
         "status": "passed"
         if lineage["passed"]
         and not test_blockers
+        and raw_clean_count_reconciliation["difference_explained"]
+        and not bad_age_ids
+        and not bad_embedding_ids
+        and artifact_validation["quality_report"]["reflects_clean_artifact"]
+        and artifact_validation["freshness_report"]["reflects_clean_artifact"]
+        and baseline_answer_alignment["ids_match"]
         and not any(
             clean_index_checks[key]
             for key in (
@@ -471,7 +615,9 @@ def build_baseline_lineage_evidence(
         )
         else "failed",
         "lineage": lineage,
+        "raw_clean_count_reconciliation": raw_clean_count_reconciliation,
         "clean_index_checks": clean_index_checks,
+        "artifact_validation": artifact_validation,
         "test_set_audit": {
             "samples": len(test_set),
             "duplicate_sample_ids": duplicate_test_sample_ids,
@@ -481,6 +627,7 @@ def build_baseline_lineage_evidence(
             "rows": test_rows,
         },
         "incorrect_answer_source_evidence": incorrect_evidence,
+        "baseline_answer_alignment": baseline_answer_alignment,
         "schema_decision": schema_decision,
     }
 
@@ -517,6 +664,17 @@ def main() -> None:
         "test_set_blockers": len(report["test_set_audit"]["blockers"]),
         "test_set_warnings": len(report["test_set_audit"]["warnings"]),
         "incorrect_answer_evidence": len(report["incorrect_answer_source_evidence"]),
+        "raw_clean_count_reconciliation": report["raw_clean_count_reconciliation"],
+        "artifact_validation": report["artifact_validation"],
+        "baseline_answer_alignment": {
+            "ids_match": report["baseline_answer_alignment"]["ids_match"],
+            "missing_answer_ids": len(
+                report["baseline_answer_alignment"]["missing_answer_ids"]
+            ),
+            "orphan_answer_ids": len(
+                report["baseline_answer_alignment"]["orphan_answer_ids"]
+            ),
+        },
         "schema_decision": report["schema_decision"],
         "source_lock": report["source_lock"]["status"],
     }
