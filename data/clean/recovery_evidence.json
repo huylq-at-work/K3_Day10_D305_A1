@@ -1,0 +1,650 @@
+{
+  "version": 1,
+  "passed": true,
+  "checks": {
+    "raw_snapshot_unchanged": true,
+    "corruption_artifact_matches_log": true,
+    "all_corrupted_records_restored_from_raw": true,
+    "repaired_matches_baseline": true,
+    "repaired_contract_passed": true,
+    "repaired_quality_clean": true,
+    "tracked_secret_audit_passed": true
+  },
+  "raw_snapshot": {
+    "mode": "locked raw snapshot",
+    "path": "data/raw/crossref_records.json",
+    "record_count": 24,
+    "sha256": {
+      "raw_api_response": "bc114697b45d5937ccd0282b92afe9f39512d327a800275624a9103f51b5b635",
+      "raw_records": "e1c6ee0379653af909c1deae6566b0a745ef658d0f31406332d612699a510ebb"
+    },
+    "unchanged": true
+  },
+  "repair": {
+    "producer": "load_raw_records -> build_clean_dataframe_with_report",
+    "run_date": "2026-08-06T00:00:00+00:00",
+    "run_date_source": "data/clean/cleaning_report.json",
+    "external_fetch_used": false,
+    "baseline_used_only_for_validation": true,
+    "corrupted_used_only_for_validation": true,
+    "cleaning_report": {
+      "run_date": "2026-08-06T00:00:00+00:00",
+      "input_records": 24,
+      "candidate_records": 24,
+      "clean_records": 24,
+      "filtered_records": 0,
+      "deduplicated_records": 0,
+      "duplicate_groups": 0,
+      "reason_counts": {
+        "duplicate_paper_id": 0,
+        "invalid_published": 0,
+        "missing_paper_id": 0,
+        "missing_published": 0,
+        "missing_summary": 0,
+        "missing_title": 0
+      },
+      "normalization_counts": {
+        "authors_fallback_unknown": 0,
+        "categories_fallback_unknown": 0,
+        "primary_category_repaired": 0,
+        "updated_fallback_published": 0
+      },
+      "events": [],
+      "count_reconciled": true
+    },
+    "validation": {
+      "available": true,
+      "passed": true,
+      "checks": {
+        "clean_schema_exact": true,
+        "row_count_restored": true,
+        "paper_id_set_restored": true,
+        "paper_ids_unique": true,
+        "records_exactly_match_baseline": true,
+        "text_for_embedding_nonempty": true,
+        "lineage_record_restored": true
+      },
+      "baseline_rows": 24,
+      "repaired_rows": 24,
+      "baseline_fingerprint_sha256": "8e0e2c3fb3e042e191283976c9f96990fd534ce66504acb714ba3ab4a04bd800",
+      "repaired_fingerprint_sha256": "8e0e2c3fb3e042e191283976c9f96990fd534ce66504acb714ba3ab4a04bd800",
+      "missing_paper_ids": [],
+      "unexpected_paper_ids": [],
+      "lineage": {
+        "paper_id": "10.21203/rs.3.rs-10012178/v1",
+        "checked": true,
+        "checks": {
+          "present_once": true,
+          "summary_restored": true,
+          "text_for_embedding_restored": true
+        },
+        "passed": true
+      }
+    }
+  },
+  "corruption_validation": {
+    "passed": true,
+    "checks": {
+      "baseline_fingerprint_matches_log": true,
+      "corrupted_fingerprint_matches_log": true,
+      "dataset_differs_from_baseline": true,
+      "final_row_count_matches_log": true,
+      "duplicate_count_matches_log": true,
+      "all_embedding_text_rebuilt": true,
+      "raw_source_guard_verified": true
+    },
+    "events": [
+      {
+        "sequence": 1,
+        "type": "drop_latest",
+        "paper_ids": [
+          "10.2118/234689-pa",
+          "10.1007/s10278-026-02086-9",
+          "10.21203/rs.3.rs-10178277/v1"
+        ],
+        "checks": {
+          "before_count_chains": true,
+          "logged_count_delta_matches_type": true,
+          "ids_absent": true
+        },
+        "passed": true
+      },
+      {
+        "sequence": 2,
+        "type": "missing_summary",
+        "paper_ids": [
+          "10.21203/rs.3.rs-10012178/v1",
+          "10.1093/sleep/zsag091.0346"
+        ],
+        "checks": {
+          "before_count_chains": true,
+          "logged_count_delta_matches_type": true,
+          "summaries_blank": true,
+          "summary_chars_zero": true
+        },
+        "passed": true
+      },
+      {
+        "sequence": 3,
+        "type": "noise_injection",
+        "paper_ids": [
+          "10.1111/exsy.70341",
+          "10.1148/radiol.251581"
+        ],
+        "checks": {
+          "before_count_chains": true,
+          "logged_count_delta_matches_type": true,
+          "noise_token_count_matches": true
+        },
+        "passed": true
+      },
+      {
+        "sequence": 4,
+        "type": "old_published_date",
+        "paper_ids": [
+          "10.20944/preprints202602.0996.v1",
+          "10.20944/preprints202604.0339.v1",
+          "10.21079/11681/50309",
+          "10.21203/rs.3.rs-9882260/v1"
+        ],
+        "checks": {
+          "before_count_chains": true,
+          "logged_count_delta_matches_type": true,
+          "dates_and_age_shift_match": true
+        },
+        "passed": true
+      },
+      {
+        "sequence": 5,
+        "type": "duplicate_rows",
+        "paper_ids": [
+          "10.2196/preprints.106157",
+          "10.3390/app16052244"
+        ],
+        "checks": {
+          "before_count_chains": true,
+          "logged_count_delta_matches_type": true,
+          "two_occurrences_per_id": true,
+          "final_stage_count_matches_dataset": true
+        },
+        "passed": true
+      }
+    ],
+    "baseline_rows": 24,
+    "corrupted_rows": 23,
+    "row_delta": -1,
+    "lineage_repair_candidate": {
+      "paper_id": "10.21203/rs.3.rs-10012178/v1",
+      "corruption_type": "missing_summary",
+      "repair_source": "data/raw/crossref_records.json"
+    }
+  },
+  "lineage": {
+    "passed": true,
+    "record_count": 13,
+    "records": [
+      {
+        "paper_id": "10.2118/234689-pa",
+        "corruption_type": "drop_latest",
+        "source": {
+          "present": true,
+          "raw_source_index": 13,
+          "raw_record_sha256": "c41a53dfa90c0991aa747abeef669c165d980ae8fadf0922e477dcd6c4532166",
+          "raw_paper_id": "10.2118/234689-pa",
+          "title": "SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation",
+          "published": "2026-08-01",
+          "summary_chars": 1404,
+          "summary_sha256": "418f4d202dfabad25591eb38c96796b8a23f487156882e11ce39b7607c27c795",
+          "raw_api_response_item_index": 13,
+          "raw_api_response_item_sha256": "16bab4d6a395f531a5629d301b6b2bdd6426a76d3bde5b081e7d182e5e67d050",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 0,
+        "repaired_row_sha256": "3746fb879ef5f6f7afe1ee235b7d1cf87bb2ad5ebca181bb02806368a2d9d6d2",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.1007/s10278-026-02086-9",
+        "corruption_type": "drop_latest",
+        "source": {
+          "present": true,
+          "raw_source_index": 12,
+          "raw_record_sha256": "70fcdcc241acd1605d9f966d63881df90dc6793afd77850c5491d350a55d7c22",
+          "raw_paper_id": "10.1007/s10278-026-02086-9",
+          "title": "JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study",
+          "published": "2026-07-13",
+          "summary_chars": 1869,
+          "summary_sha256": "44dfa15a953bf4d399466494f3ae8079c45a3d50f3f606ba14ab567c06f6c058",
+          "raw_api_response_item_index": 12,
+          "raw_api_response_item_sha256": "b443664a5334e5de37bea18e55fe0bed10346b2cf1d30d18762ad789adca0b7c",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 0,
+        "repaired_row_sha256": "f31b75549658473dd855e91980c70c97142d67aea9858d15193b42565623f813",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.21203/rs.3.rs-10178277/v1",
+        "corruption_type": "drop_latest",
+        "source": {
+          "present": true,
+          "raw_source_index": 17,
+          "raw_record_sha256": "fcffcfbca54e81684d9ebc6b242b16448a95ab648def08a452d54b60277fefb5",
+          "raw_paper_id": "10.21203/rs.3.rs-10178277/v1",
+          "title": "Retrieval-Augmented Large-Language-Model-Based Time-Series Forecasting for Cross-Market Equity Analysis",
+          "published": "2026-07-10",
+          "summary_chars": 1945,
+          "summary_sha256": "271e2332b7d70d5294b251a87e97f3ef0be2c6e80d45913e07149eb722a7c2d6",
+          "raw_api_response_item_index": 17,
+          "raw_api_response_item_sha256": "fb71dafcab07f04bab277613d2e7484b1b843c008c88031bc8ebc68a78d9f28a",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 0,
+        "repaired_row_sha256": "16fabbade8511c5e22aa51496899478193f91d04e49b90e1d12613770e0260e1",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.21203/rs.3.rs-10012178/v1",
+        "corruption_type": "missing_summary",
+        "source": {
+          "present": true,
+          "raw_source_index": 11,
+          "raw_record_sha256": "e652429b71eff81e9d38f47527e0aaf79fdc33f1ee264b348d8673e53c898832",
+          "raw_paper_id": "10.21203/rs.3.rs-10012178/v1",
+          "title": "Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture",
+          "published": "2026-06-15",
+          "summary_chars": 2610,
+          "summary_sha256": "7863afaa929f098f19db00cc35fd533bcb25cb1adb0bb1ff4023b57cec2a7d7b",
+          "raw_api_response_item_index": 11,
+          "raw_api_response_item_sha256": "130a0fcdcabb22598eafb488d6cb6c3bb0e584c61c3d9d5500636cbaeb007828",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "2bf78b06aa611d0edc395b5de2aa2c08f34ca597ec9aee286cd6164a4653cc12",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.1093/sleep/zsag091.0346",
+        "corruption_type": "missing_summary",
+        "source": {
+          "present": true,
+          "raw_source_index": 20,
+          "raw_record_sha256": "b65756a892786822aa0b48d62739e44207a7ed346aa45be03ef49f0cda1a6d62",
+          "raw_paper_id": "10.1093/sleep/zsag091.0346",
+          "title": "0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine",
+          "published": "2026-05-01",
+          "summary_chars": 2491,
+          "summary_sha256": "7df15bb691ab41bf3cabc549dd9ed8788d3ae7e320aa7463117f144711ed4352",
+          "raw_api_response_item_index": 20,
+          "raw_api_response_item_sha256": "1d059033892e7c52d05fc695a7a3479ef3d935ae89d2706b8788762e508a1d50",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "59811dac59b8ece2e3a607882715db0a44a8fc6b54494557ad1e3675a5adb2bb",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.1111/exsy.70341",
+        "corruption_type": "noise_injection",
+        "source": {
+          "present": true,
+          "raw_source_index": 21,
+          "raw_record_sha256": "dd9ab05e6267dd0d22ffe45c3d2ce78978501e1155af3076b9617030d9e2efe1",
+          "raw_paper_id": "10.1111/exsy.70341",
+          "title": "Hi\u2010 RAG : A Hierarchical Retrieval\u2010Augmented Generation Framework for Scalable and Generalisable Tool Selection in Large Language Model Agents",
+          "published": "2026-06-30",
+          "summary_chars": 1527,
+          "summary_sha256": "a0116fbefd77b292da407bc57c353a41cd8a957780abf1888b72ff00933b1924",
+          "raw_api_response_item_index": 21,
+          "raw_api_response_item_sha256": "dc86f6096696e6409aae0da4390179437f8e7af0dc4ebccae371a77e1b85afef",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "0b6c039a830f5920474772ca8f17bdd1225b55cac3dddc2fed7d29670430ca89",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.1148/radiol.251581",
+        "corruption_type": "noise_injection",
+        "source": {
+          "present": true,
+          "raw_source_index": 23,
+          "raw_record_sha256": "6de2b9327d1eccddbb5aa60dfb662679cc695dfe853756e795ced469ad0988cd",
+          "raw_paper_id": "10.1148/radiol.251581",
+          "title": "Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline",
+          "published": "2026-06-01",
+          "summary_chars": 228,
+          "summary_sha256": "664e2527067871fc6c9de89fe9e1c5b08ca973598929b95fc74825b74282bcab",
+          "raw_api_response_item_index": 23,
+          "raw_api_response_item_sha256": "293eaa25ea0ecc91f386aae6963ace3c28214505d0c1685d7dac46487f0f5c9f",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "9902c018c81684d2fef4c6740845623854367da47f4a3b8b419e6b0d01975651",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.20944/preprints202602.0996.v1",
+        "corruption_type": "old_published_date",
+        "source": {
+          "present": true,
+          "raw_source_index": 9,
+          "raw_record_sha256": "77ed781ebb7f9194da2c4145b8eaa857157847506b1fc0bf28e62d28401e803d",
+          "raw_paper_id": "10.20944/preprints202602.0996.v1",
+          "title": "Clinical Large Language Models with Multi-Stage Instruction Tuning and Advanced Retrieval-Augmented Generation",
+          "published": "2026-02-12",
+          "summary_chars": 1713,
+          "summary_sha256": "dfeaccf5a7f5800d6c16a6f8050030fd8c796d20cdfac6ee99bc56061dc10ef8",
+          "raw_api_response_item_index": 9,
+          "raw_api_response_item_sha256": "3b37336c9a2edf3e571a2d80b2a51a89297950b3f1828039c00d978e0e91c613",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "fa7cf264efd49e4491fcf823ae5aa3f26d037c51c2396e4e6440a4f170403b6a",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.20944/preprints202604.0339.v1",
+        "corruption_type": "old_published_date",
+        "source": {
+          "present": true,
+          "raw_source_index": 4,
+          "raw_record_sha256": "9af75ec3a04d46dc9a65e0e292d7eee9c0a426bf484470f40ee4f58ec77f5ef4",
+          "raw_paper_id": "10.20944/preprints202604.0339.v1",
+          "title": "Retrieval-Augmented Large Language Model Agents for Automated Scientific Literature Review Generation",
+          "published": "2026-04-06",
+          "summary_chars": 1687,
+          "summary_sha256": "e9cbc08b7d2dac6ff2dae8d1d22b427fe2f332d10872bf86e01bc2e842c11948",
+          "raw_api_response_item_index": 4,
+          "raw_api_response_item_sha256": "537af41a0ad39a32190eaeeebdbb40b1257a2c6471918aeb4152a150e44c8853",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "f8389bf49354bc6e4bf41b77b608611331e2d352876f532cf12f4f5774111912",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.21079/11681/50309",
+        "corruption_type": "old_published_date",
+        "source": {
+          "present": true,
+          "raw_source_index": 7,
+          "raw_record_sha256": "36968e13c80cc023432ed0ead3574cad4a087073eb39aa000fb5501bc49958a4",
+          "raw_paper_id": "10.21079/11681/50309",
+          "title": "Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model",
+          "published": "2026-07-01",
+          "summary_chars": 826,
+          "summary_sha256": "08c0c82ba391aa813593bbb4336e85d0e12227f2d8f76402550cc9c08f7ce267",
+          "raw_api_response_item_index": 7,
+          "raw_api_response_item_sha256": "1d46d870f6edfcd1f51922c67020e1e39958d58ae4a5fe9f3f515e9a1da1c6c0",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "d61959f38d6e5558c52eec7568648297170cc9391e381ac1d96e44d7b6647132",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.21203/rs.3.rs-9882260/v1",
+        "corruption_type": "old_published_date",
+        "source": {
+          "present": true,
+          "raw_source_index": 18,
+          "raw_record_sha256": "8ace08fd9d04b8e5c5555843b8159617b8f092d112672866ca99ac34e9f4fd94",
+          "raw_paper_id": "10.21203/rs.3.rs-9882260/v1",
+          "title": "Operationalizing Reliability Gaps in Large Language Models: A Semi-Systematic Evidence Map of Reasoning, Factuality, Evaluation, and Retrieval-Augmented Generation",
+          "published": "2026-06-02",
+          "summary_chars": 1949,
+          "summary_sha256": "c4872d4fb2b7e6e5271bd6fe36b54ca649e66ed3185fb9a1d517dcb95e35aecf",
+          "raw_api_response_item_index": 18,
+          "raw_api_response_item_sha256": "2fd08c1028df2c444149529bafcc0bba6af237eb7cdb9bc9b957732a8646b2da",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 1,
+        "repaired_row_sha256": "688b5479e9dec694446f696c49b007d0b56c1e52b3494461585882ba0ed93bc1",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.2196/preprints.106157",
+        "corruption_type": "duplicate_rows",
+        "source": {
+          "present": true,
+          "raw_source_index": 10,
+          "raw_record_sha256": "bedc93e258bd1349b5bc4121481afc273435942d003b93abda67ee340456ff09",
+          "raw_paper_id": "10.2196/preprints.106157",
+          "title": "Does retrieval-augmented generation impact medical students\u2019 perceptions of large language models? (Preprint)",
+          "published": "2026-07-03",
+          "summary_chars": 1765,
+          "summary_sha256": "99f05765fe59a74dce6162036054faa172fc7e0dce0858dd3c369d8d94779433",
+          "raw_api_response_item_index": 10,
+          "raw_api_response_item_sha256": "1250939e623184449919973ac6cbfaac99c99ca9e4bb2fdf096307319582400d",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 2,
+        "repaired_row_sha256": "158e5f34f9070b67513022be2488c64cfd700faeb28dddbed849e777b6a6e2cd",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      },
+      {
+        "paper_id": "10.3390/app16052244",
+        "corruption_type": "duplicate_rows",
+        "source": {
+          "present": true,
+          "raw_source_index": 3,
+          "raw_record_sha256": "c270a0947f52bad95f09a6230e61763160490bbdb70430280c6b7e7742c37c98",
+          "raw_paper_id": "10.3390/app16052244",
+          "title": "Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning",
+          "published": "2026-02-26",
+          "summary_chars": 1575,
+          "summary_sha256": "b021505157cea216553eb860787543fccbeccc8a70d52aba04130ca7580bd74f",
+          "raw_api_response_item_index": 3,
+          "raw_api_response_item_sha256": "0ab08cb0f3f459752a7d6563f45d18f16a03f52a6e5b7d0adf0104b650870892",
+          "raw_record_matches_api_response_item": true
+        },
+        "corrupted_occurrences": 2,
+        "repaired_row_sha256": "639f2caffe98cb2c0c74f3593c997ad1708fd89982fc339162effd11df59089e",
+        "checks": {
+          "raw_record_present": true,
+          "raw_api_response_item_present": true,
+          "raw_record_matches_api_response_item": true,
+          "baseline_record_present_once": true,
+          "corruption_observed": true,
+          "repaired_record_present_once": true,
+          "repaired_matches_single_record_raw_rebuild": true,
+          "repaired_matches_baseline": true
+        },
+        "passed": true
+      }
+    ]
+  },
+  "comparison": {
+    "clean": {
+      "row_count": 24,
+      "unique_paper_ids": 24,
+      "paper_id_duplicates": 0,
+      "missing_title": 0,
+      "missing_summary": 0,
+      "empty_text_for_embedding": 0,
+      "stale_rows": 0,
+      "schema_exact": true,
+      "contract_passed": true,
+      "contract_blockers": [],
+      "contract_warnings": [
+        "9/24 dong dung chung gia tri `categories_joined` ({'posted-content': np.int64(7), 'PeerJ Computer Science': np.int64(2)}) - cau hoi question_type=categories cua R4 se mo ho"
+      ]
+    },
+    "corrupted": {
+      "row_count": 23,
+      "unique_paper_ids": 21,
+      "paper_id_duplicates": 2,
+      "missing_title": 0,
+      "missing_summary": 2,
+      "empty_text_for_embedding": 0,
+      "stale_rows": 4,
+      "schema_exact": true,
+      "contract_passed": false,
+      "contract_blockers": [
+        "cot `summary` co 2 dong null/rong",
+        "`paper_id` trung 2 dong - ground_truth_doc_ids se mo ho"
+      ],
+      "contract_warnings": [
+        "2 dong co summary < 50 ky tu",
+        "11/23 dong dung chung gia tri `categories_joined` ({'posted-content': np.int64(7), 'PeerJ Computer Science': np.int64(2), 'Applied Sciences': np.int64(2)}) - cau hoi question_type=categories cua R4 se mo ho"
+      ]
+    },
+    "repaired": {
+      "row_count": 24,
+      "unique_paper_ids": 24,
+      "paper_id_duplicates": 0,
+      "missing_title": 0,
+      "missing_summary": 0,
+      "empty_text_for_embedding": 0,
+      "stale_rows": 0,
+      "schema_exact": true,
+      "contract_passed": true,
+      "contract_blockers": [],
+      "contract_warnings": [
+        "9/24 dong dung chung gia tri `categories_joined` ({'posted-content': np.int64(7), 'PeerJ Computer Science': np.int64(2)}) - cau hoi question_type=categories cua R4 se mo ho"
+      ]
+    }
+  },
+  "secret_audit": {
+    "passed": true,
+    "checks": {
+      "env_is_ignored": true,
+      "env_is_not_tracked": true,
+      "env_never_committed": true,
+      "no_hardcoded_secret_findings": true,
+      "config_reads_sensitive_values_from_environment": true
+    },
+    "checked_tracked_files": 97,
+    "checked_variables": {
+      "GOOGLE_API_KEY": true,
+      "OPENAI_API_KEY": true,
+      "ANTHROPIC_API_KEY": true,
+      "OPENROUTER_API_KEY": true,
+      "CUSTOM_LLM_API_KEY": true
+    },
+    "findings": [],
+    "historical_env_commit_count": 0,
+    "note": "Findings contain locations only; credential values are never logged."
+  }
+}

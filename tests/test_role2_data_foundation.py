@@ -30,6 +30,11 @@ from ingestion.lineage import (
     build_baseline_lineage_evidence,
     verify_or_create_source_lock,
 )
+from ingestion.recovery_checkpoint import (
+    audit_git_secrets,
+    build_quality_signal,
+    build_repair_lineage_evidence,
+)
 from pipelines.phase1 import resolve_records
 
 
@@ -362,3 +367,60 @@ def test_lineage_candidate_can_be_repaired_from_raw(tmp_path) -> None:
     ].iloc[0] == baseline.loc[
         baseline["paper_id"] == paper_id, "text_for_embedding"
     ].iloc[0]
+
+
+def test_all_corruption_ids_have_raw_repair_lineage() -> None:
+    settings = load_settings()
+    baseline = pd.DataFrame(json.loads(settings.paths.clean_json.read_text(encoding="utf-8")))
+    corrupted = pd.DataFrame(
+        json.loads(settings.paths.corrupted_clean_json.read_text(encoding="utf-8"))
+    )
+    repaired = pd.DataFrame(
+        json.loads(settings.paths.repaired_clean_json.read_text(encoding="utf-8"))
+    )
+    log = json.loads(settings.paths.corruption_log.read_text(encoding="utf-8"))
+    raw_records = load_raw_records(settings.paths.raw_records_json)
+    raw_api_response = json.loads(
+        settings.paths.raw_api_response.read_text(encoding="utf-8")
+    )
+    run_date = datetime.fromisoformat(
+        json.loads(
+            (settings.paths.clean_json.parent / "cleaning_report.json").read_text(
+                encoding="utf-8"
+            )
+        )["run_date"]
+    )
+
+    lineage = build_repair_lineage_evidence(
+        raw_records, raw_api_response, baseline, corrupted, repaired, log, run_date
+    )
+    signals = {
+        "clean": build_quality_signal(baseline, settings, len(raw_records), run_date),
+        "corrupted": build_quality_signal(
+            corrupted, settings, len(raw_records), run_date
+        ),
+        "repaired": build_quality_signal(repaired, settings, len(raw_records), run_date),
+    }
+
+    assert lineage["passed"] is True
+    assert lineage["record_count"] == sum(len(event["paper_ids"]) for event in log["events"])
+    assert all(
+        record["checks"]["raw_record_matches_api_response_item"]
+        for record in lineage["records"]
+    )
+    assert signals["corrupted"]["contract_passed"] is False
+    assert signals["corrupted"]["paper_id_duplicates"] == 2
+    assert signals["corrupted"]["missing_summary"] == 2
+    assert signals["corrupted"]["stale_rows"] == 4
+    assert signals["repaired"]["contract_passed"] is True
+    assert signals["repaired"]["row_count"] == signals["clean"]["row_count"] == 24
+
+
+def test_git_secret_audit_does_not_expose_credentials() -> None:
+    audit = audit_git_secrets(load_settings().paths.project_dir)
+
+    assert audit["passed"] is True
+    assert audit["findings"] == []
+    assert audit["checks"]["env_is_ignored"] is True
+    assert audit["checks"]["env_is_not_tracked"] is True
+    assert audit["checks"]["env_never_committed"] is True
