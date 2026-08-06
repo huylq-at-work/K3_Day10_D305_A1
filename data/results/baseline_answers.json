@@ -23,9 +23,9 @@
     "retrieval_hit": true,
     "token_f1": 0.25680933852140075,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides the introductory sentence of the reference answer and fails to summarize the key components, contributions, and methodologies discussed in the paper. It lacks detail and does not capture the essence of the proposed governance architecture or its implications."
     }
   },
   {
@@ -54,7 +54,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. Instead, it discusses the implications of AI adoption without addressing the specific authors of the study."
     }
   },
   {
@@ -81,9 +81,9 @@
     "retrieval_hit": true,
     "token_f1": 0.0,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer discusses the topic of AI governance and its implications but does not directly identify the specific fields or categories related to the research study, which is what the question asks for. The reference answer 'posted-content' is vague but at least indicates a category, while the model answer fails to provide a clear categorization."
     }
   },
   {
@@ -110,9 +110,9 @@
     "retrieval_hit": true,
     "token_f1": 0.17796610169491525,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only includes the abstract and introduction, failing to summarize the methods, results, and conclusion of the study. It lacks critical details about the evaluation of the models, the performance metrics, and the implications of the findings, which are essential for a comprehensive summary."
     }
   },
   {
@@ -141,7 +141,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide any names of the authors of the study, which is the specific information requested in the question. Instead, it discusses the capabilities of Large Language Models, which is irrelevant to the question."
     }
   },
   {
@@ -170,7 +170,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the specific field or category of the study, which is 'SLEEPJ'. Instead, it discusses the limitations of Large Language Models without providing the requested information."
     }
   },
   {
@@ -197,9 +197,9 @@
     "retrieval_hit": true,
     "token_f1": 0.3116883116883117,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides a very brief introduction to the topic without covering the key components of the SafeRAG framework, its methodology, or the evaluation results. It lacks detail on the multistage retrieval-augmented approach, the integration of internal and external knowledge, and the performance metrics, which are crucial for a comprehensive summary."
     }
   },
   {
@@ -228,7 +228,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. It instead summarizes the context of the research without addressing the specific authors."
     }
   },
   {
@@ -257,7 +257,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not directly address the question about the specific field or category of the research. Instead, it provides a summary of the research's application without mentioning 'SPE Journal' or any relevant field."
     }
   },
   {
@@ -284,9 +284,9 @@
     "retrieval_hit": true,
     "token_f1": 0.490066225165563,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer captures the initial context about LLMs and their limitations but fails to summarize the key aspects of the paper, such as the introduction of Retrieval-Augmented Generation (RAG), its methodologies, ethical concerns, and future directions. It lacks depth and does not address the main focus of the paper."
     }
   },
   {
@@ -315,7 +315,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. It discusses the performance of LLMs in biomedical contexts instead."
     }
   },
   {
@@ -344,7 +344,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not directly address the question about the specific field or category of the research study. Instead, it discusses the performance and limitations of Large Language Models in biomedical contexts, which is not relevant to identifying the field of the study."
     }
   },
   {
@@ -373,7 +373,7 @@
     "judge": {
       "score": 5,
       "correct": true,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer is identical to the reference answer, accurately summarizing the main content of the article regarding the large language model pipeline's efficiency, accuracy, completeness, and performance variations."
     }
   },
   {
@@ -402,7 +402,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. Instead, it discusses the capabilities of a language model, which is irrelevant to the question."
     }
   },
   {
@@ -431,7 +431,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not directly address the question about the fields or categories related to the research study. Instead, it provides a description of the model's performance without mentioning 'Radiology' or any relevant fields."
     }
   },
   {
@@ -458,9 +458,9 @@
     "retrieval_hit": true,
     "token_f1": 0.32298136645962733,
     "judge": {
-      "score": 1,
+      "score": 3,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer provides a partial summary of the article, mentioning the investigation of risk reduction in LLM applications within the dairy industry. However, it lacks details about the specific risks, scenarios of LLM+RAG application, and the transformation of LLM into a reliable decision support mechanism, which are crucial elements of the reference answer."
     }
   },
   {
@@ -489,7 +489,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. It only summarizes the content of the study without addressing the specific question about the authors."
     }
   },
   {
@@ -516,9 +516,9 @@
     "retrieval_hit": true,
     "token_f1": 0.0,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer provides a description of the research but does not identify the specific fields or categories it belongs to, as requested in the question. The reference answer specifies 'Innovative economy: information, analytics, forecasts', which is not addressed in the model answer."
     }
   },
   {
@@ -547,7 +547,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides a very brief introduction about large language models without addressing the main issues of hallucination, retrieval-augmented generation, or the detailed analysis and strategies discussed in the reference answer."
     }
   },
   {
@@ -576,7 +576,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. It instead discusses the capabilities of large language models, which is irrelevant to the question."
     }
   },
   {
@@ -603,9 +603,9 @@
     "retrieval_hit": true,
     "token_f1": 0.1,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer discusses the capabilities of large language models but does not address the specific fields or categories related to the research topic, which is 'Theoretical and Natural Science'."
     }
   },
   {
@@ -634,7 +634,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides the introductory sentence of the reference answer and fails to summarize the key findings, methods, and results of the study, which are essential for a complete summary."
     }
   },
   {
@@ -663,7 +663,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. It only includes an abstract related to the topic, which is irrelevant to identifying the authors."
     }
   },
   {
@@ -692,7 +692,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the specific field or category that the study belongs to, which is required by the question. Instead, it discusses the challenges in diagnosing jawbone lesions without addressing the reference answer."
     }
   },
   {
@@ -719,9 +719,9 @@
     "retrieval_hit": true,
     "token_f1": 0.3604651162790698,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer captures only the initial part of the reference answer, failing to summarize the key contributions of HybRAG, its hybrid retrieval framework, and the results of the experiments. It lacks details on the integration of semantic and structural signals, which are crucial to understanding the paper's main findings."
     }
   },
   {
@@ -750,7 +750,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. Instead, it discusses GraphRAG methods, which is irrelevant to identifying the authors."
     }
   },
   {
@@ -779,7 +779,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the fields or categories related to the research study. Instead, it discusses technical aspects of GraphRAG methods, which is irrelevant to identifying the fields of the study."
     }
   },
   {
@@ -806,9 +806,9 @@
     "retrieval_hit": true,
     "token_f1": 0.56,
     "judge": {
-      "score": 3,
-      "correct": true,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "score": 2,
+      "correct": false,
+      "reasoning": "The model answer only partially summarizes the reference answer, capturing the general mission of the US Army Corps of Engineers but omitting key details about their R&D programs, strategic focus areas, and the types of information generated. It lacks the depth and breadth of the reference answer."
     }
   },
   {
@@ -837,7 +837,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the authors of the specified research study. Instead, it provides unrelated information about the US Army Corps of Engineers."
     }
   },
   {
@@ -866,7 +866,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the fields or categories related to the research on 'Microsoft Azure artificial intelligence / machine learning hackathon'. Instead, it discusses the US Army Corps of Engineers' mission, which is irrelevant to the question."
     }
   }
 ]

@@ -19,5 +19,5 @@
 - **Samples Evaluated:** 30
 - **Retrieval Hit Rate:** 100.00%
 - **Mean Token F1:** 0.1357
-- **Judge Accuracy:** 6.67%
-- **Mean Judge Score:** 1.20/5.0
+- **Judge Accuracy:** 3.33%
+- **Mean Judge Score:** 1.50/5.0
