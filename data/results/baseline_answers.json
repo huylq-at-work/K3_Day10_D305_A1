@@ -1,6 +1,6 @@
 [
   {
-    "id": "d47fe500-c670-404f-96c9-47adad7fa20c",
+    "id": "090febc1-a15a-42ec-a986-14b51a8430b1",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture'?",
     "ground_truth": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybersecurity, and executive oversight practices. This paper develops a proposed integrated AI governance prioritization architecture using a design-science research approach, supported by exploratory platform-risk analysis, a reproducible platform-risk dataset, a Monte Carlo robustness assessment, a framework coverage matrix, a Governance Priority Score (GPS)-based demonstration, and a public-document relevance assessment. The primary contribution is an integrated governance decision-support architecture that uses the Enterprise AI Platform Taxonomy (EAPT) to estimate platform burden, the Enterprise AI Risk Taxonomy (EART) to organize governance-risk exposure, the Enterprise AI Governance Maturity Model (EAGM) to represent organizational readiness, and the Integrated Agentic AI Governance Framework (IAGF) to identify agentic AI oversight requirements within a unified workflow. These components are operationally connected through GPS, which links platform burden, governancerisk gaps, organizational readiness, agentic runtime-control needs, and executive decision support. The proposed architecture draws upon NIST AI RMF, NIST AI 600-1, ISO/IEC 42001, COBIT, OWASP LLM Top 10, MITRE ATLAS, the EU AI Act, and related AI governance literature. A rubric-based analytical dataset covering 19 enterprise AI platforms evaluates each platform across eight subdimensions, with final platform-risk scores computed as the arithmetic mean of data access scope, operational autonomy, tool/API integration breadth, external connectivity, governance burden, cybersecurity exposure, adoption and shadow-AI risk, and supply-chain integrity. TThe expanded scoring method produces high rank stability relative to the original final-score dataset, with Spearman\u2019s \u03c1 = 0.996, and remains directionally stable under coding-uncertainty stress testing; these results are interpreted only as internal coding stability and robustness, not external validation. Public evidence from U.S. government agencies, universities, healthcare systems, and financial institutions is used to assess architecture relevance and observability, not to claim organizational effectiveness. The paper contributes a bounded design-science foundation for future inter-rater reliability testing, Delphi expert validation, organizational pilots, psychometric evaluation, and dashboard usability assessment.",
@@ -23,13 +23,13 @@
     "retrieval_hit": true,
     "token_f1": 0.25680933852140075,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides the introductory sentence of the reference answer and fails to summarize the key components, contributions, and methodologies discussed in the paper. It lacks detail and does not capture the essence of the proposed governance architecture or its implications."
     }
   },
   {
-    "id": "e7697da0-c94b-46a4-ae59-f8e5a7ad2524",
+    "id": "64cb8a80-5947-44ff-ae3c-2e9cbcf320e4",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture'?",
     "ground_truth": "['Audrey Rah', 'Sven Hahues']",
@@ -54,11 +54,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. Instead, it discusses the implications of AI adoption without addressing the specific authors of the study."
     }
   },
   {
-    "id": "6544edd5-bc1d-46a5-b50f-7593c5d9775b",
+    "id": "a4e3e125-0191-430d-962f-8c2148899704",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['posted-content']",
@@ -81,13 +81,13 @@
     "retrieval_hit": true,
     "token_f1": 0.0,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer discusses the topic of AI governance and its implications but does not directly identify the specific fields or categories related to the research study, which is what the question asks for. The reference answer 'posted-content' is vague but at least indicates a category, while the model answer fails to provide a clear categorization."
     }
   },
   {
-    "id": "03781fb0-026e-49a7-aa4c-37288458716d",
+    "id": "5f06ff2d-e3a8-4aba-b41b-9a2651a7ff4f",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o '0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine'?",
     "ground_truth": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain-specific grounding, leading to hallucinations in high-stakes contexts. However, LLMs can serve as clinical decision support tools if augmented with specific domain data. This study evaluates the utility of Retrieval-Augmented Generation (RAG) applied to open-source LLMs, utilizing a curated knowledge base of authoritative sleep medicine textbooks, to quantify improvement in performance. Methods We evaluated four open-source models\u2014Llama-70B, Llama-8B, Qwen-14B, and Qwen-235B, linked to a RAG system indexing five standard textbooks, including ICSD-3 TR. Models were tested on sleep board\u2013style MCQs and clinical vignettes diagnostic accuracy. Performance was assessed across nine configurations derived from three factors: RAG pipeline complexity (Plain vs. Complicated), textbook preprocessing (Uncleaned vs. Cleaned/TOC-aligned), and retriever type (Dense-only vs. Hybrid). Metrics included MCQ Accuracy and the rates at which the correct diagnosis appeared as the top result or within the top 5 differential diagnosis lists for vignettes. Results RAG consistently outperformed the no-RAG baseline, yielding absolute performance gains of 5.6%\u201310.7% for MCQs and 8.1%\u201310.2% for the top diagnosis in cases across all models. For MCQs, Qwen-235B achieved the highest accuracy of 87.3% (vs. 81.7% baseline) using the Plain RAG configuration with Cleaned (TOC-aligned) Hybrid retrieval. Llama-70B followed with 83.6% in the same configuration. For case vignettes, Qwen-235B achieved a correct top diagnosis rate of 66.3% and a correct diagnosis rate within the top 5 differential diagnosis lists of 90.8% using Cleaned Hybrid retrieval configurations. Hybrid retrieval (Dense + Sparse) consistently surpassed Dense-only methods. Notably, while larger models benefited from Cleaned text, smaller models (e.g., Qwen-14B) achieved higher top diagnosis rates with Uncleaned text (57.1% vs. 51.0%), suggesting a dependency on redundant context in lower-parameter settings. Conclusion RAG significantly enhances knowledge performance of open-source LLMs in sleep medicine. Hybrid retrieval and curated, TOC-aligned knowledge bases yield optimal results for large models, whereas smaller models benefit from the redundancy of uncleaned text. These findings suggest that RAG systems can augment LLMs in domain specific knowledge for clinical decision support. Support (if any)",
@@ -110,13 +110,13 @@
     "retrieval_hit": true,
     "token_f1": 0.17796610169491525,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only includes the abstract and introduction, failing to summarize the methods, results, and conclusion of the study. It lacks critical details about the evaluation of the models, the performance metrics, and the implications of the findings, which are essential for a comprehensive summary."
     }
   },
   {
-    "id": "1e4e2ceb-b6a5-45d1-aa26-9b682e69592e",
+    "id": "ee1a1fb2-77e9-4b90-9ca4-e2a3084eb169",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 '0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine'?",
     "ground_truth": "['Joseph Cheung', 'Pengze Li', 'Anshum Patel', 'SaiKrishna Vallamchetla', 'Het Contractor', 'Hayden Heninger', 'Cui Tao']",
@@ -141,11 +141,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide any names of the authors of the study, which is the specific information requested in the question. Instead, it discusses the capabilities of Large Language Models, which is irrelevant to the question."
     }
   },
   {
-    "id": "1997fe0c-6043-4efe-ace3-4162d7839120",
+    "id": "23d82763-0b92-461c-ac7b-7c27428fe0c7",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u '0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['SLEEPJ']",
@@ -170,11 +170,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the specific field or category of the study, which is 'SLEEPJ'. Instead, it discusses the limitations of Large Language Models without providing the requested information."
     }
   },
   {
-    "id": "361129a6-3a03-400e-971f-1b80d05d8e29",
+    "id": "ee73e723-7704-4be5-b3f2-081cbc0c2aad",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation'?",
     "ground_truth": "Summary In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow. However, this approach is fundamentally constrained by the models\u2019 inherent knowledge limitations, frequently resulting in analyses that lack domain-specific understanding and regulatory alignment. To tackle this issue, we introduce SafeRAG, a multistage retrieval-augmented framework for safety report generation. Specifically, the framework uses an entity-centric approach that prompts the LLMs to internally generate domain-specific knowledge. Concurrently, it performs a hierarchical retrieval of external regulations relevant to the accident at topic, concept, and context levels. To obtain well-structured reports, we leverage prompt engineering, integrating internal and external knowledge. Furthermore, a domain-expert persona is also assigned to help LLMs analyze accidents from a specific perspective. To evaluate our approach, we construct a data set from 10,818 accident-description/report pairs collected from real-world industry reports. Experiments show that SafeRAG substantially outperforms baseline LLMs on metrics that include bidirectional encoder representations from transformers (BERTScore) and bidirectional auto-regressive transformers (BARTScore), demonstrating the effectiveness of our approach.",
@@ -197,13 +197,13 @@
     "retrieval_hit": true,
     "token_f1": 0.3116883116883117,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides a very brief introduction to the topic without covering the key components of the SafeRAG framework, its methodology, or the evaluation results. It lacks detail on the multistage retrieval-augmented approach, the integration of internal and external knowledge, and the performance metrics, which are crucial for a comprehensive summary."
     }
   },
   {
-    "id": "6c0531c0-522f-477e-959c-cae33f679d2a",
+    "id": "dfb00be2-49d5-4ce7-a98d-ebc93f35caae",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation'?",
     "ground_truth": "['Qianwen Cao', 'Chiyu Zhang', 'Junxiong Ning', 'Gongru Li']",
@@ -228,11 +228,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. It instead summarizes the context of the research without addressing the specific authors."
     }
   },
   {
-    "id": "dacedc3f-27e7-4256-b3db-f6122de09400",
+    "id": "63672bdf-ed22-4931-985c-0dd6df6bf571",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['SPE Journal']",
@@ -257,11 +257,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not directly address the question about the specific field or category of the research. Instead, it provides a summary of the research's application without mentioning 'SPE Journal' or any relevant field."
     }
   },
   {
-    "id": "fcb8c026-d83f-4c1c-9132-455bcaaed77e",
+    "id": "d565a8c6-1cd2-4004-990f-1067b7b5a975",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models'?",
     "ground_truth": "Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusting and adding to the learned knowledge limit their usefulness in clinical settings. Retrieval-Augmented Generation (RAG) has emerged as a promising solution by adding a non-parametric source of memory and grounding LLM outputs to reputable external sources. This paper aims to survey the evolution of RAG methodologies and highlight the most recent developments and shifts in paradigms like Agentic RAG. We highlight current state-of-the-art biomedical RAG systems, the latest evaluation benchmarks, and empirical findings regarding best fine-tuning practices. We also examine technical including lost-in-the-middle effects and scaling behaviour. Ethical concerns surrounding privacy and bias are brought to attention alongside research gaps. Finally, we discuss future directions of RAG in the biomedical field, including integration into Clinical Decision Support systems (CDS).",
@@ -284,13 +284,13 @@
     "retrieval_hit": true,
     "token_f1": 0.490066225165563,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer captures the initial context about LLMs and their limitations but fails to summarize the key aspects of the paper, such as the introduction of Retrieval-Augmented Generation (RAG), its methodologies, ethical concerns, and future directions. It lacks depth and does not address the main focus of the paper."
     }
   },
   {
-    "id": "dbfc66bc-c88c-4458-94ba-4925e0e2f569",
+    "id": "fb53d397-ea08-4db4-b859-e86959a4c712",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models'?",
     "ground_truth": "['Eason Ni']",
@@ -315,11 +315,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. It discusses the performance of LLMs in biomedical contexts instead."
     }
   },
   {
-    "id": "4ec43d72-28e7-454c-a7bc-abdfe6f951de",
+    "id": "b3843c4a-ac16-4291-9ad1-4baeb2c765fc",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['Scholarly Review Journal']",
@@ -344,11 +344,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not directly address the question about the specific field or category of the research study. Instead, it discusses the performance and limitations of Large Language Models in biomedical contexts, which is not relevant to identifying the field of the study."
     }
   },
   {
-    "id": "a37a47e5-5415-4cd6-83a5-4605d915c100",
+    "id": "a1d2da7c-73b6-46dd-8297-d59b39684efc",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline'?",
     "ground_truth": "A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and completeness; speed and performance varied depending on the model used (GPT-4o mini, o3-mini, GPT-5-mini [OpenAI]).",
@@ -373,11 +373,11 @@
     "judge": {
       "score": 5,
       "correct": true,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer is identical to the reference answer, accurately summarizing the main content of the article regarding the large language model pipeline's efficiency, accuracy, completeness, and performance variations."
     }
   },
   {
-    "id": "2a7e4710-e037-47b8-891d-23b398cb635d",
+    "id": "bef12b66-139e-4651-882b-702a903cb4b6",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline'?",
     "ground_truth": "['Karan Jani', 'Govind Mattay', 'Vamsi Narra', 'Anup Shetty', 'Glenwood Stancil', 'Andrew Bierhals', 'Yasasvi Tadavarthi']",
@@ -402,11 +402,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. Instead, it discusses the capabilities of a language model, which is irrelevant to the question."
     }
   },
   {
-    "id": "1bcaade6-ead3-49a8-bfea-d571f3deaf5a",
+    "id": "fb8f1640-617e-475e-8e23-e7fe3df2eab5",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['Radiology']",
@@ -431,11 +431,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not directly address the question about the fields or categories related to the research study. Instead, it provides a description of the model's performance without mentioning 'Radiology' or any relevant fields."
     }
   },
   {
-    "id": "ce64f321-50e9-4106-b6f5-2632f1b9df16",
+    "id": "14e1ca87-67ff-4114-bcca-18deb93c3a2c",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o '\u0421\u043d\u0438\u0436\u0435\u043d\u0438\u0435 \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation)'?",
     "ground_truth": "\u0412 \u0441\u0442\u0430\u0442\u044c\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation) \u0432 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u0443\u0441\u043b\u043e\u0432\u0438\u044f\u0445. \u0420\u0430\u0441\u0441\u043c\u043e\u0442\u0440\u0435\u043d\u044b \u0440\u0438\u0441\u043a\u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438. \u041f\u043e\u0434\u0440\u043e\u0431\u043d\u043e \u0440\u0430\u0437\u043e\u0431\u0440\u0430\u043d\u044b \u0441\u0446\u0435\u043d\u0430\u0440\u0438\u0438 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM+RAG \u0432 \u0440\u043e\u0441\u0441\u0438\u0439\u0441\u043a\u043e\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u2013 \u0441 \u043e\u043f\u0438\u0441\u0430\u043d\u0438\u0435\u043c \u043f\u0440\u043e\u0446\u0435\u0441\u0441\u0430, \u0437\u0430\u0434\u0435\u0439\u0441\u0442\u0432\u043e\u0432\u0430\u043d\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445, \u0440\u0435\u0448\u0430\u0435\u043c\u044b\u0445 \u0440\u0438\u0441\u043a\u043e\u0432 \u0438 \u0434\u043e\u0441\u0442\u0438\u0433\u043d\u0443\u0442\u044b\u0445 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u043e\u0432. \u041f\u043e\u043a\u0430\u0437\u0430\u043d\u043e, \u0447\u0442\u043e \u0432 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u0435 \u0438\u043d\u0442\u0435\u0433\u0440\u0430\u0446\u0438\u044f RAG \u0441 LLM \u0442\u0440\u0430\u043d\u0441\u0444\u043e\u0440\u043c\u0438\u0440\u0443\u0435\u0442 \u0433\u0435\u043d\u0435\u0440\u0430\u0442\u0438\u0432\u043d\u0443\u044e \u043c\u043e\u0434\u0435\u043b\u044c \u0438\u0437 \u043f\u043e\u0442\u0435\u043d\u0446\u0438\u0430\u043b\u044c\u043d\u043e \u043e\u043f\u0430\u0441\u043d\u043e\u0433\u043e \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u0430 \u0432 \u043d\u0430\u0434\u0435\u0436\u043d\u044b\u0439 \u043c\u0435\u0445\u0430\u043d\u0438\u0437\u043c \u043f\u043e\u0434\u0434\u0435\u0440\u0436\u043a\u0438 \u043f\u0440\u0438\u043d\u044f\u0442\u0438\u044f \u0440\u0435\u0448\u0435\u043d\u0438\u0439 \u2013 \u043e\u0442 \u043c\u043e\u043d\u0438\u0442\u043e\u0440\u0438\u043d\u0433\u0430 \u0443\u0433\u0440\u043e\u0437 \u0444\u0430\u043b\u044c\u0441\u0438\u0444\u0438\u043a\u0430\u0446\u0438\u0438 \u0434\u043e \u043f\u0440\u043e\u0433\u043d\u043e\u0437\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u043f\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u0435\u0439 \u0441 \u0443\u0447\u0435\u0442\u043e\u043c \u043e\u0442\u0440\u0430\u0441\u043b\u0435\u0432\u043e\u0439 \u0441\u043f\u0435\u0446\u0438\u0444\u0438\u043a\u0438. The article examines the features of reducing the risks of using LLM (Large Language Model) in the field of economic security of dairy industry enterprises based on the RAG (Retrieval-Augmented Generation) approach in modern conditions. The risks of using LLM in the field of economic security of dairy industry enterprises are considered. The scenarios of LLM+RAG application in the Russian dairy industry are analyzed in detail, describing the process, the data involved, the risks to be solved and the results achieved. It is shown that as a result, the integration of RAG with LLM transforms the generative model from a potentially dangerous tool into a reliable decision support mechanism, from monitoring fraud threats to forecasting economic indicators based on industry specifics.",
@@ -458,13 +458,13 @@
     "retrieval_hit": true,
     "token_f1": 0.32298136645962733,
     "judge": {
-      "score": 1,
+      "score": 3,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer provides a partial summary of the article, mentioning the investigation of risk reduction in LLM applications within the dairy industry. However, it lacks details about the specific risks, scenarios of LLM+RAG application, and the transformation of LLM into a reliable decision support mechanism, which are crucial elements of the reference answer."
     }
   },
   {
-    "id": "88fc7ffb-c418-4eb0-82ef-76e1d9909163",
+    "id": "7cbc384e-6e7c-4955-8c34-216beafca0a3",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 '\u0421\u043d\u0438\u0436\u0435\u043d\u0438\u0435 \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation)'?",
     "ground_truth": "['\u0418.\u0412. \u0415\u0440\u043c\u0430\u043a\u043e\u0432', '\u0412.\u0412. \u0424\u0438\u043b\u0430\u0442\u043e\u0432']",
@@ -489,11 +489,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. It only summarizes the content of the study without addressing the specific question about the authors."
     }
   },
   {
-    "id": "981c20b4-a729-49e0-b8c6-230f1aa450a4",
+    "id": "dcf08bb8-5474-46d6-88ec-ed3f9fe9f2b6",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u '\u0421\u043d\u0438\u0436\u0435\u043d\u0438\u0435 \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation)' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['Innovative economy: information, analytics, forecasts']",
@@ -516,13 +516,13 @@
     "retrieval_hit": true,
     "token_f1": 0.0,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer provides a description of the research but does not identify the specific fields or categories it belongs to, as requested in the question. The reference answer specifies 'Innovative economy: information, analytics, forecasts', which is not addressed in the model answer."
     }
   },
   {
-    "id": "b7535086-1265-4c28-b265-de6fee657fd5",
+    "id": "1e43a5ef-92c1-435b-8aec-f7e53c210151",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation'?",
     "ground_truth": "Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks. However, their outputs remain vulnerable to hallucination, including factual errors, unsupported claims, spurious citations, and distorted reasoning. Retrieval-augmented generation (RAG) has been proposed as a practical remedy because it supplements parametric knowledge with external evidence retrieved at inference time. Yet RAG does not guarantee truthfulness or attribution by default. Errors may arise during query formulation, document retrieval, evidence aggregation, and answer grounding. This paper reviews the relationship between hallucination and RAG from three perspectives: mechanism, mitigation, and evaluation. First, the major causes of hallucination in both vanilla LLMs and RAG-enhanced systems are analyzed. Second, the principal mitigation strategies are organized into retrieval optimization, evidence-grounded generation, and post-generation verification. Third, the main evaluation dimensions are examined, including factuality, faithfulness, attribution quality, and retrieval relevance. It is argued that RAG should not be treated as a complete solution to hallucination. Its value lies in enabling externally grounded generation, but its effectiveness depends on the reliability of retrieval, the fidelity of evidence use, and the rigor of evaluation. Future work should prioritize attribution-aware generation, conflict-sensitive reasoning, and unified evaluation protocols for trustworthy LLM systems.",
@@ -547,11 +547,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides a very brief introduction about large language models without addressing the main issues of hallucination, retrieval-augmented generation, or the detailed analysis and strategies discussed in the reference answer."
     }
   },
   {
-    "id": "09723899-0d49-4fea-a7a5-20aba9bd5afd",
+    "id": "1d7995de-a7d0-43aa-8161-ea746957dff2",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation'?",
     "ground_truth": "['Haopeng Yang']",
@@ -576,11 +576,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. It instead discusses the capabilities of large language models, which is irrelevant to the question."
     }
   },
   {
-    "id": "d416e0cf-1616-4be8-9767-ad417566c5d3",
+    "id": "d8adec4a-1072-4b51-b76d-8559c6951a7d",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['Theoretical and Natural Science']",
@@ -603,13 +603,13 @@
     "retrieval_hit": true,
     "token_f1": 0.1,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer discusses the capabilities of large language models but does not address the specific fields or categories related to the research topic, which is 'Theoretical and Natural Science'."
     }
   },
   {
-    "id": "c8af5a86-056e-41f2-b089-60c9f93645fe",
+    "id": "950be911-28f3-4197-a8e5-e29013e93c66",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study'?",
     "ground_truth": "Abstract Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinical reasoning. This study aimed to develop and validate JADE-Plus, a novel multimodal, agent-controlled retrieval-augmented generation (RAG) framework for diagnostic decision support in jawbone lesion assessment. JADE-Plus was implemented as a cloud-based, tablet-optimized system integrating a vision-language model (VLM) for panoramic radiograph analysis, a knowledge-grounded RAG module, and an agentic verification loop for diagnostic fusion and re-ranking. The system was evaluated using 40 representative jawbone lesion cases and compared with JADE, GPT-5.4, GPT-5.4 VLM, and ORAD. Performance was assessed using Top-1 and Top-3 accuracy, ablation and statistical analyses, intra-model stability, and response time. JADE-Plus achieved the highest diagnostic performance, with a Top-1 accuracy of 90% (36/40; 95% CI 76\u201397%) and a Top-3 accuracy of 100%, with no missed diagnoses. Cochran\u2019s Q test demonstrated significant differences among models for both Top-3 correctness ( Q = 25.66, p < 0.001) and Top-1 correctness ( Q = 27.55, p < 0.001). Post-hoc McNemar tests with the Benjamini\u2013Hochberg correction showed that JADE-Plus significantly outperformed other models, particularly under the stricter Top-1 evaluation. Ablation analysis showed that the agentic verification stage improved Top-1 and Top-3 accuracy by 15 and 8 percentage points, respectively. JADE-Plus achieved the highest reproducibility (mean Jaccard similarity 0.97 \u00b1 0.12) while maintaining a mean response time of 33 \u00b1 1.5 s per case. JADE-Plus demonstrated superior diagnostic accuracy, stability, and reproducibility compared with baseline systems, supporting multimodal agentic RAG frameworks for jawbone lesion diagnosis.",
@@ -634,11 +634,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer only provides the introductory sentence of the reference answer and fails to summarize the key findings, methods, and results of the study, which are essential for a complete summary."
     }
   },
   {
-    "id": "c4a9e4b7-000e-4417-a3cf-954a5c4a97b9",
+    "id": "87ec06bf-f93a-4f7c-afeb-9119348320b4",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study'?",
     "ground_truth": "['Soroush Baseri Saadi', 'Jonas Ver Berne', 'Rocharles Cavalcante Fontenele', 'Peter Claes', 'Reinhilde Jacobs']",
@@ -663,11 +663,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors as requested in the question. It only includes an abstract related to the topic, which is irrelevant to identifying the authors."
     }
   },
   {
-    "id": "86859102-5152-4ca7-b024-973a35aae09a",
+    "id": "efd8a7d0-aab4-4885-b194-75cbd5b67b93",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['Journal of Imaging Informatics in Medicine']",
@@ -692,11 +692,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the specific field or category that the study belongs to, which is required by the question. Instead, it discusses the challenges in diagnosing jawbone lesions without addressing the reference answer."
     }
   },
   {
-    "id": "44ba386c-ba30-426a-957d-22674b67633a",
+    "id": "e4e1d1a5-b1af-40d2-a07b-ff70a6a36681",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning'?",
     "ground_truth": "Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop reasoning paths. This separation often results in semantic mismatch\u2014where logical links are missing\u2014or structural over-constraint in reasoning\u2014 where rigid dependencies limit flexible reasoning\u2014thereby degrading both answer accuracy and the reliability of evidence in complex KGQA tasks. To address these issues, we propose HybRAG, a hybrid retrieval framework that synergistically integrates a semantic node-level retriever and structural path-level retriever. HybRAG constructs a hybrid subgraph that jointly reflects the semantic proximity of entities and the relational structures encoded in the KG. Furthermore, we incorporate retrieval-augmented fine-tuning, which enables the model to internalize advanced reasoning strategies for interpreting disparate semantic and structural signals, rather than merely memorizing domain facts. Through extensive experiments on the WebQSP and CWQ benchmarks, we demonstrate that HybRAG effectively bridges the gap between LLM-centric semantic approaches and GNN-centric structural approaches, outperforming single-retriever baselines. Our findings, including detailed sensitivity and ablation analyses, provide empirical evidence that the systematic alignment of semantic and structural signals is essential for ensuring the reasoning reliability and scalability of next-generation GraphRAG systems.",
@@ -719,13 +719,13 @@
     "retrieval_hit": true,
     "token_f1": 0.3604651162790698,
     "judge": {
-      "score": 1,
+      "score": 2,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer captures only the initial part of the reference answer, failing to summarize the key contributions of HybRAG, its hybrid retrieval framework, and the results of the experiments. It lacks details on the integration of semantic and structural signals, which are crucial to understanding the paper's main findings."
     }
   },
   {
-    "id": "61a1774b-0c90-4275-b83d-dc5cb0e7aa40",
+    "id": "f7354e2c-058f-46a6-a0b1-00c3e1570bcc",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning'?",
     "ground_truth": "['Hyewon Lee', 'Sungsu Lim']",
@@ -750,11 +750,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not provide the names of the authors of the study as requested in the question. Instead, it discusses GraphRAG methods, which is irrelevant to identifying the authors."
     }
   },
   {
-    "id": "85e49127-ea50-4369-b747-3fcb14d2ae8d",
+    "id": "6a2cc946-a702-4d76-8480-279c370014d3",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['Applied Sciences']",
@@ -779,11 +779,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the fields or categories related to the research study. Instead, it discusses technical aspects of GraphRAG methods, which is irrelevant to identifying the fields of the study."
     }
   },
   {
-    "id": "3a0bd65e-c5c5-435b-ba73-4abedc4f2837",
+    "id": "6c09a490-0074-4c67-9e53-51ddcf087aa5",
     "question_type": "summary",
     "question": "H\u00e3y t\u00f3m t\u1eaft n\u1ed9i dung ch\u00ednh c\u1ee7a b\u00e0i b\u00e1o 'Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model'?",
     "ground_truth": "The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a safer, more prosperous, and more resilient nation. To achieve this, the US Army Engineer Research and Development Center (ERDC) plans, executes, leads, and directs many R&D programs in coordination with USACE Headquarters, Districts, and Divisions through its multiple strategic focus areas, which include infrastructure, water modeling, crisis preparedness, ecosystem, sediment management, data, artificial intelligence, and robotics. In this process, much information is generated, including internal progress reviews, financial reports, scopes of work, work package planning, and success stories.",
@@ -806,13 +806,13 @@
     "retrieval_hit": true,
     "token_f1": 0.56,
     "judge": {
-      "score": 3,
-      "correct": true,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "score": 2,
+      "correct": false,
+      "reasoning": "The model answer only partially summarizes the reference answer, capturing the general mission of the US Army Corps of Engineers but omitting key details about their R&D programs, strategic focus areas, and the types of information generated. It lacks the depth and breadth of the reference answer."
     }
   },
   {
-    "id": "0bff3f7a-8a29-4c54-9bac-a7ed88d11a9b",
+    "id": "f37cfeb8-a5e3-4f7c-afab-d6fb7e5b782c",
     "question_type": "authors",
     "question": "Ai l\u00e0 (c\u00e1c) t\u00e1c gi\u1ea3 c\u1ee7a nghi\u00ean c\u1ee9u c\u00f3 ti\u00eau \u0111\u1ec1 'Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model'?",
     "ground_truth": "['Janet L. Autrey', 'Lacey S. Duckworth', 'Ashly N. Horner', 'Thomas Sigler', 'Victoria D. Moore']",
@@ -837,11 +837,11 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the authors of the specified research study. Instead, it provides unrelated information about the US Army Corps of Engineers."
     }
   },
   {
-    "id": "18b32e71-2f74-44aa-8e5b-fbf08af97491",
+    "id": "0941ddf9-3170-47f3-8267-4e892d672d6c",
     "question_type": "categories",
     "question": "Nghi\u00ean c\u1ee9u 'Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model' thu\u1ed9c v\u1ec1 (nh\u1eefng) l\u0129nh v\u1ef1c/chuy\u00ean m\u1ee5c n\u00e0o?",
     "ground_truth": "['report']",
@@ -866,7 +866,7 @@
     "judge": {
       "score": 1,
       "correct": false,
-      "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      "reasoning": "The model answer does not address the question about the fields or categories related to the research on 'Microsoft Azure artificial intelligence / machine learning hackathon'. Instead, it discusses the US Army Corps of Engineers' mission, which is irrelevant to the question."
     }
   }
 ]
