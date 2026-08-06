@@ -596,6 +596,77 @@ hình. Ngoài ra `freshness_corrupted.json` vẫn ghi `is_fresh: true` dù có 4
 - **R1** — sau khi R2 xong: chạy `run_corruption_flow.py` thật, rồi `verify_baseline.py` để chắc
   baseline chưa bị đụng.
 
+## 2h. Bảng blocker — thuộc checkpoint nào, đã xử lý chưa
+
+Ánh xạ theo đúng việc ghi trong file phân công của BTC. Cột "Việc gốc" trích nguyên văn.
+
+| # | Blocker | Của | CP gốc | Việc gốc | Đáng lẽ bị bắt ở | Trạng thái |
+| :-: | :-- | :-: | :-: | :-- | :-: | :-- |
+| 1 | Test set tiếng Việt không khớp router tiếng Anh trong `qa.py` | R3/R4 | CP2 | *"Implement `build_test_set` với id, type, question, ground_truth…"* | CP3 | ✅ đã sửa |
+| 2 | `ground_truth` authors/categories là repr của list | R4 | CP2 | như trên | CP3 | ✅ đã sửa |
+| 3 | `retrieval_hit_rate` bão hoà 1.00 | R4 | CP2 | *"Tạo question từ cleaned data"* | CP3 | ⚠️ còn |
+| 4 | Judge 40/40 dùng heuristic fallback | R4 | CP5 | *"Kiểm tra evaluator không silently fallback thành success giả"* | CP5 | ⚠️ cần API key |
+| 5 | `categories_joined` mơ hồ (7 paper chung giá trị) | R2/R4 | CP1 | *"chốt rule null, date, duplicate, authors/categories"* | CP1 | ⚠️ còn |
+| 6 | Freshness đọc `published_date`, cột thật là `published` | R4 | CP1 | *"Tạo freshness input từ published/age_days…"* | CP3 | ✅ đã sửa |
+| 7 | Ngưỡng stale hard-code 365 thay vì `Settings` | R4 | CP1 | như trên | CP3 | ✅ đã sửa |
+| 8 | `summary_nulls` không đếm chuỗi rỗng | R4 | CP1 | *"Implement check row count, paper_id unique, title/summary missing…"* | CP5 | ✅ đã sửa |
+
+**CP3 là chỗ lẽ ra phải chặn lại.** Việc số 2 của `observe` ở CP3 ghi rõ: *"Đối chiếu report với
+JSON/CSV thật trước khi coi baseline hoàn tất."* Đối chiếu là thấy ngay `latest_published: null`
+trong khi CSV có đủ 24 ngày hợp lệ. Bước đó bị bỏ qua nên Blocker 6 và 7 trôi tới CP5.
+
+### Đã xử lý — 5 blocker quá hạn từ CP1–CP2
+
+Đây là việc **đã quá hạn**, không phải việc CP5 của người khác. Phần CP5 của R2
+(`corrupt_clean_dataframe`) và của R4 (chạy quality/report cho corrupted) giữ nguyên.
+
+| File | Sửa gì |
+| :-- | :-- |
+| `src/observability/quality.py` | `published_date` → `published`; ngưỡng stale đọc `settings.freshness_threshold_days`; `_missing()` đếm cả null lẫn chuỗi rỗng; `is_fresh` đổi từ "stale < 50%" thành "stale == 0" |
+| `src/evaluation/testset.py` | dùng `authors_joined` / `categories_joined` / `published` thay cho cột list và cột `published_date` không tồn tại |
+| `src/retrieval/qa.py` | router nhận thêm cụm tiếng Việt (tác giả / xuất bản / lĩnh vực…), **cộng thêm**, giữ nguyên toàn bộ cụm tiếng Anh cũ |
+| `src/ingestion/lineage.py` | `_semantically_equal` chấp nhận thêm dạng joined — xem ghi chú dưới |
+
+Thay đổi ở `testset.py` làm gãy test `test_baseline_lineage_and_testset_are_traceable` của R2.
+Nguyên nhân: `_as_list` tách chuỗi joined theo dấu phẩy, nhưng một category có thể **tự nó chứa
+dấu phẩy** — `"Innovative economy: information, analytics, forecasts"` bị tách thành 3 phần rồi
+so lệch với list 1 phần tử. Đã sửa tối thiểu: so thêm dạng joined trước khi kết luận lệch.
+Toàn bộ 10 test pass. Đây là sửa hệ quả từ thay đổi của Role 1, không phải làm phần CP5 của R2.
+
+Phát hiện phụ khi sửa: `testset.py` đọc `row.get("published_date")` — cột không tồn tại nên trả
+chuỗi rỗng, và **toàn bộ `question_type=date` bị bỏ qua**. Đó là lý do test set cũ chỉ có 3 loại
+câu hỏi thay vì 4 như thiết kế.
+
+#### Kết quả sau khi sửa
+
+| Metric | Trước | Sau |
+| :-- | --: | --: |
+| Số câu hỏi | 30 (3 loại) | **40 (4 loại)** |
+| `mean_token_f1` | 0.1357 | **0.8475** |
+| `judge_accuracy` | 0.0667 | **0.8000** |
+| `mean_judge_score` | 1.20 | **4.15** |
+| `verify_baseline.py` | 29/32 | **32/33** |
+
+Tách theo loại câu hỏi: authors, categories, date đều đạt `token_f1 = 1.000`. Riêng summary giữ
+0.390 — đây **không phải lỗi**: `qa.py` trả về `first_sentence(summary)` còn ground truth là cả
+abstract, nên trùng một phần là đúng thiết kế.
+
+Kiểm lại đúng ba kịch bản đã dùng làm bằng chứng ở CP4 và CP5:
+
+| Kịch bản | Trước | Sau |
+| :-- | :-- | :-- |
+| 24 dòng cũ 200 ngày (vượt ngưỡng 180) | `stale_rows=0`, `is_fresh=true` | `stale_rows=24`, `is_fresh=false` |
+| 11/24 dòng cũ 400 ngày | `stale_rows=11`, `is_fresh=true` | `stale_rows=11`, `is_fresh=false` |
+| Blank 2 summary thành `""` | `summary_nulls=0` | `summary_nulls=2` |
+
+#### Còn lại
+
+- **Blocker 4** — cần API key thật, Role 1 không tự điền được vào `.env` của người khác.
+- **Blocker 3** — `retrieval_hit_rate` vẫn 1.00. Sửa được nhưng phải thêm câu hỏi **không trích
+  nguyên title**, tức là đổi test set. Để R4 quyết, và phải chốt **trước** khi chạy corruption
+  vì test set phải cố định cho cả ba trạng thái.
+- **Blocker 5** — categories mơ hồ, cần R2 và R4 thống nhất nguồn thay `subject`.
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement

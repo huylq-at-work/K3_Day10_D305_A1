@@ -17,14 +17,21 @@ class AnswerResult:
     retrieved_titles: list[str]
 
 
+# Test set cua lab duoc sinh bang tieng Viet, nen router phai nhan ca hai ngon ngu.
+# Chi nhan dien them - moi cum tieng Anh cu deu giu nguyen.
+_AUTHOR_CUES = ("who authored", "list the authors", "tac gia", "tác giả")
+_DATE_CUES = ("when was", "publication date", "published on", "xuat ban", "xuất bản", "ngay cong bo", "ngày công bố")
+_CATEGORY_CUES = ("what categories", "linh vuc", "lĩnh vực", "chuyen muc", "chuyên mục", "danh muc", "danh mục")
+
+
 def _extract_answer(question: str, top_result: SearchResult) -> str:
     lowered = question.lower()
     metadata = top_result.metadata
-    if "who authored" in lowered or "list the authors" in lowered:
+    if any(cue in lowered for cue in _AUTHOR_CUES):
         return metadata["authors_joined"]
-    if "when was" in lowered or "publication date" in lowered or "published on" in lowered:
+    if any(cue in lowered for cue in _DATE_CUES):
         return metadata["published"]
-    if "what categories" in lowered:
+    if any(cue in lowered for cue in _CATEGORY_CUES):
         return metadata["categories_joined"]
     return first_sentence(metadata["summary"])
 

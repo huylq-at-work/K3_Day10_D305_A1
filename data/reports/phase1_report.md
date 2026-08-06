@@ -10,14 +10,14 @@
 - **Title Nulls:** 0
 
 ## 3. Freshness
-- **Latest Published:** None
-- **Oldest Published:** None
+- **Latest Published:** 2026-08-01
+- **Oldest Published:** 2026-02-12
 - **Stale Rows:** 0
 - **Is Fresh:** Yes
 
 ## 4. Evaluation Metrics
-- **Samples Evaluated:** 30
+- **Samples Evaluated:** 40
 - **Retrieval Hit Rate:** 100.00%
-- **Mean Token F1:** 0.1357
-- **Judge Accuracy:** 3.33%
-- **Mean Judge Score:** 1.50/5.0
+- **Mean Token F1:** 0.8475
+- **Judge Accuracy:** 80.00%
+- **Mean Judge Score:** 4.15/5.0

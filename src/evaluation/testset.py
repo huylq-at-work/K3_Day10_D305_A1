@@ -22,9 +22,14 @@ def build_test_set(df: pd.DataFrame, output_path) -> list[dict[str, Any]]:
         paper_id = str(row.get("paper_id", ""))
         title = str(row.get("title", ""))
         summary = str(row.get("summary", ""))
-        authors = str(row.get("authors", ""))
-        published_date = str(row.get("published_date", ""))
-        categories = str(row.get("categories", ""))
+        # Dung cot da join theo clean contract, khong dung cot list: ground_truth
+        # phai cung dang voi gia tri ma qa.py tra ve tu metadata, neu khong
+        # token_f1 se dem ca dau ngoac va dau nhay cua repr list.
+        # `published_date` khong ton tai trong clean schema - cot dung ten la `published`,
+        # doc sai ten lam question_type=date bi bo hoan toan.
+        authors = str(row.get("authors_joined", ""))
+        published_date = str(row.get("published", ""))
+        categories = str(row.get("categories_joined", ""))
         
         if not paper_id or not title:
             continue

@@ -10,21 +10,40 @@ from core.config import Settings
 import os
 import json
 
+def _missing(df: pd.DataFrame, column: str, fallback: int) -> int:
+    """Dem o thieu: ca null LAN chuoi rong.
+
+    `isnull()` khong bat chuoi rong, ma corruption "summary rong" ghi "" chu khong
+    ghi NaN - neu chi dem null thi kich ban do di qua quality check ma khong de
+    lai dau vet nao.
+    """
+    if column not in df.columns:
+        return fallback
+    series = df[column]
+    return int(series.isnull().sum() + (series.fillna("").astype(str).str.strip() == "").sum())
+
+
+def _stale_rows(df: pd.DataFrame, settings: Settings) -> int:
+    """Dem dong qua han theo nguong trong Settings, khong hard-code."""
+    if "age_days" not in df.columns:
+        return 0
+    return int(df["age_days"].gt(settings.freshness_threshold_days).sum())
+
+
 def run_data_quality_checks(df: pd.DataFrame, settings: Settings, report_name: str) -> dict[str, Any]:
     row_count = len(df)
     
-    paper_id_nulls = int(df["paper_id"].isnull().sum()) if "paper_id" in df.columns else row_count
+    paper_id_nulls = _missing(df, "paper_id", row_count)
     paper_id_duplicates = int(df["paper_id"].duplicated().sum()) if "paper_id" in df.columns else 0
-    title_nulls = int(df["title"].isnull().sum()) if "title" in df.columns else row_count
-    
+    title_nulls = _missing(df, "title", row_count)
+
+    summary_nulls = _missing(df, "summary", row_count)
     if "summary" in df.columns:
-        summary_nulls = int(df["summary"].isnull().sum())
         short_summaries = int(df["summary"].fillna("").str.len().lt(10).sum())
     else:
-        summary_nulls = row_count
         short_summaries = row_count
-        
-    stale_rows = int(df["age_days"].gt(365).sum()) if "age_days" in df.columns else 0
+
+    stale_rows = _stale_rows(df, settings)
 
     quality_metrics = {
         "row_count": row_count,
@@ -45,19 +64,23 @@ def run_data_quality_checks(df: pd.DataFrame, settings: Settings, report_name: s
 
 
 def build_freshness_report(df: pd.DataFrame, settings: Settings, report_path) -> dict[str, Any]:
-    if "published_date" in df.columns:
-        valid_dates = pd.to_datetime(df["published_date"], errors="coerce").dropna()
+    # Cot trong clean contract ten la `published`, khong phai `published_date`.
+    if "published" in df.columns:
+        valid_dates = pd.to_datetime(df["published"], errors="coerce").dropna()
         if not valid_dates.empty:
-            latest = valid_dates.max().isoformat()
-            oldest = valid_dates.min().isoformat()
+            latest = valid_dates.max().date().isoformat()
+            oldest = valid_dates.min().date().isoformat()
         else:
             latest, oldest = None, None
     else:
         latest, oldest = None, None
-        
-    stale_rows = int(df["age_days"].gt(365).sum()) if "age_days" in df.columns else 0
+
+    stale_rows = _stale_rows(df, settings)
     total_rows = len(df)
-    is_fresh = stale_rows < (total_rows * 0.5) if total_rows > 0 else False
+    # Chi mot dong qua han cung la du lieu khong con tuoi. Nguong "< 50% so dong"
+    # truoc day khien 11/24 dong stale van bao Fresh - corruption "lam cu du lieu"
+    # se khong tao ra signal nao.
+    is_fresh = total_rows > 0 and stale_rows == 0
     
     report = {
         "latest_published": latest,

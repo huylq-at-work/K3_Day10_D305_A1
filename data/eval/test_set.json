@@ -1,6 +1,6 @@
 [
   {
-    "id": "090febc1-a15a-42ec-a986-14b51a8430b1",
+    "id": "be24d5f6-a032-4d8d-a74d-a2445fcb98dc",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture'?",
     "ground_truth": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybersecurity, and executive oversight practices. This paper develops a proposed integrated AI governance prioritization architecture using a design-science research approach, supported by exploratory platform-risk analysis, a reproducible platform-risk dataset, a Monte Carlo robustness assessment, a framework coverage matrix, a Governance Priority Score (GPS)-based demonstration, and a public-document relevance assessment. The primary contribution is an integrated governance decision-support architecture that uses the Enterprise AI Platform Taxonomy (EAPT) to estimate platform burden, the Enterprise AI Risk Taxonomy (EART) to organize governance-risk exposure, the Enterprise AI Governance Maturity Model (EAGM) to represent organizational readiness, and the Integrated Agentic AI Governance Framework (IAGF) to identify agentic AI oversight requirements within a unified workflow. These components are operationally connected through GPS, which links platform burden, governancerisk gaps, organizational readiness, agentic runtime-control needs, and executive decision support. The proposed architecture draws upon NIST AI RMF, NIST AI 600-1, ISO/IEC 42001, COBIT, OWASP LLM Top 10, MITRE ATLAS, the EU AI Act, and related AI governance literature. A rubric-based analytical dataset covering 19 enterprise AI platforms evaluates each platform across eight subdimensions, with final platform-risk scores computed as the arithmetic mean of data access scope, operational autonomy, tool/API integration breadth, external connectivity, governance burden, cybersecurity exposure, adoption and shadow-AI risk, and supply-chain integrity. TThe expanded scoring method produces high rank stability relative to the original final-score dataset, with Spearman’s ρ = 0.996, and remains directionally stable under coding-uncertainty stress testing; these results are interpreted only as internal coding stability and robustness, not external validation. Public evidence from U.S. government agencies, universities, healthcare systems, and financial institutions is used to assess architecture relevance and observability, not to claim organizational effectiveness. The paper contributes a bounded design-science foundation for future inter-rater reliability testing, Delphi expert validation, organizational pilots, psychometric evaluation, and dashboard usability assessment.",
@@ -9,25 +9,34 @@
     ]
   },
   {
-    "id": "64cb8a80-5947-44ff-ae3c-2e9cbcf320e4",
+    "id": "cf01b8e8-3179-4cd1-b1b2-34cb3f59a34b",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture'?",
-    "ground_truth": "['Audrey Rah', 'Sven Hahues']",
+    "ground_truth": "Audrey Rah, Sven Hahues",
     "ground_truth_doc_ids": [
       "10.21203/rs.3.rs-10012178/v1"
     ]
   },
   {
-    "id": "a4e3e125-0191-430d-962f-8c2148899704",
+    "id": "3e99e771-ef43-4c6f-9fd8-c879db75a6b6",
+    "question_type": "date",
+    "question": "Bài báo 'Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-06-15",
+    "ground_truth_doc_ids": [
+      "10.21203/rs.3.rs-10012178/v1"
+    ]
+  },
+  {
+    "id": "132f1de9-0a54-44c7-a727-5ee211f2d0e1",
     "question_type": "categories",
     "question": "Nghiên cứu 'Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['posted-content']",
+    "ground_truth": "posted-content",
     "ground_truth_doc_ids": [
       "10.21203/rs.3.rs-10012178/v1"
     ]
   },
   {
-    "id": "5f06ff2d-e3a8-4aba-b41b-9a2651a7ff4f",
+    "id": "18a4c786-eb32-4d00-80fa-d2c9393435cd",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo '0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine'?",
     "ground_truth": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain-specific grounding, leading to hallucinations in high-stakes contexts. However, LLMs can serve as clinical decision support tools if augmented with specific domain data. This study evaluates the utility of Retrieval-Augmented Generation (RAG) applied to open-source LLMs, utilizing a curated knowledge base of authoritative sleep medicine textbooks, to quantify improvement in performance. Methods We evaluated four open-source models—Llama-70B, Llama-8B, Qwen-14B, and Qwen-235B, linked to a RAG system indexing five standard textbooks, including ICSD-3 TR. Models were tested on sleep board–style MCQs and clinical vignettes diagnostic accuracy. Performance was assessed across nine configurations derived from three factors: RAG pipeline complexity (Plain vs. Complicated), textbook preprocessing (Uncleaned vs. Cleaned/TOC-aligned), and retriever type (Dense-only vs. Hybrid). Metrics included MCQ Accuracy and the rates at which the correct diagnosis appeared as the top result or within the top 5 differential diagnosis lists for vignettes. Results RAG consistently outperformed the no-RAG baseline, yielding absolute performance gains of 5.6%–10.7% for MCQs and 8.1%–10.2% for the top diagnosis in cases across all models. For MCQs, Qwen-235B achieved the highest accuracy of 87.3% (vs. 81.7% baseline) using the Plain RAG configuration with Cleaned (TOC-aligned) Hybrid retrieval. Llama-70B followed with 83.6% in the same configuration. For case vignettes, Qwen-235B achieved a correct top diagnosis rate of 66.3% and a correct diagnosis rate within the top 5 differential diagnosis lists of 90.8% using Cleaned Hybrid retrieval configurations. Hybrid retrieval (Dense + Sparse) consistently surpassed Dense-only methods. Notably, while larger models benefited from Cleaned text, smaller models (e.g., Qwen-14B) achieved higher top diagnosis rates with Uncleaned text (57.1% vs. 51.0%), suggesting a dependency on redundant context in lower-parameter settings. Conclusion RAG significantly enhances knowledge performance of open-source LLMs in sleep medicine. Hybrid retrieval and curated, TOC-aligned knowledge bases yield optimal results for large models, whereas smaller models benefit from the redundancy of uncleaned text. These findings suggest that RAG systems can augment LLMs in domain specific knowledge for clinical decision support. Support (if any)",
@@ -36,25 +45,34 @@
     ]
   },
   {
-    "id": "ee1a1fb2-77e9-4b90-9ca4-e2a3084eb169",
+    "id": "f5b31d67-0b11-4a02-990c-621408557a1e",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề '0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine'?",
-    "ground_truth": "['Joseph Cheung', 'Pengze Li', 'Anshum Patel', 'SaiKrishna Vallamchetla', 'Het Contractor', 'Hayden Heninger', 'Cui Tao']",
+    "ground_truth": "Joseph Cheung, Pengze Li, Anshum Patel, SaiKrishna Vallamchetla, Het Contractor, Hayden Heninger, Cui Tao",
     "ground_truth_doc_ids": [
       "10.1093/sleep/zsag091.0346"
     ]
   },
   {
-    "id": "23d82763-0b92-461c-ac7b-7c27428fe0c7",
+    "id": "a526d92b-e695-469d-9c80-3bce931684e6",
+    "question_type": "date",
+    "question": "Bài báo '0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-05-01",
+    "ground_truth_doc_ids": [
+      "10.1093/sleep/zsag091.0346"
+    ]
+  },
+  {
+    "id": "e1f3a9e9-5edc-4599-8c64-0bfed24fe4bf",
     "question_type": "categories",
     "question": "Nghiên cứu '0346 Retrieval Augmented Generation Improves Large Language Model Performance in Sleep Medicine' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['SLEEPJ']",
+    "ground_truth": "SLEEPJ",
     "ground_truth_doc_ids": [
       "10.1093/sleep/zsag091.0346"
     ]
   },
   {
-    "id": "ee73e723-7704-4be5-b3f2-081cbc0c2aad",
+    "id": "79b7e7c2-1d24-4079-9c5e-db2fa0819a4b",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation'?",
     "ground_truth": "Summary In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow. However, this approach is fundamentally constrained by the models’ inherent knowledge limitations, frequently resulting in analyses that lack domain-specific understanding and regulatory alignment. To tackle this issue, we introduce SafeRAG, a multistage retrieval-augmented framework for safety report generation. Specifically, the framework uses an entity-centric approach that prompts the LLMs to internally generate domain-specific knowledge. Concurrently, it performs a hierarchical retrieval of external regulations relevant to the accident at topic, concept, and context levels. To obtain well-structured reports, we leverage prompt engineering, integrating internal and external knowledge. Furthermore, a domain-expert persona is also assigned to help LLMs analyze accidents from a specific perspective. To evaluate our approach, we construct a data set from 10,818 accident-description/report pairs collected from real-world industry reports. Experiments show that SafeRAG substantially outperforms baseline LLMs on metrics that include bidirectional encoder representations from transformers (BERTScore) and bidirectional auto-regressive transformers (BARTScore), demonstrating the effectiveness of our approach.",
@@ -63,25 +81,34 @@
     ]
   },
   {
-    "id": "dfb00be2-49d5-4ce7-a98d-ebc93f35caae",
+    "id": "c08b19fd-4921-47d1-84c3-9e51e04efdc2",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation'?",
-    "ground_truth": "['Qianwen Cao', 'Chiyu Zhang', 'Junxiong Ning', 'Gongru Li']",
+    "ground_truth": "Qianwen Cao, Chiyu Zhang, Junxiong Ning, Gongru Li",
     "ground_truth_doc_ids": [
       "10.2118/234689-pa"
     ]
   },
   {
-    "id": "63672bdf-ed22-4931-985c-0dd6df6bf571",
+    "id": "2128321f-1fcb-44d6-a71b-8091636f75af",
+    "question_type": "date",
+    "question": "Bài báo 'SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-08-01",
+    "ground_truth_doc_ids": [
+      "10.2118/234689-pa"
+    ]
+  },
+  {
+    "id": "d865a969-4ce6-4fff-be9a-b511a4abc17f",
     "question_type": "categories",
     "question": "Nghiên cứu 'SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented Framework for Oil and Gas Safety Report Generation' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['SPE Journal']",
+    "ground_truth": "SPE Journal",
     "ground_truth_doc_ids": [
       "10.2118/234689-pa"
     ]
   },
   {
-    "id": "d565a8c6-1cd2-4004-990f-1067b7b5a975",
+    "id": "2549e7e6-6459-4f4f-aab9-836a2622635c",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models'?",
     "ground_truth": "Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusting and adding to the learned knowledge limit their usefulness in clinical settings. Retrieval-Augmented Generation (RAG) has emerged as a promising solution by adding a non-parametric source of memory and grounding LLM outputs to reputable external sources. This paper aims to survey the evolution of RAG methodologies and highlight the most recent developments and shifts in paradigms like Agentic RAG. We highlight current state-of-the-art biomedical RAG systems, the latest evaluation benchmarks, and empirical findings regarding best fine-tuning practices. We also examine technical including lost-in-the-middle effects and scaling behaviour. Ethical concerns surrounding privacy and bias are brought to attention alongside research gaps. Finally, we discuss future directions of RAG in the biomedical field, including integration into Clinical Decision Support systems (CDS).",
@@ -90,25 +117,34 @@
     ]
   },
   {
-    "id": "fb53d397-ea08-4db4-b859-e86959a4c712",
+    "id": "b553ccba-d627-4183-808f-e9a3b0e541b6",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models'?",
-    "ground_truth": "['Eason Ni']",
+    "ground_truth": "Eason Ni",
     "ground_truth_doc_ids": [
       "10.70121/001c.158711"
     ]
   },
   {
-    "id": "b3843c4a-ac16-4291-9ad1-4baeb2c765fc",
+    "id": "aeadacc0-73d3-4b4d-a0b9-e0b095cd20e8",
+    "question_type": "date",
+    "question": "Bài báo 'The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-03-15",
+    "ground_truth_doc_ids": [
+      "10.70121/001c.158711"
+    ]
+  },
+  {
+    "id": "1724ad31-ea21-4793-bb1f-10c19c6923bb",
     "question_type": "categories",
     "question": "Nghiên cứu 'The Role of Retrieval-Augmented Generation in Improving Factual Accuracy for Medical Large Language Models' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['Scholarly Review Journal']",
+    "ground_truth": "Scholarly Review Journal",
     "ground_truth_doc_ids": [
       "10.70121/001c.158711"
     ]
   },
   {
-    "id": "a1d2da7c-73b6-46dd-8297-d59b39684efc",
+    "id": "d442d014-ed2a-4f8e-8348-daed528384c4",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline'?",
     "ground_truth": "A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and completeness; speed and performance varied depending on the model used (GPT-4o mini, o3-mini, GPT-5-mini [OpenAI]).",
@@ -117,25 +153,34 @@
     ]
   },
   {
-    "id": "bef12b66-139e-4651-882b-702a903cb4b6",
+    "id": "b8bb40fb-81bf-454f-91e5-ee6b123237f6",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline'?",
-    "ground_truth": "['Karan Jani', 'Govind Mattay', 'Vamsi Narra', 'Anup Shetty', 'Glenwood Stancil', 'Andrew Bierhals', 'Yasasvi Tadavarthi']",
+    "ground_truth": "Karan Jani, Govind Mattay, Vamsi Narra, Anup Shetty, Glenwood Stancil, Andrew Bierhals, Yasasvi Tadavarthi",
     "ground_truth_doc_ids": [
       "10.1148/radiol.251581"
     ]
   },
   {
-    "id": "fb8f1640-617e-475e-8e23-e7fe3df2eab5",
+    "id": "4afeb6ab-4c78-40e0-a066-703a6d4d2dea",
+    "question_type": "date",
+    "question": "Bài báo 'Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-06-01",
+    "ground_truth_doc_ids": [
+      "10.1148/radiol.251581"
+    ]
+  },
+  {
+    "id": "b64d9187-f1c0-46b2-a677-29c9b792037d",
     "question_type": "categories",
     "question": "Nghiên cứu 'Zero-shot Thoracic Oncologic History Generation for Radiologists Using Retrieval-augmented Large Language Model Pipeline' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['Radiology']",
+    "ground_truth": "Radiology",
     "ground_truth_doc_ids": [
       "10.1148/radiol.251581"
     ]
   },
   {
-    "id": "14e1ca87-67ff-4114-bcca-18deb93c3a2c",
+    "id": "989fbc65-8023-4eeb-95a0-852ce18c5983",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'Снижение рисков применения LLM (Large Language Model) в сфере экономической безопасности предприятий молочной промышленности на основе подхода RAG (Retrieval-Augmented Generation)'?",
     "ground_truth": "В статье проведено исследование особенностей снижения рисков применения LLM (Large Language Model) в сфере экономической безопасности предприятий молочной промышленности на основе подхода RAG (Retrieval-Augmented Generation) в современных условиях. Рассмотрены риски применения LLM в сфере экономической безопасности предприятий молочной промышленности. Подробно разобраны сценарии применения LLM+RAG в российской молочной промышленности – с описанием процесса, задействованных данных, решаемых рисков и достигнутых результатов. Показано, что в результате интеграция RAG с LLM трансформирует генеративную модель из потенциально опасного инструмента в надежный механизм поддержки принятия решений – от мониторинга угроз фальсификации до прогнозирования экономических показателей с учетом отраслевой специфики. The article examines the features of reducing the risks of using LLM (Large Language Model) in the field of economic security of dairy industry enterprises based on the RAG (Retrieval-Augmented Generation) approach in modern conditions. The risks of using LLM in the field of economic security of dairy industry enterprises are considered. The scenarios of LLM+RAG application in the Russian dairy industry are analyzed in detail, describing the process, the data involved, the risks to be solved and the results achieved. It is shown that as a result, the integration of RAG with LLM transforms the generative model from a potentially dangerous tool into a reliable decision support mechanism, from monitoring fraud threats to forecasting economic indicators based on industry specifics.",
@@ -144,25 +189,34 @@
     ]
   },
   {
-    "id": "7cbc384e-6e7c-4955-8c34-216beafca0a3",
+    "id": "a3748833-a839-4816-b0ce-1aeab7a0bd99",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'Снижение рисков применения LLM (Large Language Model) в сфере экономической безопасности предприятий молочной промышленности на основе подхода RAG (Retrieval-Augmented Generation)'?",
-    "ground_truth": "['И.В. Ермаков', 'В.В. Филатов']",
+    "ground_truth": "И.В. Ермаков, В.В. Филатов",
     "ground_truth_doc_ids": [
       "10.47576/2949-1894.2026.7.7.023"
     ]
   },
   {
-    "id": "dcf08bb8-5474-46d6-88ec-ed3f9fe9f2b6",
+    "id": "fd1d1820-fac4-4634-8f44-0b031d229658",
+    "question_type": "date",
+    "question": "Bài báo 'Снижение рисков применения LLM (Large Language Model) в сфере экономической безопасности предприятий молочной промышленности на основе подхода RAG (Retrieval-Augmented Generation)' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-06-15",
+    "ground_truth_doc_ids": [
+      "10.47576/2949-1894.2026.7.7.023"
+    ]
+  },
+  {
+    "id": "43984410-4216-4918-9bfa-db29db70d1f4",
     "question_type": "categories",
     "question": "Nghiên cứu 'Снижение рисков применения LLM (Large Language Model) в сфере экономической безопасности предприятий молочной промышленности на основе подхода RAG (Retrieval-Augmented Generation)' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['Innovative economy: information, analytics, forecasts']",
+    "ground_truth": "Innovative economy: information, analytics, forecasts",
     "ground_truth_doc_ids": [
       "10.47576/2949-1894.2026.7.7.023"
     ]
   },
   {
-    "id": "1e43a5ef-92c1-435b-8aec-f7e53c210151",
+    "id": "e6277a84-4f8a-4e28-b361-b2e0a2dc7d98",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation'?",
     "ground_truth": "Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks. However, their outputs remain vulnerable to hallucination, including factual errors, unsupported claims, spurious citations, and distorted reasoning. Retrieval-augmented generation (RAG) has been proposed as a practical remedy because it supplements parametric knowledge with external evidence retrieved at inference time. Yet RAG does not guarantee truthfulness or attribution by default. Errors may arise during query formulation, document retrieval, evidence aggregation, and answer grounding. This paper reviews the relationship between hallucination and RAG from three perspectives: mechanism, mitigation, and evaluation. First, the major causes of hallucination in both vanilla LLMs and RAG-enhanced systems are analyzed. Second, the principal mitigation strategies are organized into retrieval optimization, evidence-grounded generation, and post-generation verification. Third, the main evaluation dimensions are examined, including factuality, faithfulness, attribution quality, and retrieval relevance. It is argued that RAG should not be treated as a complete solution to hallucination. Its value lies in enabling externally grounded generation, but its effectiveness depends on the reliability of retrieval, the fidelity of evidence use, and the rigor of evaluation. Future work should prioritize attribution-aware generation, conflict-sensitive reasoning, and unified evaluation protocols for trustworthy LLM systems.",
@@ -171,25 +225,34 @@
     ]
   },
   {
-    "id": "1d7995de-a7d0-43aa-8161-ea746957dff2",
+    "id": "44015a8c-5cac-470f-b96f-d7a16a25507a",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation'?",
-    "ground_truth": "['Haopeng Yang']",
+    "ground_truth": "Haopeng Yang",
     "ground_truth_doc_ids": [
       "10.54254/2753-8818/2026.dl34055"
     ]
   },
   {
-    "id": "d8adec4a-1072-4b51-b76d-8559c6951a7d",
+    "id": "a36c602b-f44b-4537-bb00-a75516ef7323",
+    "question_type": "date",
+    "question": "Bài báo 'Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-06-01",
+    "ground_truth_doc_ids": [
+      "10.54254/2753-8818/2026.dl34055"
+    ]
+  },
+  {
+    "id": "685f149b-3c8d-49c2-979e-bbbf48ceb55e",
     "question_type": "categories",
     "question": "Nghiên cứu 'Hallucination in Large Language Models and Retrieval-Augmented Generation: Mechanisms, Mitigation, and Evaluation' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['Theoretical and Natural Science']",
+    "ground_truth": "Theoretical and Natural Science",
     "ground_truth_doc_ids": [
       "10.54254/2753-8818/2026.dl34055"
     ]
   },
   {
-    "id": "950be911-28f3-4197-a8e5-e29013e93c66",
+    "id": "7c8ace1b-6598-4f7b-b4e5-942e0cac4864",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study'?",
     "ground_truth": "Abstract Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinical reasoning. This study aimed to develop and validate JADE-Plus, a novel multimodal, agent-controlled retrieval-augmented generation (RAG) framework for diagnostic decision support in jawbone lesion assessment. JADE-Plus was implemented as a cloud-based, tablet-optimized system integrating a vision-language model (VLM) for panoramic radiograph analysis, a knowledge-grounded RAG module, and an agentic verification loop for diagnostic fusion and re-ranking. The system was evaluated using 40 representative jawbone lesion cases and compared with JADE, GPT-5.4, GPT-5.4 VLM, and ORAD. Performance was assessed using Top-1 and Top-3 accuracy, ablation and statistical analyses, intra-model stability, and response time. JADE-Plus achieved the highest diagnostic performance, with a Top-1 accuracy of 90% (36/40; 95% CI 76–97%) and a Top-3 accuracy of 100%, with no missed diagnoses. Cochran’s Q test demonstrated significant differences among models for both Top-3 correctness ( Q = 25.66, p < 0.001) and Top-1 correctness ( Q = 27.55, p < 0.001). Post-hoc McNemar tests with the Benjamini–Hochberg correction showed that JADE-Plus significantly outperformed other models, particularly under the stricter Top-1 evaluation. Ablation analysis showed that the agentic verification stage improved Top-1 and Top-3 accuracy by 15 and 8 percentage points, respectively. JADE-Plus achieved the highest reproducibility (mean Jaccard similarity 0.97 ± 0.12) while maintaining a mean response time of 33 ± 1.5 s per case. JADE-Plus demonstrated superior diagnostic accuracy, stability, and reproducibility compared with baseline systems, supporting multimodal agentic RAG frameworks for jawbone lesion diagnosis.",
@@ -198,25 +261,34 @@
     ]
   },
   {
-    "id": "87ec06bf-f93a-4f7c-afeb-9119348320b4",
+    "id": "f57e3e6a-e686-4984-b805-108a39c36135",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study'?",
-    "ground_truth": "['Soroush Baseri Saadi', 'Jonas Ver Berne', 'Rocharles Cavalcante Fontenele', 'Peter Claes', 'Reinhilde Jacobs']",
+    "ground_truth": "Soroush Baseri Saadi, Jonas Ver Berne, Rocharles Cavalcante Fontenele, Peter Claes, Reinhilde Jacobs",
     "ground_truth_doc_ids": [
       "10.1007/s10278-026-02086-9"
     ]
   },
   {
-    "id": "efd8a7d0-aab4-4885-b194-75cbd5b67b93",
+    "id": "ea95b0da-213c-4210-8547-f7d79af5b691",
+    "question_type": "date",
+    "question": "Bài báo 'JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-07-13",
+    "ground_truth_doc_ids": [
+      "10.1007/s10278-026-02086-9"
+    ]
+  },
+  {
+    "id": "67a3ec72-4a6a-43ec-90e3-97098049126e",
     "question_type": "categories",
     "question": "Nghiên cứu 'JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large Language Framework for Diagnostic Support in Jawbone Lesions: Development and Technical Validation Study' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['Journal of Imaging Informatics in Medicine']",
+    "ground_truth": "Journal of Imaging Informatics in Medicine",
     "ground_truth_doc_ids": [
       "10.1007/s10278-026-02086-9"
     ]
   },
   {
-    "id": "e4e1d1a5-b1af-40d2-a07b-ff70a6a36681",
+    "id": "164af431-79c3-4e32-a504-32ba5f5e9884",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning'?",
     "ground_truth": "Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop reasoning paths. This separation often results in semantic mismatch—where logical links are missing—or structural over-constraint in reasoning— where rigid dependencies limit flexible reasoning—thereby degrading both answer accuracy and the reliability of evidence in complex KGQA tasks. To address these issues, we propose HybRAG, a hybrid retrieval framework that synergistically integrates a semantic node-level retriever and structural path-level retriever. HybRAG constructs a hybrid subgraph that jointly reflects the semantic proximity of entities and the relational structures encoded in the KG. Furthermore, we incorporate retrieval-augmented fine-tuning, which enables the model to internalize advanced reasoning strategies for interpreting disparate semantic and structural signals, rather than merely memorizing domain facts. Through extensive experiments on the WebQSP and CWQ benchmarks, we demonstrate that HybRAG effectively bridges the gap between LLM-centric semantic approaches and GNN-centric structural approaches, outperforming single-retriever baselines. Our findings, including detailed sensitivity and ablation analyses, provide empirical evidence that the systematic alignment of semantic and structural signals is essential for ensuring the reasoning reliability and scalability of next-generation GraphRAG systems.",
@@ -225,25 +297,34 @@
     ]
   },
   {
-    "id": "f7354e2c-058f-46a6-a0b1-00c3e1570bcc",
+    "id": "b978adaf-fcd9-4db2-8ca8-99bfc96ab450",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning'?",
-    "ground_truth": "['Hyewon Lee', 'Sungsu Lim']",
+    "ground_truth": "Hyewon Lee, Sungsu Lim",
     "ground_truth_doc_ids": [
       "10.3390/app16052244"
     ]
   },
   {
-    "id": "6a2cc946-a702-4d76-8480-279c370014d3",
+    "id": "5f43c30e-9c12-410e-b657-72eecb1db1d1",
+    "question_type": "date",
+    "question": "Bài báo 'Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-02-26",
+    "ground_truth_doc_ids": [
+      "10.3390/app16052244"
+    ]
+  },
+  {
+    "id": "9fe26ff3-4d2a-475a-9cbd-8a3b7b4145e8",
     "question_type": "categories",
     "question": "Nghiên cứu 'Hybrid Retrieval-Augmented Generation: Semantic and Structural Integration for Large Language Model Reasoning' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['Applied Sciences']",
+    "ground_truth": "Applied Sciences",
     "ground_truth_doc_ids": [
       "10.3390/app16052244"
     ]
   },
   {
-    "id": "6c09a490-0074-4c67-9e53-51ddcf087aa5",
+    "id": "9102f487-9328-44e5-b509-467493fbfb39",
     "question_type": "summary",
     "question": "Hãy tóm tắt nội dung chính của bài báo 'Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model'?",
     "ground_truth": "The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a safer, more prosperous, and more resilient nation. To achieve this, the US Army Engineer Research and Development Center (ERDC) plans, executes, leads, and directs many R&D programs in coordination with USACE Headquarters, Districts, and Divisions through its multiple strategic focus areas, which include infrastructure, water modeling, crisis preparedness, ecosystem, sediment management, data, artificial intelligence, and robotics. In this process, much information is generated, including internal progress reviews, financial reports, scopes of work, work package planning, and success stories.",
@@ -252,19 +333,28 @@
     ]
   },
   {
-    "id": "f37cfeb8-a5e3-4f7c-afab-d6fb7e5b782c",
+    "id": "24a11b20-9c3b-434e-93ae-d759ba88b5b4",
     "question_type": "authors",
     "question": "Ai là (các) tác giả của nghiên cứu có tiêu đề 'Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model'?",
-    "ground_truth": "['Janet L. Autrey', 'Lacey S. Duckworth', 'Ashly N. Horner', 'Thomas Sigler', 'Victoria D. Moore']",
+    "ground_truth": "Janet L. Autrey, Lacey S. Duckworth, Ashly N. Horner, Thomas Sigler, Victoria D. Moore",
     "ground_truth_doc_ids": [
       "10.21079/11681/50309"
     ]
   },
   {
-    "id": "0941ddf9-3170-47f3-8267-4e892d672d6c",
+    "id": "4eed1faf-6c05-40ee-b8f1-19c32c9ce0ff",
+    "question_type": "date",
+    "question": "Bài báo 'Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model' được xuất bản chính thức vào thời gian nào?",
+    "ground_truth": "2026-07-01",
+    "ground_truth_doc_ids": [
+      "10.21079/11681/50309"
+    ]
+  },
+  {
+    "id": "2882ddf3-ac5d-47b1-b656-e1ee883d1e7c",
     "question_type": "categories",
     "question": "Nghiên cứu 'Microsoft Azure artificial intelligence / machine learning hackathon for development of retrieval-augmented generation large language model' thuộc về (những) lĩnh vực/chuyên mục nào?",
-    "ground_truth": "['report']",
+    "ground_truth": "report",
     "ground_truth_doc_ids": [
       "10.21079/11681/50309"
     ]

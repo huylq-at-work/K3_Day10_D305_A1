@@ -113,9 +113,16 @@ def _json_evidence(value: Any) -> dict[str, Any]:
 
 def _semantically_equal(question_type: str, left: Any, right: Any) -> bool:
     if question_type in {"authors", "categories"}:
-        return [item.casefold() for item in _as_list(left)] == [
-            item.casefold() for item in _as_list(right)
-        ]
+        expected_items = [item.strip() for item in _as_list(right)]
+        if [item.casefold() for item in _as_list(left)] == [
+            item.casefold() for item in expected_items
+        ]:
+            return True
+        # ground_truth cua test set la dang da join (khop voi `authors_joined` /
+        # `categories_joined` ma qa.py tra ve). Khong the tach lai bang dau phay:
+        # mot category co the tu no chua dau phay, vi du
+        # "Innovative economy: information, analytics, forecasts".
+        return str(left).strip().casefold() == ", ".join(expected_items).casefold()
     return str(left).strip() == str(right).strip()
 
 
