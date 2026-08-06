@@ -1,7 +1,7 @@
 """Sinh trang demo so sanh baseline / corrupted / repaired - Role 1.
 
 Doc artifact THAT trong `data/`, tinh diff theo tung dong va xuat mot file HTML
-tu chua. Thieu artifact nao thi trang ghi ro la thieu, khong bia so.
+tu chua. Thiếu artifact nào thì trang ghi rõ là thiếu, không bịa số.
 
 Chay:
     uv run python script/build_demo.py
@@ -45,7 +45,7 @@ def shorten(value, limit: int = 90) -> str:
     text = "" if value is None else str(value)
     text = text.replace("\n", " ")
     if not text.strip():
-        return "(rong)"
+        return "(rỗng)"
     return text if len(text) <= limit else text[: limit - 1] + "…"
 
 
@@ -65,14 +65,14 @@ def diff_rows(baseline: dict, corrupted, repaired) -> list[dict]:
         after = corrupted_by_id.get(paper_id)
         issues: list[dict] = []
         if after is None:
-            issues.append({"field": "toan bo ban ghi", "before": "co trong baseline", "after": "bi xoa"})
+            issues.append({"field": "toàn bộ bản ghi", "before": "có trong baseline", "after": "bị xoá"})
         else:
             if corrupted_counts.get(paper_id, 0) > 1:
                 issues.append(
                     {
                         "field": "paper_id",
-                        "before": "1 dong",
-                        "after": f"{corrupted_counts[paper_id]} dong trung",
+                        "before": "1 dòng",
+                        "after": f"{corrupted_counts[paper_id]} dòng trùng",
                     }
                 )
             for field in TRACKED_FIELDS:
@@ -173,7 +173,7 @@ footer{border-top:1px solid var(--line);padding-top:16px;color:var(--ink-soft);f
 
 def metric_cards(baseline, corrupted, repaired) -> str:
     if not baseline:
-        return '<p class="missing">Chua co baseline_metrics.json.</p>'
+        return '<p class="missing">Chưa có baseline_metrics.json.</p>'
     cards = []
     for key, label in METRIC_LABELS.items():
         if key not in baseline:
@@ -181,7 +181,7 @@ def metric_cards(baseline, corrupted, repaired) -> str:
         base = baseline[key]
         cur = corrupted.get(key) if corrupted else None
         rep = repaired.get(key) if repaired else None
-        detail, cls = "chua co corrupted", ""
+        detail, cls = "chưa có corrupted", ""
         if cur is not None:
             delta = cur - base
             worse = delta < -1e-9
@@ -196,7 +196,7 @@ def metric_cards(baseline, corrupted, repaired) -> str:
                 cls = "good" if back else cls
                 detail += (
                     f' · repaired <span class="{"delta-good" if back else "delta-bad"} mono">'
-                    f'{rep:.4f}{" (khoi phuc)" if back else ""}</span>'
+                    f'{rep:.4f}{" (khôi phục)" if back else ""}</span>'
                 )
         cards.append(
             f'<div class="card {cls}"><span class="k">{escape(label)}</span>'
@@ -208,12 +208,12 @@ def metric_cards(baseline, corrupted, repaired) -> str:
 def diff_table(diffs, has_corrupted: bool) -> str:
     if not has_corrupted:
         return (
-            '<p class="missing">Chua co <span class="mono">papers_clean_corrupted.json</span>. '
-            "Chay <span class=\"mono\">script/run_corruption_flow.py</span> sau khi "
-            "<span class=\"mono\">corrupt_clean_dataframe</span> duoc implement.</p>"
+            '<p class="missing">Chưa có <span class="mono">papers_clean_corrupted.json</span>. '
+            "Chạy <span class=\"mono\">script/run_corruption_flow.py</span> sau khi "
+            "<span class=\"mono\">corrupt_clean_dataframe</span> được implement.</p>"
         )
     if not diffs:
-        return '<p class="missing">Corrupted dataset khong khac baseline dong nao - corruption chua co tac dung.</p>'
+        return '<p class="missing">Corrupted dataset không khác baseline dòng nào — corruption chưa có tác dụng.</p>'
     body = []
     for item in diffs:
         first = True
@@ -222,10 +222,10 @@ def diff_table(diffs, has_corrupted: bool) -> str:
             if first:
                 span = len(item["issues"])
                 status = (
-                    '<span class="chip chip-repair">da khoi phuc</span>'
+                    '<span class="chip chip-repair">đã khôi phục</span>'
                     if item["restored"]
-                    else ('<span class="chip chip-corrupt">chua khoi phuc</span>'
-                          if item["restored"] is False else '<span class="chip chip-miss">chua repair</span>')
+                    else ('<span class="chip chip-corrupt">chưa khôi phục</span>'
+                          if item["restored"] is False else '<span class="chip chip-miss">chưa repair</span>')
                 )
                 cells.append(
                     f'<td rowspan="{span}"><div class="mono">{escape(item["paper_id"])}</div>'
@@ -238,7 +238,7 @@ def diff_table(diffs, has_corrupted: bool) -> str:
             cells.append(f'<td class="after">{escape(shorten(issue["after"]))}</td>')
             body.append(f"<tr>{''.join(cells)}</tr>")
     return (
-        '<div class="panel"><table><thead><tr><th>Paper</th><th>Repair</th><th>Truong</th>'
+        '<div class="panel"><table><thead><tr><th>Paper</th><th>Repair</th><th>Trường</th>'
         "<th>Baseline</th><th>Sau corruption</th></tr></thead>"
         f"<tbody>{''.join(body)}</tbody></table></div>"
     )
@@ -247,11 +247,11 @@ def diff_table(diffs, has_corrupted: bool) -> str:
 def signal_table(sets: list[tuple[str, dict | None, dict | None]]) -> str:
     keys = ["row_count", "paper_id_duplicates", "summary_nulls", "short_summaries", "stale_rows"]
     labels = {
-        "row_count": "So dong",
-        "paper_id_duplicates": "paper_id trung",
-        "summary_nulls": "Summary thieu/rong",
-        "short_summaries": "Summary qua ngan",
-        "stale_rows": "Dong qua han",
+        "row_count": "Số dòng",
+        "paper_id_duplicates": "paper_id trùng",
+        "summary_nulls": "Summary thiếu/rỗng",
+        "short_summaries": "Summary quá ngắn",
+        "stale_rows": "Dòng quá hạn",
     }
     head = "".join(f"<th>{escape(name)}</th>" for name, _, _ in sets)
     rows = []
@@ -268,13 +268,13 @@ def signal_table(sets: list[tuple[str, dict | None, dict | None]]) -> str:
         ok = freshness.get("is_fresh")
         chip = "chip-repair" if ok else "chip-corrupt"
         fresh.append(f'<td class="num"><span class="chip {chip}">{"fresh" if ok else "stale"}</span></td>')
-    rows.append(f'<tr><td>Trang thai freshness</td>{"".join(fresh)}</tr>')
+    rows.append(f'<tr><td>Trạng thái freshness</td>{"".join(fresh)}</tr>')
     latest = []
     for _, _, freshness in sets:
         latest.append(f'<td class="num mono">{escape(str((freshness or {}).get("latest_published", "—")))}</td>')
-    rows.append(f'<tr><td>Ngay moi nhat</td>{"".join(latest)}</tr>')
+    rows.append(f'<tr><td>Ngày mới nhất</td>{"".join(latest)}</tr>')
     return (
-        f'<div class="panel"><table><thead><tr><th>Tin hieu</th>{head}</tr></thead>'
+        f'<div class="panel"><table><thead><tr><th>Tín hiệu</th>{head}</tr></thead>'
         f'<tbody>{"".join(rows)}</tbody></table></div>'
     )
 
@@ -282,7 +282,7 @@ def signal_table(sets: list[tuple[str, dict | None, dict | None]]) -> str:
 def log_list(log) -> str:
     """Doc corruption log. Ho tro ca list phang lan dang co key `events`."""
     if not log:
-        return '<p class="missing">Chua co corruption_log.json.</p>'
+        return '<p class="missing">Chưa có corruption_log.json.</p>'
     if isinstance(log, list):
         entries = log
         head = ""
@@ -300,7 +300,7 @@ def log_list(log) -> str:
             ok = result["different_from_baseline"]
             bits.append(
                 f'<span class="chip {"chip-corrupt" if ok else "chip-miss"}">'
-                f'{"khac baseline" if ok else "KHONG khac baseline"}</span>'
+                f'{"khác baseline" if ok else "KHÔNG khác baseline"}</span>'
             )
         head = f'<p class="note">{" ".join(bits)}</p>' if bits else ""
 
@@ -328,7 +328,7 @@ def log_list(log) -> str:
             else ""
         )
         items.append(
-            f'<li><span class="mono">{escape(str(kind))}</span> — {count} ban ghi{detail}{ids_text}</li>'
+            f'<li><span class="mono">{escape(str(kind))}</span> — {count} bản ghi{detail}{ids_text}</li>'
         )
     return f'{head}<ul class="log">{"".join(items)}</ul>'
 
@@ -353,45 +353,46 @@ def main() -> int:
     total = len(baseline_clean or [])
     restored = sum(1 for item in diffs if item["restored"])
 
-    html = f"""<title>Data corruption demo — Day 10</title>
+    html = f"""<meta charset="utf-8">
+<title>Data corruption demo — Day 10</title>
 <style>{CSS}</style>
 <div class="wrap">
 <header>
   <div>
-    <h1>Corruption &amp; recovery — bang chung tu artifact that</h1>
-    <p class="sub">Moi so tren trang deu doc truc tiep tu <span class="mono">data/</span>. Khong co gia tri nao duoc nhap tay.</p>
+    <h1>Corruption &amp; recovery — bằng chứng từ artifact thật</h1>
+    <p class="sub">Mọi số trên trang đều đọc trực tiếp từ <span class="mono">data/</span>. Không có giá trị nào được nhập tay.</p>
   </div>
-  <div class="stamp">baseline {total} dong<br>bi tac dong {affected}<br>khoi phuc {restored}</div>
+  <div class="stamp">baseline {total} dòng<br>bị tác động {affected}<br>khôi phục {restored}</div>
 </header>
 
 <section>
-  <h2><span class="n">01</span>Chat luong tra loi cua agent</h2>
-  <p class="note">Ba trang thai dung chung mot test set, cung top-k va cung evaluator, nen chenh lech chi con quy ve chat luong du lieu.</p>
+  <h2><span class="n">01</span>Chất lượng trả lời của agent</h2>
+  <p class="note">Ba trạng thái dùng chung một test set, cùng top-k và cùng evaluator, nên chênh lệch chỉ còn quy về chất lượng dữ liệu.</p>
   {metric_cards(load(paths.baseline_metrics), load(paths.corrupted_metrics), load(paths.repaired_metrics))}
 </section>
 
 <section>
-  <h2><span class="n">02</span>Dong nao bi hong, hong o dau</h2>
-  <p class="note">So sanh tung <span class="mono">paper_id</span> giua clean baseline va clean corrupted. Gach ngang la gia tri goc, chu mau la gia tri sau khi corrupt.</p>
+  <h2><span class="n">02</span>Dòng nào bị hỏng, hỏng ở đâu</h2>
+  <p class="note">So sánh từng <span class="mono">paper_id</span> giữa clean baseline và clean corrupted. Gạch ngang là giá trị gốc, chữ màu là giá trị sau khi corrupt.</p>
   {diff_table(diffs, corrupted_clean is not None)}
 </section>
 
 <section>
   <h2><span class="n">03</span>Corruption log</h2>
-  <p class="note">Do <span class="mono">corrupt_clean_dataframe</span> ghi ra — doi chieu voi bang tren de chac corruption dung nhu mo ta.</p>
+  <p class="note">Do <span class="mono">corrupt_clean_dataframe</span> ghi ra — đối chiếu với bảng trên để chắc corruption đúng như mô tả.</p>
   {log_list(load(paths.corruption_log))}
 </section>
 
 <section>
-  <h2><span class="n">04</span>Tin hieu data quality</h2>
-  <p class="note">Neu corruption co that ma cot Corrupted khong doi, nghia la checker hong chu khong phai pipeline khong phat hien duoc.</p>
+  <h2><span class="n">04</span>Tín hiệu data quality</h2>
+  <p class="note">Nếu corruption có thật mà cột Corrupted không đổi, nghĩa là checker hỏng chứ không phải pipeline không phát hiện được.</p>
   {signal_table(sets)}
 </section>
 
 <footer>
-  Sinh boi <span class="mono">script/build_demo.py</span> · nguon: <span class="mono">data/clean/</span>,
+  Sinh bởi <span class="mono">script/build_demo.py</span> · nguồn: <span class="mono">data/clean/</span>,
   <span class="mono">data/results/</span>, <span class="mono">data/quality/</span> ·
-  Thieu artifact nao thi trang ghi ro la thieu, khong bia so.
+  Thiếu artifact nào thì trang ghi rõ là thiếu, không bịa số.
 </footer>
 </div>
 """
