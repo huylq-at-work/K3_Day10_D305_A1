@@ -1,0 +1,40 @@
+{
+  "run_date": "2026-08-06T00:00:00+00:00",
+  "input_records": 24,
+  "candidate_records": 24,
+  "clean_records": 24,
+  "filtered_records": 0,
+  "deduplicated_records": 0,
+  "duplicate_groups": 0,
+  "reason_counts": {
+    "duplicate_paper_id": 0,
+    "invalid_published": 0,
+    "missing_paper_id": 0,
+    "missing_published": 0,
+    "missing_summary": 0,
+    "missing_title": 0
+  },
+  "normalization_counts": {
+    "authors_fallback_unknown": 0,
+    "categories_fallback_unknown": 0,
+    "primary_category_repaired": 0,
+    "updated_fallback_published": 0
+  },
+  "events": [],
+  "count_reconciled": true,
+  "clean_contract": {
+    "passed": true,
+    "stats": {
+      "clean_rows": 24,
+      "raw_records": 24,
+      "dropped": 0,
+      "unique_categories": 17,
+      "blockers": 0,
+      "warnings": 1
+    },
+    "blockers": [],
+    "warnings": [
+      "9/24 dong dung chung gia tri `categories_joined` ({'posted-content': np.int64(7), 'PeerJ Computer Science': np.int64(2)}) - cau hoi question_type=categories cua R4 se mo ho"
+    ]
+  }
+}

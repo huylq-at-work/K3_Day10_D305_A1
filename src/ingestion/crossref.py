@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from collections import Counter
 from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from html import unescape
@@ -50,7 +51,9 @@ class _TextExtractor(HTMLParser):
         self.parts.append(data)
 
 
-def _plain_text(value: Any) -> str:
+def normalize_crossref_text(value: Any) -> str:
+    """Normalize whitespace/entities and remove Crossref JATS/HTML markup."""
+
     if not isinstance(value, str):
         return ""
     parser = _TextExtractor()
@@ -65,6 +68,10 @@ def _plain_text(value: Any) -> str:
         # still prevents JATS tags from leaking into the embedding text.
         value = re.sub(r"<[^>]+>", " ", unescape(value))
     return normalize_whitespace(value)
+
+
+# Internal alias keeps the parsing helpers concise.
+_plain_text = normalize_crossref_text
 
 
 def _first_text(value: Any) -> str:
@@ -90,11 +97,17 @@ def _unique_texts(value: Any) -> list[str]:
     return result
 
 
-def _normalize_doi(value: Any) -> str:
+def normalize_doi(value: Any) -> str:
+    """Normalize DOI into the stable ``paper_id`` used by every pipeline stage."""
+
     doi = _plain_text(value).lower()
     doi = re.sub(r"^https?://(?:dx\.)?doi\.org/", "", doi)
     doi = re.sub(r"^doi:\s*", "", doi)
     return doi.strip()
+
+
+# Backward-compatible private alias for code/tests written during CP1.
+_normalize_doi = normalize_doi
 
 
 def _date_from_crossref(value: Any) -> str:
@@ -187,7 +200,7 @@ def parse_crossref_payload(payload: dict) -> list[PaperRecord]:
     for item in message["items"]:
         if not isinstance(item, dict):
             continue
-        paper_id = _normalize_doi(item.get("DOI"))
+        paper_id = normalize_doi(item.get("DOI"))
         title = _first_text(item.get("title"))
         summary = _plain_text(item.get("abstract"))
         published = (
@@ -219,6 +232,201 @@ def parse_crossref_payload(payload: dict) -> list[PaperRecord]:
         )
         seen_ids.add(paper_id)
     return records
+
+
+def audit_crossref_payload(
+    payload: dict,
+    records: list[PaperRecord] | None = None,
+) -> dict[str, Any]:
+    """Trace each source item to a parsed ID and report every rejection reason.
+
+    The audit intentionally mirrors :func:`parse_crossref_payload` validation.
+    It does not mutate or replace the raw response; its purpose is to make
+    silent filter/deduplication decisions inspectable during recovery.
+    """
+
+    if not isinstance(payload, dict):
+        raise TypeError("Crossref payload must be a dictionary.")
+    message = payload.get("message")
+    if not isinstance(message, dict) or not isinstance(message.get("items"), list):
+        raise ValueError("Crossref payload is missing message.items.")
+
+    parsed_records = records if records is not None else parse_crossref_payload(payload)
+    traces: list[dict[str, Any]] = []
+    accepted_ids: set[str] = set()
+    reason_counts: Counter[str] = Counter()
+
+    for source_index, item in enumerate(message["items"]):
+        if not isinstance(item, dict):
+            reasons = ["invalid_item_type"]
+            raw_doi = ""
+            paper_id = ""
+        else:
+            raw_doi = item.get("DOI") if isinstance(item.get("DOI"), str) else ""
+            paper_id = normalize_doi(item.get("DOI"))
+            title = _first_text(item.get("title"))
+            summary = _plain_text(item.get("abstract"))
+            published = (
+                _date_from_crossref(item.get("published"))
+                or _date_from_crossref(item.get("issued"))
+                or _date_from_crossref(item.get("created"))
+            )
+            reasons = []
+            if not paper_id:
+                reasons.append("missing_doi")
+            if not title:
+                reasons.append("missing_title")
+            if not summary:
+                reasons.append("missing_abstract")
+            if not published:
+                reasons.append("invalid_published_date")
+            if not reasons and paper_id in accepted_ids:
+                reasons.append("duplicate_doi")
+
+        accepted = not reasons
+        if accepted:
+            accepted_ids.add(paper_id)
+        else:
+            reason_counts.update(reasons)
+        traces.append(
+            {
+                "source_index": source_index,
+                "raw_doi": raw_doi,
+                "normalized_paper_id": paper_id,
+                "status": "parsed" if accepted else "rejected",
+                "reasons": reasons,
+            }
+        )
+
+    coverage: dict[str, dict[str, int]] = {}
+    for field_name in PaperRecord.__dataclass_fields__:
+        missing = sum(
+            1
+            for record in parsed_records
+            if getattr(record, field_name) in (None, "", [])
+        )
+        coverage[field_name] = {
+            "present": len(parsed_records) - missing,
+            "missing": missing,
+        }
+
+    parsed_ids = [record.paper_id for record in parsed_records]
+    expected_ids = [
+        trace["normalized_paper_id"]
+        for trace in traces
+        if trace["status"] == "parsed"
+    ]
+    return {
+        "source_items": len(message["items"]),
+        "parsed_records": len(parsed_records),
+        "rejected_items": sum(trace["status"] == "rejected" for trace in traces),
+        "reason_counts": dict(sorted(reason_counts.items())),
+        "stable_id": {
+            "source_field": "DOI",
+            "target_field": "paper_id",
+            "normalization": "strip doi URL/prefix, trim, lowercase",
+        },
+        "id_trace": traces,
+        "paper_record_field_coverage": coverage,
+        "parser_trace_matches_records": expected_ids == parsed_ids,
+    }
+
+
+def audit_raw_snapshot(
+    response_path: Path,
+    records_path: Path,
+    audit_path: Path | None = None,
+    handoff_path: Path | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Reconcile the API snapshot with stored PaperRecords and build handoff."""
+
+    def portable_path(path: Path) -> str:
+        parts = path.parts
+        for index, part in enumerate(parts):
+            if part.casefold() == "data":
+                return Path(*parts[index:]).as_posix()
+        return path.as_posix()
+
+    payload = json.loads(response_path.read_text(encoding="utf-8"))
+    reparsed_records = parse_crossref_payload(payload)
+    stored_records = load_raw_records(records_path)
+    audit = audit_crossref_payload(payload, reparsed_records)
+
+    reparsed_by_id = {record.paper_id: asdict(record) for record in reparsed_records}
+    stored_by_id = {record.paper_id: asdict(record) for record in stored_records}
+    duplicate_stored_ids = sorted(
+        paper_id
+        for paper_id, count in Counter(record.paper_id for record in stored_records).items()
+        if count > 1
+    )
+    audit["snapshot_reconciliation"] = {
+        "response_path": portable_path(response_path),
+        "records_path": portable_path(records_path),
+        "stored_records": len(stored_records),
+        "missing_from_stored_records": sorted(reparsed_by_id.keys() - stored_by_id.keys()),
+        "unexpected_stored_record_ids": sorted(stored_by_id.keys() - reparsed_by_id.keys()),
+        "content_mismatch_ids": sorted(
+            paper_id
+            for paper_id in reparsed_by_id.keys() & stored_by_id.keys()
+            if reparsed_by_id[paper_id] != stored_by_id[paper_id]
+        ),
+        "duplicate_stored_ids": duplicate_stored_ids,
+    }
+    reconciliation = audit["snapshot_reconciliation"]
+    audit["passed"] = bool(
+        audit["parser_trace_matches_records"]
+        and not reconciliation["missing_from_stored_records"]
+        and not reconciliation["unexpected_stored_record_ids"]
+        and not reconciliation["content_mismatch_ids"]
+        and not reconciliation["duplicate_stored_ids"]
+    )
+
+    required_for_cleaning = ["paper_id", "title", "summary", "published"]
+    missing_required = {
+        field_name: audit["paper_record_field_coverage"][field_name]["missing"]
+        for field_name in required_for_cleaning
+    }
+
+    handoff = {
+        "raw_paths": {
+            "api_response": portable_path(response_path),
+            "parsed_records": portable_path(records_path),
+        },
+        "record_type": "ingestion.crossref.PaperRecord",
+        "stable_id": audit["stable_id"],
+        "required_for_cleaning": required_for_cleaning,
+        "cleaning_readiness": {
+            "ready": audit["passed"] and not any(missing_required.values()),
+            "missing_required_counts": missing_required,
+            "optional_missing_counts": {
+                field_name: values["missing"]
+                for field_name, values in audit["paper_record_field_coverage"].items()
+                if field_name not in required_for_cleaning and values["missing"]
+            },
+            "rule": "Only paper_id/title/summary/published are required; optional fields use explicit fallbacks.",
+        },
+        "field_sources": {
+            "paper_id": "DOI",
+            "title": "title[0]",
+            "summary": "abstract with JATS/HTML removed",
+            "authors": "author[].given + author[].family",
+            "categories": "subject; fallback container-title; fallback type",
+            "primary_category": "categories[0]",
+            "published": "published; fallback issued; fallback created",
+            "updated": "deposited; fallback published",
+            "abs_url": "URL; fallback https://doi.org/{paper_id}",
+            "pdf_url": "PDF link when available; otherwise empty string",
+            "comment": "type + publisher",
+        },
+        "field_coverage": audit["paper_record_field_coverage"],
+        "sample_record": asdict(stored_records[0]) if stored_records else None,
+        "snapshot_audit_passed": audit["passed"],
+    }
+    if audit_path is not None:
+        write_json(audit_path, audit)
+    if handoff_path is not None:
+        write_json(handoff_path, handoff)
+    return audit, handoff
 
 
 def _retry_delay(response: requests.Response, backoff: float) -> float:
