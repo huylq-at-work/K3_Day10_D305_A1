@@ -5,3 +5,6 @@ lab.txt
 src/*.egg-info/
 lab/
 **/__pycache__/
+
+# Chroma store: binary sqlite ~1MB, dung lai duoc bang cach chay lai phase1
+data/chroma/

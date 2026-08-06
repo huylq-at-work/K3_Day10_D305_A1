@@ -277,6 +277,106 @@ tưởng là ổn.
 Đã kiểm gate bằng data hỏng mô phỏng (rỗng summary, sai định dạng date, sót tag, trùng
 `paper_id`): bắt đủ **4 blocker** và chặn đúng.
 
+## 2d. Checkpoint 2 — kết quả Role 1 (Lê Quang Huy)
+
+Phase 1 đã đủ code để chạy thật (chỉ còn `corruption.py` và `corruption_flow.py` là TODO), nên
+CP2 được kiểm bằng **một lần chạy end-to-end thật**, không kiểm trên giấy.
+
+### (1) Khoá clean schema, điều phối handoff clean → test set/index
+
+Schema khoá tại [`src/core/contract.py`](src/core/contract.py) từ CP1. Gate chạy thật trên
+dữ liệu R2: **PASS, 0 blocker, 1 warning**, 24 raw → 24 clean, drop 0. Handoff đi đúng thứ tự
+`clean → contract → index → test set → evaluate`; index và test set **chỉ chạy sau khi contract
+pass**, đúng ràng buộc đã chốt.
+
+### (2) Collection/path baseline tách riêng, tái lập được
+
+| Kiểm | Kết quả |
+| :-- | :-- |
+| 3 collection khác nhau | `papers-baseline` / `papers-corrupted` / `papers-repaired` — đạt |
+| Path clean tách riêng | `papers_clean` / `_corrupted` / `_repaired` — đạt |
+| Path embeddings tách riêng | đạt |
+| Path metrics tách riêng | đạt |
+| Chroma thực tế | chỉ có `papers-baseline`, 24 documents — chưa ghi đè gì |
+| Manifest audit được | có `collection_name`, `embedding_model`, `persist_path`, 24 documents |
+
+Smoke test đạt: `semantic_search` trả 3 kết quả có score giảm dần (0.605 → 0.481 → 0.434),
+`lookup` theo `paper_id` và theo `title` đều trúng, `lookup` ID không tồn tại trả `None`.
+
+### (3) Blocker phải xử lý trước khi chạy end-to-end
+
+Baseline chạy xong nhưng **số liệu không dùng được**. Chạy được ≠ đúng:
+
+```
+retrieval_hit_rate: 1.0000     mean_token_f1: 0.1357
+judge_accuracy:     0.0667     mean_judge_score: 1.2000
+```
+
+Tách theo `question_type` thì lộ ngay chỗ hỏng:
+
+| question_type | n | retrieval_hit | mean token_f1 |
+| :-- | :-: | :-: | --: |
+| summary | 10 | 1.00 | 0.390 |
+| authors | 10 | 1.00 | **0.000** |
+| categories | 10 | 1.00 | **0.017** |
+
+**BLOCKER 1 — test set tiếng Việt không khớp router tiếng Anh trong `qa.py`. (chặn)**
+
+`retrieval/qa.py::_extract_answer` chọn field trả lời bằng cách dò cụm tiếng Anh trong câu hỏi:
+`"who authored"`, `"list the authors"`, `"when was"`, `"publication date"`, `"published on"`,
+`"what categories"`. Test set của R4 sinh câu hỏi **tiếng Việt** ("Ai là (các) tác giả của…",
+"…thuộc về (những) lĩnh vực/chuyên mục nào?"), nên không nhánh nào khớp và **mọi câu đều rơi
+xuống nhánh mặc định** `first_sentence(summary)`.
+
+Bằng chứng — câu hỏi authors nhưng câu trả lời là abstract:
+
+```
+Q : Ai là (các) tác giả của nghiên cứu có tiêu đề '...'?
+GT: ['Audrey Rah', 'Sven Hahues']
+AN: Abstract Enterprise adoption of artificial intelligence (AI) systems...
+```
+
+Vì vậy `token_f1` của authors đúng bằng 0.000. Đây là lý do `mean_token_f1` tổng chỉ 0.136.
+Cách xử lý — **R4 quyết**: hoặc sinh câu hỏi bằng tiếng Anh dùng đúng các cụm trên, hoặc R3 mở
+rộng `_extract_answer` để nhận thêm tiếng Việt. Không sửa cả hai cùng lúc.
+
+**BLOCKER 2 — `ground_truth` đang là list Python, không phải chuỗi. (chặn)**
+
+`GT: ['Audrey Rah', 'Sven Hahues']` — dấu ngoặc vuông và dấu nháy bị `_token_f1` đếm thành
+token, trong khi metadata phía index là chuỗi `authors_joined`. Kể cả sau khi sửa Blocker 1 thì
+F1 vẫn bị kéo xuống oan. `ground_truth` phải là chuỗi đã join, khớp dạng của `authors_joined` /
+`categories_joined`.
+
+**BLOCKER 3 — `retrieval_hit_rate` bão hoà ở 1.00, không đo được gì. (cảnh báo, phải ghi vào report)**
+
+`answer_question` bắt title trong dấu nháy đơn bằng regex `'([^']+)'` rồi `lookup` chính xác,
+mà mọi câu hỏi của R4 đều trích nguyên title vào dấu nháy — nên tài liệu đúng **luôn** được
+chèn lên đầu, bất kể embedding tốt hay xấu. Hệ quả ở phase 2: corruption làm hỏng
+`text_for_embedding` sẽ **không** kéo `retrieval_hit_rate` xuống, và nhóm dễ kết luận nhầm là
+"corruption không ảnh hưởng retrieval". Cần ít nhất vài câu hỏi **không** chứa nguyên văn title
+để metric này có ý nghĩa.
+
+**BLOCKER 4 — judge metrics chưa dùng được. (chặn việc kết luận, không chặn pipeline)**
+
+Chưa có API key nên `_judge_answer` chạy heuristic fallback; `judge_accuracy=0.0667` và
+`mean_judge_score=1.20` chỉ phản ánh token overlap chứ không phải đánh giá của LLM. Kiểm bằng
+cách tìm chuỗi `"Fallback heuristic judge"` trong `data/results/baseline_answers.json`.
+Agent demo cũng bị bỏ qua vì lý do này.
+
+**BLOCKER 5 — `categories_joined` mơ hồ (đã nêu ở CP1, nay có bằng chứng end-to-end).**
+
+Ground truth của câu hỏi categories là `['posted-content']` — 7 paper dùng chung. Kể cả sửa
+xong Blocker 1 và 2 thì loại câu hỏi này vẫn không phân biệt được paper.
+
+### Chốt lại
+
+Ba điều kiện pass của CP2 (`test_set.json` + embedding manifest + collection baseline tồn tại;
+search, lookup, agent trả kết quả có nguồn) đã **đạt về mặt artifact**, nhưng **agent chưa chạy
+được** vì thiếu key, và **evaluation chưa cho số liệu tin được** vì Blocker 1–2.
+
+Không chuyển sang phase 2 trước khi xử lý xong Blocker 1, 2 và 4 — chạy corruption trên baseline
+sai thì bảng so sánh ở mục 10 của report không chứng minh được điều gì.
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement
