@@ -1,0 +1,264 @@
+{
+  "version": 1,
+  "deterministic": true,
+  "raw_source_guard": {
+    "status": "verified",
+    "source_mode": "raw snapshot",
+    "refresh_source_setting": false,
+    "sha256": {
+      "raw_api_response": "bc114697b45d5937ccd0282b92afe9f39512d327a800275624a9103f51b5b635",
+      "raw_records": "e1c6ee0379653af909c1deae6566b0a745ef658d0f31406332d612699a510ebb"
+    }
+  },
+  "plan": {
+    "latest_drop_count": 3,
+    "missing_summary_count": 2,
+    "noise_count": 2,
+    "noise_token": "__CORRUPTED_NOISE__",
+    "noise_repetitions": 12,
+    "old_date_count": 4,
+    "old_date_days": 730,
+    "duplicate_count": 2
+  },
+  "baseline": {
+    "rows": 24,
+    "unique_paper_ids": 24,
+    "fingerprint_sha256": "8e0e2c3fb3e042e191283976c9f96990fd534ce66504acb714ba3ab4a04bd800"
+  },
+  "lineage_repair_candidate": {
+    "paper_id": "10.21203/rs.3.rs-10012178/v1",
+    "corruption_type": "missing_summary",
+    "repair_source": "data/raw/crossref_records.json"
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "type": "drop_latest",
+      "paper_ids": [
+        "10.2118/234689-pa",
+        "10.1007/s10278-026-02086-9",
+        "10.21203/rs.3.rs-10178277/v1"
+      ],
+      "parameters": {
+        "count": 3,
+        "sort": "published DESC, paper_id ASC"
+      },
+      "before_count": 24,
+      "after_count": 21,
+      "changes": [
+        {
+          "paper_id": "10.2118/234689-pa",
+          "published": "2026-08-01"
+        },
+        {
+          "paper_id": "10.1007/s10278-026-02086-9",
+          "published": "2026-07-13"
+        },
+        {
+          "paper_id": "10.21203/rs.3.rs-10178277/v1",
+          "published": "2026-07-10"
+        }
+      ]
+    },
+    {
+      "sequence": 2,
+      "type": "missing_summary",
+      "paper_ids": [
+        "10.21203/rs.3.rs-10012178/v1",
+        "10.1093/sleep/zsag091.0346"
+      ],
+      "parameters": {
+        "replacement": "",
+        "count": 2
+      },
+      "before_count": 21,
+      "after_count": 21,
+      "changes": [
+        {
+          "paper_id": "10.21203/rs.3.rs-10012178/v1",
+          "field": "summary",
+          "before": {
+            "chars": 2610,
+            "sha256": "7863afaa929f098f19db00cc35fd533bcb25cb1adb0bb1ff4023b57cec2a7d7b",
+            "preview": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augment"
+          },
+          "after": {
+            "chars": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preview": ""
+          }
+        },
+        {
+          "paper_id": "10.1093/sleep/zsag091.0346",
+          "field": "summary",
+          "before": {
+            "chars": 2491,
+            "sha256": "7df15bb691ab41bf3cabc549dd9ed8788d3ae7e320aa7463117f144711ed4352",
+            "preview": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain"
+          },
+          "after": {
+            "chars": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preview": ""
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 3,
+      "type": "noise_injection",
+      "paper_ids": [
+        "10.1111/exsy.70341",
+        "10.1148/radiol.251581"
+      ],
+      "parameters": {
+        "token": "__CORRUPTED_NOISE__",
+        "repetitions": 12,
+        "count": 2
+      },
+      "before_count": 21,
+      "after_count": 21,
+      "changes": [
+        {
+          "paper_id": "10.1111/exsy.70341",
+          "field": "summary",
+          "before": {
+            "chars": 1527,
+            "sha256": "a0116fbefd77b292da407bc57c353a41cd8a957780abf1888b72ff00933b1924",
+            "preview": "ABSTRACT As tool repositories for Large Language Model (LLM) agents grow from dozens to hundreds of endpoints, flat retr"
+          },
+          "after": {
+            "chars": 1767,
+            "sha256": "173080bf339761ebc66743f329d50890b1c95605f39c4df3895023c16815118f",
+            "preview": "ABSTRACT As tool repositories for Large Language Model (LLM) agents grow from dozens to hundreds of endpoints, flat retr"
+          }
+        },
+        {
+          "paper_id": "10.1148/radiol.251581",
+          "field": "summary",
+          "before": {
+            "chars": 228,
+            "sha256": "664e2527067871fc6c9de89fe9e1c5b08ca973598929b95fc74825b74282bcab",
+            "preview": "A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and complet"
+          },
+          "after": {
+            "chars": 468,
+            "sha256": "c2a57240f302b1afc9a82209e95f7663d868634ba38015acea1486dcda286503",
+            "preview": "A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and complet"
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 4,
+      "type": "old_published_date",
+      "paper_ids": [
+        "10.20944/preprints202602.0996.v1",
+        "10.20944/preprints202604.0339.v1",
+        "10.21079/11681/50309",
+        "10.21203/rs.3.rs-9882260/v1"
+      ],
+      "parameters": {
+        "days_shifted_back": 730,
+        "count": 4
+      },
+      "before_count": 21,
+      "after_count": 21,
+      "changes": [
+        {
+          "paper_id": "10.20944/preprints202602.0996.v1",
+          "fields": [
+            "published",
+            "age_days"
+          ],
+          "before": {
+            "published": "2026-02-12",
+            "age_days": 175
+          },
+          "after": {
+            "published": "2024-02-13",
+            "age_days": 905
+          }
+        },
+        {
+          "paper_id": "10.20944/preprints202604.0339.v1",
+          "fields": [
+            "published",
+            "age_days"
+          ],
+          "before": {
+            "published": "2026-04-06",
+            "age_days": 122
+          },
+          "after": {
+            "published": "2024-04-06",
+            "age_days": 852
+          }
+        },
+        {
+          "paper_id": "10.21079/11681/50309",
+          "fields": [
+            "published",
+            "age_days"
+          ],
+          "before": {
+            "published": "2026-07-01",
+            "age_days": 36
+          },
+          "after": {
+            "published": "2024-07-01",
+            "age_days": 766
+          }
+        },
+        {
+          "paper_id": "10.21203/rs.3.rs-9882260/v1",
+          "fields": [
+            "published",
+            "age_days"
+          ],
+          "before": {
+            "published": "2026-06-02",
+            "age_days": 65
+          },
+          "after": {
+            "published": "2024-06-02",
+            "age_days": 795
+          }
+        }
+      ]
+    },
+    {
+      "sequence": 5,
+      "type": "duplicate_rows",
+      "paper_ids": [
+        "10.2196/preprints.106157",
+        "10.3390/app16052244"
+      ],
+      "parameters": {
+        "copies_added_per_id": 1,
+        "count": 2
+      },
+      "before_count": 21,
+      "after_count": 23,
+      "changes": [
+        {
+          "paper_id": "10.2196/preprints.106157",
+          "before_occurrences": 1,
+          "after_occurrences": 2
+        },
+        {
+          "paper_id": "10.3390/app16052244",
+          "before_occurrences": 1,
+          "after_occurrences": 2
+        }
+      ]
+    }
+  ],
+  "result": {
+    "rows": 23,
+    "unique_paper_ids": 21,
+    "duplicate_rows": 2,
+    "fingerprint_sha256": "8b2bb63f7547a93fc4a06df105c8630e7cad19f05674c97e67aaf3e19bf74e02",
+    "different_from_baseline": true
+  }
+}

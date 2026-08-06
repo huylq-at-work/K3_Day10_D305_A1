@@ -1,0 +1,128 @@
+{
+  "passed": true,
+  "checks": {
+    "baseline_fingerprint_matches_log": true,
+    "corrupted_fingerprint_matches_log": true,
+    "dataset_differs_from_baseline": true,
+    "final_row_count_matches_log": true,
+    "duplicate_count_matches_log": true,
+    "all_embedding_text_rebuilt": true,
+    "raw_source_guard_verified": true
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "type": "drop_latest",
+      "paper_ids": [
+        "10.2118/234689-pa",
+        "10.1007/s10278-026-02086-9",
+        "10.21203/rs.3.rs-10178277/v1"
+      ],
+      "checks": {
+        "before_count_chains": true,
+        "logged_count_delta_matches_type": true,
+        "ids_absent": true
+      },
+      "passed": true
+    },
+    {
+      "sequence": 2,
+      "type": "missing_summary",
+      "paper_ids": [
+        "10.21203/rs.3.rs-10012178/v1",
+        "10.1093/sleep/zsag091.0346"
+      ],
+      "checks": {
+        "before_count_chains": true,
+        "logged_count_delta_matches_type": true,
+        "summaries_blank": true,
+        "summary_chars_zero": true
+      },
+      "passed": true
+    },
+    {
+      "sequence": 3,
+      "type": "noise_injection",
+      "paper_ids": [
+        "10.1111/exsy.70341",
+        "10.1148/radiol.251581"
+      ],
+      "checks": {
+        "before_count_chains": true,
+        "logged_count_delta_matches_type": true,
+        "noise_token_count_matches": true
+      },
+      "passed": true
+    },
+    {
+      "sequence": 4,
+      "type": "old_published_date",
+      "paper_ids": [
+        "10.20944/preprints202602.0996.v1",
+        "10.20944/preprints202604.0339.v1",
+        "10.21079/11681/50309",
+        "10.21203/rs.3.rs-9882260/v1"
+      ],
+      "checks": {
+        "before_count_chains": true,
+        "logged_count_delta_matches_type": true,
+        "dates_and_age_shift_match": true
+      },
+      "passed": true
+    },
+    {
+      "sequence": 5,
+      "type": "duplicate_rows",
+      "paper_ids": [
+        "10.2196/preprints.106157",
+        "10.3390/app16052244"
+      ],
+      "checks": {
+        "before_count_chains": true,
+        "logged_count_delta_matches_type": true,
+        "two_occurrences_per_id": true,
+        "final_stage_count_matches_dataset": true
+      },
+      "passed": true
+    }
+  ],
+  "baseline_rows": 24,
+  "corrupted_rows": 23,
+  "row_delta": -1,
+  "lineage_repair_candidate": {
+    "paper_id": "10.21203/rs.3.rs-10012178/v1",
+    "corruption_type": "missing_summary",
+    "repair_source": "data/raw/crossref_records.json"
+  },
+  "raw_source_unchanged": true,
+  "source_mode": "raw snapshot; no Crossref request",
+  "repair_validation": {
+    "available": true,
+    "passed": true,
+    "checks": {
+      "clean_schema_exact": true,
+      "row_count_restored": true,
+      "paper_id_set_restored": true,
+      "paper_ids_unique": true,
+      "records_exactly_match_baseline": true,
+      "text_for_embedding_nonempty": true,
+      "lineage_record_restored": true
+    },
+    "baseline_rows": 24,
+    "repaired_rows": 24,
+    "baseline_fingerprint_sha256": "8e0e2c3fb3e042e191283976c9f96990fd534ce66504acb714ba3ab4a04bd800",
+    "repaired_fingerprint_sha256": "8e0e2c3fb3e042e191283976c9f96990fd534ce66504acb714ba3ab4a04bd800",
+    "missing_paper_ids": [],
+    "unexpected_paper_ids": [],
+    "lineage": {
+      "paper_id": "10.21203/rs.3.rs-10012178/v1",
+      "checked": true,
+      "checks": {
+        "present_once": true,
+        "summary_restored": true,
+        "text_for_embedding_restored": true
+      },
+      "passed": true
+    }
+  }
+}
