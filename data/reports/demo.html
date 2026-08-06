@@ -1,0 +1,113 @@
+<meta charset="utf-8">
+<title>Data corruption demo — Day 10</title>
+<style>
+:root{
+  --ground:#f6f7f9; --panel:#ffffff; --ink:#12161c; --ink-soft:#5a6472;
+  --line:#dfe3ea; --line-soft:#eceff4;
+  --base:#5a6472; --corrupt:#b23c17; --corrupt-bg:#fdf0ea;
+  --repair:#0f6b60; --repair-bg:#e8f4f2; --warn:#8a6100;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --ground:#0f1216; --panel:#161b21; --ink:#e6eaf0; --ink-soft:#96a0ae;
+    --line:#262d36; --line-soft:#1d232b;
+    --base:#96a0ae; --corrupt:#f08a5f; --corrupt-bg:#2a1a13;
+    --repair:#5fc9b8; --repair-bg:#0f2320; --warn:#d3a44a;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0f1216; --panel:#161b21; --ink:#e6eaf0; --ink-soft:#96a0ae;
+  --line:#262d36; --line-soft:#1d232b;
+  --base:#96a0ae; --corrupt:#f08a5f; --corrupt-bg:#2a1a13;
+  --repair:#5fc9b8; --repair-bg:#0f2320; --warn:#d3a44a;
+}
+:root[data-theme="light"]{
+  --ground:#f6f7f9; --panel:#ffffff; --ink:#12161c; --ink-soft:#5a6472;
+  --line:#dfe3ea; --line-soft:#eceff4;
+  --base:#5a6472; --corrupt:#b23c17; --corrupt-bg:#fdf0ea;
+  --repair:#0f6b60; --repair-bg:#e8f4f2; --warn:#8a6100;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 24px 72px;display:flex;flex-direction:column;gap:32px}
+header{border-bottom:2px solid var(--ink);padding-bottom:20px;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:baseline;justify-content:space-between}
+h1{font-size:1.7rem;margin:0;letter-spacing:-.02em;text-wrap:balance}
+.sub{color:var(--ink-soft);font-size:.86rem;margin:6px 0 0}
+.stamp{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.74rem;
+  color:var(--ink-soft);text-align:right}
+h2{font-size:1.02rem;margin:0 0 4px;letter-spacing:.04em;text-transform:uppercase}
+h2 .n{color:var(--ink-soft);font-family:ui-monospace,monospace;margin-right:8px;font-weight:500}
+section{display:flex;flex-direction:column;gap:14px}
+.note{color:var(--ink-soft);font-size:.88rem;margin:0;max-width:70ch}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);
+  font-weight:600;background:var(--line-soft);white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+td.num{text-align:right;font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.71rem;font-weight:600;
+  letter-spacing:.03em;white-space:nowrap}
+.chip-corrupt{background:var(--corrupt-bg);color:var(--corrupt)}
+.chip-repair{background:var(--repair-bg);color:var(--repair)}
+.chip-miss{background:var(--line-soft);color:var(--ink-soft)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px 16px;
+  display:flex;flex-direction:column;gap:6px;border-left:3px solid var(--line)}
+.card.bad{border-left-color:var(--corrupt)}
+.card.good{border-left-color:var(--repair)}
+.card .k{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+.card .v{font-size:1.5rem;font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.card .d{font-size:.78rem;color:var(--ink-soft)}
+.delta-bad{color:var(--corrupt);font-weight:600}
+.delta-good{color:var(--repair);font-weight:600}
+.before{color:var(--ink-soft);text-decoration:line-through;text-decoration-color:var(--corrupt)}
+.after{color:var(--corrupt);font-weight:500}
+.missing{background:var(--corrupt-bg);border:1px solid var(--corrupt);color:var(--corrupt);
+  padding:12px 16px;border-radius:6px;font-size:.88rem}
+ul.log{margin:0;padding-left:18px;font-size:.86rem}
+ul.log li{margin-bottom:4px}
+footer{border-top:1px solid var(--line);padding-top:16px;color:var(--ink-soft);font-size:.78rem}
+</style>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Corruption &amp; recovery — bằng chứng từ artifact thật</h1>
+    <p class="sub">Mọi số trên trang đều đọc trực tiếp từ <span class="mono">data/</span>. Không có giá trị nào được nhập tay.</p>
+  </div>
+  <div class="stamp">baseline 24 dòng<br>bị tác động 13<br>khôi phục 13</div>
+</header>
+
+<section>
+  <h2><span class="n">01</span>Chất lượng trả lời của agent</h2>
+  <p class="note">Ba trạng thái dùng chung một test set, cùng top-k và cùng evaluator, nên chênh lệch chỉ còn quy về chất lượng dữ liệu.</p>
+  <div class="cards"><div class="card good"><span class="k">Retrieval hit rate</span><span class="v">1.0000</span><span class="d">baseline · corrupted <span class="delta-bad mono">0.8000 ▼0.2000</span> · repaired <span class="delta-good mono">1.0000 (khôi phục)</span></span></div><div class="card good"><span class="k">Mean token F1</span><span class="v">0.8475</span><span class="d">baseline · corrupted <span class="delta-bad mono">0.6574 ▼0.1901</span> · repaired <span class="delta-good mono">0.8475 (khôi phục)</span></span></div><div class="card good"><span class="k">Judge accuracy</span><span class="v">0.8000</span><span class="d">baseline · corrupted <span class="delta-bad mono">0.6250 ▼0.1750</span> · repaired <span class="delta-good mono">0.8000 (khôi phục)</span></span></div><div class="card good"><span class="k">Mean judge score</span><span class="v">4.1500</span><span class="d">baseline · corrupted <span class="delta-bad mono">3.4500 ▼0.7000</span> · repaired <span class="delta-good mono">4.1500 (khôi phục)</span></span></div></div>
+</section>
+
+<section>
+  <h2><span class="n">02</span>Dòng nào bị hỏng, hỏng ở đâu</h2>
+  <p class="note">So sánh từng <span class="mono">paper_id</span> giữa clean baseline và clean corrupted. Gạch ngang là giá trị gốc, chữ màu là giá trị sau khi corrupt.</p>
+  <div class="panel"><table><thead><tr><th>Paper</th><th>Repair</th><th>Trường</th><th>Baseline</th><th>Sau corruption</th></tr></thead><tbody><tr><td rowspan="1"><div class="mono">10.2118/234689-pa</div><div class="d">SafeRAG: A Large-Language-Model-Based Multistage Retrieval-Augmented …</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">toàn bộ bản ghi</td><td class="before">có trong baseline</td><td class="after">bị xoá</td></tr><tr><td rowspan="1"><div class="mono">10.1007/s10278-026-02086-9</div><div class="d">JADE-Plus: A Multimodal Agentic Retrieval-Augmented Generation Large …</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">toàn bộ bản ghi</td><td class="before">có trong baseline</td><td class="after">bị xoá</td></tr><tr><td rowspan="1"><div class="mono">10.21203/rs.3.rs-10178277/v1</div><div class="d">Retrieval-Augmented Large-Language-Model-Based Time-Series Forecastin…</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">toàn bộ bản ghi</td><td class="before">có trong baseline</td><td class="after">bị xoá</td></tr><tr><td rowspan="1"><div class="mono">10.2196/preprints.106157</div><div class="d">Does retrieval-augmented generation impact medical students’ percepti…</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">paper_id</td><td class="before">1 dòng</td><td class="after">2 dòng trùng</td></tr><tr><td rowspan="2"><div class="mono">10.21079/11681/50309</div><div class="d">Microsoft Azure artificial intelligence / machine learning hackathon …</div></td><td rowspan="2"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">published</td><td class="before">2026-07-01</td><td class="after">2024-07-01</td></tr><tr><td class="mono">age_days</td><td class="before">36</td><td class="after">766</td></tr><tr><td rowspan="1"><div class="mono">10.1111/exsy.70341</div><div class="d">Hi‐ RAG : A Hierarchical Retrieval‐Augmented Generation Framework for…</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">summary</td><td class="before">ABSTRACT As tool repositories for Large Language Model (LLM) agents grow from dozens to h…</td><td class="after">ABSTRACT As tool repositories for Large Language Model (LLM) agents grow from dozens to h…</td></tr><tr><td rowspan="1"><div class="mono">10.21203/rs.3.rs-10012178/v1</div><div class="d">Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI G…</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">summary</td><td class="before">Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generativ…</td><td class="after">(rỗng)</td></tr><tr><td rowspan="2"><div class="mono">10.21203/rs.3.rs-9882260/v1</div><div class="d">Operationalizing Reliability Gaps in Large Language Models: A Semi-Sy…</div></td><td rowspan="2"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">published</td><td class="before">2026-06-02</td><td class="after">2024-06-02</td></tr><tr><td class="mono">age_days</td><td class="before">65</td><td class="after">795</td></tr><tr><td rowspan="1"><div class="mono">10.1148/radiol.251581</div><div class="d">Zero-shot Thoracic Oncologic History Generation for Radiologists Usin…</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">summary</td><td class="before">A large language model pipeline automatically summarized oncologic histories with high ef…</td><td class="after">A large language model pipeline automatically summarized oncologic histories with high ef…</td></tr><tr><td rowspan="1"><div class="mono">10.1093/sleep/zsag091.0346</div><div class="d">0346 Retrieval Augmented Generation Improves Large Language Model Per…</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">summary</td><td class="before">Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, g…</td><td class="after">(rỗng)</td></tr><tr><td rowspan="2"><div class="mono">10.20944/preprints202604.0339.v1</div><div class="d">Retrieval-Augmented Large Language Model Agents for Automated Scienti…</div></td><td rowspan="2"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">published</td><td class="before">2026-04-06</td><td class="after">2024-04-06</td></tr><tr><td class="mono">age_days</td><td class="before">122</td><td class="after">852</td></tr><tr><td rowspan="1"><div class="mono">10.3390/app16052244</div><div class="d">Hybrid Retrieval-Augmented Generation: Semantic and Structural Integr…</div></td><td rowspan="1"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">paper_id</td><td class="before">1 dòng</td><td class="after">2 dòng trùng</td></tr><tr><td rowspan="2"><div class="mono">10.20944/preprints202602.0996.v1</div><div class="d">Clinical Large Language Models with Multi-Stage Instruction Tuning an…</div></td><td rowspan="2"><span class="chip chip-repair">đã khôi phục</span></td><td class="mono">published</td><td class="before">2026-02-12</td><td class="after">2024-02-13</td></tr><tr><td class="mono">age_days</td><td class="before">175</td><td class="after">905</td></tr></tbody></table></div>
+</section>
+
+<section>
+  <h2><span class="n">03</span>Corruption log</h2>
+  <p class="note">Do <span class="mono">corrupt_clean_dataframe</span> ghi ra — đối chiếu với bảng trên để chắc corruption đúng như mô tả.</p>
+  <p class="note"><span class="chip chip-repair">deterministic</span> <span class="chip chip-repair">raw source: verified</span> <span class="chip chip-corrupt">khác baseline</span></p><ul class="log"><li><span class="mono">drop_latest</span> — 3 bản ghi · <span class="mono">{&quot;before_count&quot;: 24, &quot;after_count&quot;: 21, &quot;changes&quot;: [{&quot;paper_id&quot;: &quot;10.2118/234689-pa&quot;, &quot;published&quot;: &quot;2026-08-01&quot;}, {&quot;paper_id&quot;: &quot;10.1007/s10278-026-02086-9&quot;, &quot;published&quot;: &quot;2026-07-13&quot;}, {&quot;paper_id&quot;: &quot;10.21203/rs.3.rs-10178277/v1&quot;, &quot;published&quot;: &quot;2026-07-10&quot;}], &quot;sort&quot;: &quot;published DESC, paper_id ASC&quot;}</span><div class="d mono">10.2118/234689-pa, 10.1007/s10278-026-02086-9, 10.21203/rs.3.rs-10178277/v1</div></li><li><span class="mono">missing_summary</span> — 2 bản ghi · <span class="mono">{&quot;before_count&quot;: 21, &quot;after_count&quot;: 21, &quot;changes&quot;: [{&quot;paper_id&quot;: &quot;10.21203/rs.3.rs-10012178/v1&quot;, &quot;field&quot;: &quot;summary&quot;, &quot;before&quot;: {&quot;chars&quot;: 2610, &quot;sha256&quot;: &quot;7863afaa929f098f19db00cc35fd533bcb25cb1adb0bb1ff4023b57cec2a7d7b&quot;, &quot;preview&quot;: &quot;Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augment&quot;}, &quot;after&quot;: {&quot;chars&quot;: 0, &quot;sha256&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;, &quot;preview&quot;: &quot;&quot;}}, {&quot;paper_id&quot;: &quot;10.1093/sleep/zsag091.0346&quot;, &quot;field&quot;: &quot;summary&quot;, &quot;before&quot;: {&quot;chars&quot;: 2491, &quot;sha256&quot;: &quot;7df15bb691ab41bf3cabc549dd9ed8788d3ae7e320aa7463117f144711ed4352&quot;, &quot;preview&quot;: &quot;Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain&quot;}, &quot;after&quot;: {&quot;chars&quot;: 0, &quot;sha256&quot;: &quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;, &quot;preview&quot;: &quot;&quot;}}], &quot;replacement&quot;: &quot;&quot;}</span><div class="d mono">10.21203/rs.3.rs-10012178/v1, 10.1093/sleep/zsag091.0346</div></li><li><span class="mono">noise_injection</span> — 2 bản ghi · <span class="mono">{&quot;before_count&quot;: 21, &quot;after_count&quot;: 21, &quot;changes&quot;: [{&quot;paper_id&quot;: &quot;10.1111/exsy.70341&quot;, &quot;field&quot;: &quot;summary&quot;, &quot;before&quot;: {&quot;chars&quot;: 1527, &quot;sha256&quot;: &quot;a0116fbefd77b292da407bc57c353a41cd8a957780abf1888b72ff00933b1924&quot;, &quot;preview&quot;: &quot;ABSTRACT As tool repositories for Large Language Model (LLM) agents grow from dozens to hundreds of endpoints, flat retr&quot;}, &quot;after&quot;: {&quot;chars&quot;: 1767, &quot;sha256&quot;: &quot;173080bf339761ebc66743f329d50890b1c95605f39c4df3895023c16815118f&quot;, &quot;preview&quot;: &quot;ABSTRACT As tool repositories for Large Language Model (LLM) agents grow from dozens to hundreds of endpoints, flat retr&quot;}}, {&quot;paper_id&quot;: &quot;10.1148/radiol.251581&quot;, &quot;field&quot;: &quot;summary&quot;, &quot;before&quot;: {&quot;chars&quot;: 228, &quot;sha256&quot;: &quot;664e2527067871fc6c9de89fe9e1c5b08ca973598929b95fc74825b74282bcab&quot;, &quot;preview&quot;: &quot;A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and complet&quot;}, &quot;after&quot;: {&quot;chars&quot;: 468, &quot;sha256&quot;: &quot;c2a57240f302b1afc9a82209e95f7663d868634ba38015acea1486dcda286503&quot;, &quot;preview&quot;: &quot;A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and complet&quot;}}], &quot;token&quot;: &quot;__CORRUPTED_NOISE__&quot;, &quot;repetitions&quot;: 12}</span><div class="d mono">10.1111/exsy.70341, 10.1148/radiol.251581</div></li><li><span class="mono">old_published_date</span> — 4 bản ghi · <span class="mono">{&quot;before_count&quot;: 21, &quot;after_count&quot;: 21, &quot;changes&quot;: [{&quot;paper_id&quot;: &quot;10.20944/preprints202602.0996.v1&quot;, &quot;fields&quot;: [&quot;published&quot;, &quot;age_days&quot;], &quot;before&quot;: {&quot;published&quot;: &quot;2026-02-12&quot;, &quot;age_days&quot;: 175}, &quot;after&quot;: {&quot;published&quot;: &quot;2024-02-13&quot;, &quot;age_days&quot;: 905}}, {&quot;paper_id&quot;: &quot;10.20944/preprints202604.0339.v1&quot;, &quot;fields&quot;: [&quot;published&quot;, &quot;age_days&quot;], &quot;before&quot;: {&quot;published&quot;: &quot;2026-04-06&quot;, &quot;age_days&quot;: 122}, &quot;after&quot;: {&quot;published&quot;: &quot;2024-04-06&quot;, &quot;age_days&quot;: 852}}, {&quot;paper_id&quot;: &quot;10.21079/11681/50309&quot;, &quot;fields&quot;: [&quot;published&quot;, &quot;age_days&quot;], &quot;before&quot;: {&quot;published&quot;: &quot;2026-07-01&quot;, &quot;age_days&quot;: 36}, &quot;after&quot;: {&quot;published&quot;: &quot;2024-07-01&quot;, &quot;age_days&quot;: 766}}, {&quot;paper_id&quot;: &quot;10.21203/rs.3.rs-9882260/v1&quot;, &quot;fields&quot;: [&quot;published&quot;, &quot;age_days&quot;], &quot;before&quot;: {&quot;published&quot;: &quot;2026-06-02&quot;, &quot;age_days&quot;: 65}, &quot;after&quot;: {&quot;published&quot;: &quot;2024-06-02&quot;, &quot;age_days&quot;: 795}}], &quot;days_shifted_back&quot;: 730}</span><div class="d mono">10.20944/preprints202602.0996.v1, 10.20944/preprints202604.0339.v1, 10.21079/11681/50309, 10.21203/rs.3.rs-9882260/v1</div></li><li><span class="mono">duplicate_rows</span> — 2 bản ghi · <span class="mono">{&quot;before_count&quot;: 21, &quot;after_count&quot;: 23, &quot;changes&quot;: [{&quot;paper_id&quot;: &quot;10.2196/preprints.106157&quot;, &quot;before_occurrences&quot;: 1, &quot;after_occurrences&quot;: 2}, {&quot;paper_id&quot;: &quot;10.3390/app16052244&quot;, &quot;before_occurrences&quot;: 1, &quot;after_occurrences&quot;: 2}], &quot;copies_added_per_id&quot;: 1}</span><div class="d mono">10.2196/preprints.106157, 10.3390/app16052244</div></li></ul>
+</section>
+
+<section>
+  <h2><span class="n">04</span>Tín hiệu data quality</h2>
+  <p class="note">Nếu corruption có thật mà cột Corrupted không đổi, nghĩa là checker hỏng chứ không phải pipeline không phát hiện được.</p>
+  <div class="panel"><table><thead><tr><th>Tín hiệu</th><th>Baseline</th><th>Corrupted</th><th>Repaired</th></tr></thead><tbody><tr><td>Số dòng</td><td class="num">24</td><td class="num">23</td><td class="num">24</td></tr><tr><td>paper_id trùng</td><td class="num">0</td><td class="num">2</td><td class="num">0</td></tr><tr><td>Summary thiếu/rỗng</td><td class="num">0</td><td class="num">2</td><td class="num">0</td></tr><tr><td>Summary quá ngắn</td><td class="num">0</td><td class="num">2</td><td class="num">0</td></tr><tr><td>Dòng quá hạn</td><td class="num">0</td><td class="num">4</td><td class="num">0</td></tr><tr><td>Trạng thái freshness</td><td class="num"><span class="chip chip-repair">fresh</span></td><td class="num"><span class="chip chip-corrupt">stale</span></td><td class="num"><span class="chip chip-repair">fresh</span></td></tr><tr><td>Ngày mới nhất</td><td class="num mono">2026-08-01</td><td class="num mono">2026-07-03</td><td class="num mono">2026-08-01</td></tr></tbody></table></div>
+</section>
+
+<footer>
+  Sinh bởi <span class="mono">script/build_demo.py</span> · nguồn: <span class="mono">data/clean/</span>,
+  <span class="mono">data/results/</span>, <span class="mono">data/quality/</span> ·
+  Thiếu artifact nào thì trang ghi rõ là thiếu, không bịa số.
+</footer>
+</div>
