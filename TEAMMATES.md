@@ -701,23 +701,36 @@ Sửa trong `src/retrieval/index.py`: `build()` ghi path **tương đối** so v
 
 ### (3) Chỉ công bố recovery khi số liệu chứng minh
 
-Chưa công bố. `corrupt_clean_dataframe` của R2 vẫn là TODO nên **chưa có artifact
-corrupted/repaired thật**. `data/results/` hiện chỉ có baseline.
+R2 đã hoàn thành `corrupt_clean_dataframe` (commit `9c24b36`), **không còn `TODO(student)` nào
+trong `src/`**. Đã chạy `run_corruption_flow.py` bằng dữ liệu thật:
 
-Đã chạy thử flow bằng stub corruption của Role 1 (drop 3 record mới nhất, blank 2 summary, chèn
-noise 2 dòng, cắt title 2 dòng, làm cũ 4 dòng lên 483 ngày, thêm 2 duplicate) để kiểm demo và
-orchestration. Kết quả stub:
+| metric | baseline | corrupted | repaired | Kết luận |
+| :-- | --: | --: | --: | :-- |
+| `retrieval_hit_rate` | 1.0000 | 0.8000 | 1.0000 | khôi phục hoàn toàn |
+| `mean_token_f1` | 0.8475 | 0.6574 | 0.8475 | khôi phục hoàn toàn |
+| `judge_accuracy` | 0.8000 | 0.6250 | 0.8000 | khôi phục hoàn toàn |
+| `mean_judge_score` | 4.1500 | 3.4500 | 4.1500 | khôi phục hoàn toàn |
 
-| metric | baseline | corrupted | repaired |
+Tín hiệu data quality cũng phản ứng đúng — và đây là bằng chứng cho thấy việc sửa Blocker 6/7/8
+là bắt buộc, vì trước khi sửa thì **không tín hiệu nào trong bảng này đổi**:
+
+| Tín hiệu | Baseline | Corrupted | Repaired |
 | :-- | --: | --: | --: |
-| `retrieval_hit_rate` | 1.0000 | 0.8000 | 1.0000 |
-| `mean_token_f1` | 0.8475 | 0.6279 | 0.8475 |
-| `judge_accuracy` | 0.8000 | 0.5750 | 0.8000 |
-| `mean_judge_score` | 4.1500 | 3.3000 | 4.1500 |
+| Số dòng | 24 | 23 | 24 |
+| `paper_id` trùng | 0 | 2 | 0 |
+| Summary thiếu/rỗng | 0 | 2 | 0 |
+| Dòng quá hạn | 0 | 4 | 0 |
+| `is_fresh` | fresh | **stale** | fresh |
 
-**Toàn bộ 17 artifact do stub sinh ra đã xoá**, 2 collection tạm đã drop, repo chỉ còn artifact
-baseline thật. Số trong bảng trên **không được đưa vào `report/group_report.md`** — đó là số của
-stub, không phải corruption thật của R2.
+Corruption log của R2 ghi `deterministic: true` và `raw_source_guard.status: verified` — raw
+source được hash kiểm tra trước khi corrupt, nên repair thật sự chạy lại từ nguồn gốc.
+
+**Recovery công bố được**, vì cả 4 metric lẫn 5 tín hiệu quality đều trở về đúng giá trị baseline,
+và số trong bảng đọc thẳng từ `data/results/` và `data/quality/`.
+
+Điểm phải nói rõ, không tô đẹp: `retrieval_hit_rate` giảm 1.00 → 0.80 chủ yếu vì corruption
+**xoá 3 record**, không phải vì embedding kém đi. Blocker 3 (hit rate bão hoà do câu hỏi trích
+nguyên title) vẫn còn, nên chỉ số này chưa đo được chất lượng retrieval theo nghĩa chặt.
 
 ### Trang demo
 

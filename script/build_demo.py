@@ -280,20 +280,57 @@ def signal_table(sets: list[tuple[str, dict | None, dict | None]]) -> str:
 
 
 def log_list(log) -> str:
+    """Doc corruption log. Ho tro ca list phang lan dang co key `events`."""
     if not log:
         return '<p class="missing">Chua co corruption_log.json.</p>'
+    if isinstance(log, list):
+        entries = log
+        head = ""
+    else:
+        entries = log.get("events") or log.get("corruptions") or []
+        bits = []
+        if log.get("deterministic"):
+            bits.append('<span class="chip chip-repair">deterministic</span>')
+        guard = (log.get("raw_source_guard") or {}).get("status")
+        if guard:
+            chip = "chip-repair" if guard == "verified" else "chip-corrupt"
+            bits.append(f'<span class="chip {chip}">raw source: {escape(str(guard))}</span>')
+        result = log.get("result") or {}
+        if result.get("different_from_baseline") is not None:
+            ok = result["different_from_baseline"]
+            bits.append(
+                f'<span class="chip {"chip-corrupt" if ok else "chip-miss"}">'
+                f'{"khac baseline" if ok else "KHONG khac baseline"}</span>'
+            )
+        head = f'<p class="note">{" ".join(bits)}</p>' if bits else ""
+
     items = []
-    entries = log if isinstance(log, list) else log.get("corruptions", [])
     for entry in entries:
         if not isinstance(entry, dict):
             items.append(f"<li>{escape(str(entry))}</li>")
             continue
         kind = entry.get("type", entry.get("name", "?"))
-        count = entry.get("count", len(entry.get("paper_ids", []) or []))
-        extra = {k: v for k, v in entry.items() if k not in {"type", "name", "count", "paper_ids"}}
-        detail = f" · {escape(json.dumps(extra, ensure_ascii=False))}" if extra else ""
-        items.append(f'<li><span class="mono">{escape(str(kind))}</span> — {count} ban ghi{detail}</li>')
-    return f'<ul class="log">{"".join(items)}</ul>'
+        params = entry.get("parameters") or {}
+        ids = entry.get("paper_ids") or []
+        count = entry.get("count", params.get("count", len(ids)))
+        skip = {"type", "name", "count", "paper_ids", "parameters", "sequence"}
+        extra = {**{k: v for k, v in entry.items() if k not in skip}, **params}
+        extra.pop("count", None)
+        detail = (
+            f' · <span class="mono">{escape(json.dumps(extra, ensure_ascii=False))}</span>'
+            if extra
+            else ""
+        )
+        ids_text = (
+            f'<div class="d mono">{escape(", ".join(str(i) for i in ids[:4]))}'
+            f'{" …" if len(ids) > 4 else ""}</div>'
+            if ids
+            else ""
+        )
+        items.append(
+            f'<li><span class="mono">{escape(str(kind))}</span> — {count} ban ghi{detail}{ids_text}</li>'
+        )
+    return f'{head}<ul class="log">{"".join(items)}</ul>'
 
 
 def main() -> int:

@@ -1,7 +1,7 @@
 {
-  "latest_published": null,
-  "oldest_published": null,
+  "latest_published": "2026-07-03",
+  "oldest_published": "2024-02-13",
   "stale_rows": 4,
   "total_rows": 23,
-  "is_fresh": true
+  "is_fresh": false
 }
