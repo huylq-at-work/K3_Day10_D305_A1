@@ -8,3 +8,6 @@ lab/
 
 # Chroma store: binary sqlite ~1MB, dung lai duoc bang cach chay lai phase1
 data/chroma/
+
+# Trang demo sinh lai duoc bang script/build_demo.py
+data/reports/demo.html

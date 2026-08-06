@@ -111,12 +111,19 @@ class LocalEmbeddingIndex:
         )
 
         manifest_path = embeddings_output_path or settings.paths.embeddings_json
+        # Ghi path tuong doi so voi project: manifest duoc commit len Git, path
+        # tuyet doi cua mot may se lam `load()` tro vao thu muc khong ton tai
+        # tren may nguoi khac.
+        try:
+            recorded_path = str(persist_path.relative_to(settings.paths.project_dir).as_posix())
+        except ValueError:
+            recorded_path = str(persist_path)
         write_json(
             manifest_path,
             {
                 "backend": "chroma",
                 "embedding_model": settings.embedding_model,
-                "persist_path": str(persist_path),
+                "persist_path": recorded_path,
                 "collection_name": collection_name,
                 "documents": documents,
             },
@@ -131,11 +138,16 @@ class LocalEmbeddingIndex:
     @classmethod
     def load(cls, settings: Settings, embeddings_path: Path | None = None) -> "LocalEmbeddingIndex":
         payload = read_json(embeddings_path or settings.paths.embeddings_json)
+        # Path trong manifest co the la tuong doi (ban moi) hoac tuyet doi cua may
+        # khac (ban cu). Chi dung khi no thuc su ton tai, con lai lay tu Settings.
+        recorded = Path(payload["persist_path"])
+        candidate = recorded if recorded.is_absolute() else settings.paths.project_dir / recorded
+        persist_path = candidate if candidate.exists() else settings.paths.chroma_dir
         return cls(
             settings=settings,
             collection_name=payload["collection_name"],
             documents=payload["documents"],
-            persist_path=Path(payload["persist_path"]),
+            persist_path=persist_path,
         )
 
     def search(self, query: str, top_k: int | None = None) -> list[SearchResult]:

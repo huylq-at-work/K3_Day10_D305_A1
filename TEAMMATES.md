@@ -667,6 +667,77 @@ Kiểm lại đúng ba kịch bản đã dùng làm bằng chứng ở CP4 và C
   vì test set phải cố định cho cả ba trạng thái.
 - **Blocker 5** — categories mơ hồ, cần R2 và R4 thống nhất nguồn thay `subject`.
 
+## 2i. Checkpoint 6 — kết quả Role 1 (Lê Quang Huy)
+
+> Cảnh báo BTC: *"Ưu tiên evidence: report phải khớp artifact thật, không tô đẹp số liệu để demo."*
+
+### (1) Điều phối repair/comparison, freeze scope, chia phần demo
+
+`corruption_flow.py` đã sẵn từ CP5. **Scope freeze:** không thêm tính năng mới, chỉ còn đóng
+blocker và chạy lại. Phần demo chia theo đúng vai: R2 trình diff clean/corrupted/repaired,
+R3 trình 3 collection tách biệt, R4 trình bảng comparison và giới hạn kết luận, R1 dựng trang
+demo và chạy checklist cuối.
+
+### (2) Checklist cuối
+
+| Kiểm | Kết quả |
+| :-- | :-- |
+| `.env` có bị track không | ✅ không, `git ls-files` sạch |
+| Secret trong file đã track (`sk-`, `AIza`, `ghp_`, `sk-ant-`) | ✅ không có |
+| Hard-code path trong `src/` và `script/` | ✅ không có |
+| Path tuyệt đối lọt vào artifact JSON | ❌ **có** — xem dưới |
+| Test suite | ✅ 10/10 pass |
+| `verify_baseline.py` | ✅ 32/33 (còn đúng blocker API key) |
+
+**BLOCKER 9 — `persist_path` tuyệt đối trong `papers_embeddings.json`. (đã sửa)**
+
+Manifest được commit lên Git nhưng ghi `"persist_path": "D:\\VinUni\\Lab10\\..."` — đường dẫn
+của đúng một máy. `LocalEmbeddingIndex.load()` đọc thẳng giá trị này, nên trên máy người khác nó
+trỏ vào thư mục không tồn tại. Đây chính là mục *"no hard-code path"* của checklist CP6.
+
+Sửa trong `src/retrieval/index.py`: `build()` ghi path **tương đối** so với project
+(`data/chroma`), `load()` chỉ dùng path trong manifest khi nó thực sự tồn tại, còn lại lấy từ
+`Settings` — nên manifest cũ vẫn đọc được, không phá bản của ai.
+
+### (3) Chỉ công bố recovery khi số liệu chứng minh
+
+Chưa công bố. `corrupt_clean_dataframe` của R2 vẫn là TODO nên **chưa có artifact
+corrupted/repaired thật**. `data/results/` hiện chỉ có baseline.
+
+Đã chạy thử flow bằng stub corruption của Role 1 (drop 3 record mới nhất, blank 2 summary, chèn
+noise 2 dòng, cắt title 2 dòng, làm cũ 4 dòng lên 483 ngày, thêm 2 duplicate) để kiểm demo và
+orchestration. Kết quả stub:
+
+| metric | baseline | corrupted | repaired |
+| :-- | --: | --: | --: |
+| `retrieval_hit_rate` | 1.0000 | 0.8000 | 1.0000 |
+| `mean_token_f1` | 0.8475 | 0.6279 | 0.8475 |
+| `judge_accuracy` | 0.8000 | 0.5750 | 0.8000 |
+| `mean_judge_score` | 4.1500 | 3.3000 | 4.1500 |
+
+**Toàn bộ 17 artifact do stub sinh ra đã xoá**, 2 collection tạm đã drop, repo chỉ còn artifact
+baseline thật. Số trong bảng trên **không được đưa vào `report/group_report.md`** — đó là số của
+stub, không phải corruption thật của R2.
+
+### Trang demo
+
+[`script/build_demo.py`](script/build_demo.py) sinh `data/reports/demo.html` — một file HTML tự
+chứa, đọc thẳng từ `data/clean/`, `data/results/`, `data/quality/`. Bốn phần:
+
+1. **Chất lượng trả lời** — 4 metric, mỗi thẻ hiện baseline, delta khi corrupted, và có khôi phục
+   được không.
+2. **Dòng nào hỏng, hỏng ở đâu** — diff theo từng `paper_id` và từng trường: giá trị gốc gạch
+   ngang, giá trị sau corruption tô màu. Bản chạy thử cho 13/24 dòng bị tác động.
+3. **Corruption log** — đọc từ `corruption_log.json` để đối chiếu với bảng diff.
+4. **Tín hiệu data quality** — baseline / corrupted / repaired cạnh nhau.
+
+Thiếu artifact nào thì trang ghi rõ là thiếu kèm lệnh cần chạy, **không bịa số**. Chạy lại sau
+khi R2 xong là ra bản thật:
+
+```bash
+uv run python script/run_corruption_flow.py && uv run python script/build_demo.py
+```
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement
