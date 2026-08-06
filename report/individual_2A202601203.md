@@ -6,8 +6,8 @@
 | --- | --- |
 | Họ và tên | Nguyễn Chí Hướng |
 | MSSV | 2A202601203 |
-| Khóa/Lớp | K3 — D305-A1 |
-| Tên nhóm | K3_Day10_D305_A1 |
+| Khóa/Lớp | K3 / D305 |
+| Tên nhóm | Fathom |
 | Vai trò chính | Role 2 — Nền tảng dữ liệu & recovery |
 | Repository | https://github.com/huylq-at-work/K3_Day10_D305_A1 |
 | Ngày hoàn thành | 2026-08-06 |
