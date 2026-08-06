@@ -377,6 +377,90 @@ search, lookup, agent trả kết quả có nguồn) đã **đạt về mặt ar
 Không chuyển sang phase 2 trước khi xử lý xong Blocker 1, 2 và 4 — chạy corruption trên baseline
 sai thì bảng so sánh ở mục 10 của report không chứng minh được điều gì.
 
+## 2e. Checkpoint 3 — kết quả Role 1 (Lê Quang Huy)
+
+> Cảnh báo của BTC ở mốc này: *"Baseline chỉ hoàn tất khi artifacts, metrics và report khớp
+> nhau — không phải chỉ khi script exit code 0."*
+
+### (1) `phase1.py` theo đúng luồng
+
+Đã implement từ CP1, thứ tự: raw → clean → **contract gate** → index → test set → evaluate →
+quality/freshness → report → demo.
+
+### (2) Chạy baseline end-to-end
+
+Chạy được hết 8 bước, exit code 0. Metrics và 5 blocker đã ghi ở [mục 2d](#2d-checkpoint-2--kết-quả-role-1-lê-quang-huy).
+Agent demo vẫn bị bỏ qua vì thiếu API key (`GOOGLE_API_KEY is required when LLM_PROVIDER=gemini`).
+
+### (3) Kiểm artifact — không tin terminal
+
+Viết [`script/verify_baseline.py`](script/verify_baseline.py): đọc lại từng file đã ghi và đối
+chiếu chéo, **không dùng số nào do pipeline tự báo**. Chạy:
+
+```bash
+uv run python script/verify_baseline.py
+```
+
+32 check, chia 8 nhóm: artifact tồn tại và đọc được · contract còn pass trên file đã ghi ·
+count khớp giữa các tầng (clean CSV ↔ clean JSON ↔ manifest ↔ Chroma) · `ground_truth_doc_ids`
+tồn tại thật · metrics tính lại từ answers có khớp file metrics · judge có gọi LLM thật không ·
+freshness phản ánh dữ liệu thật · report chứa đúng số.
+
+**Kết quả: 29/32 pass, 3 fail.**
+
+Những gì audit xác nhận đúng: 24 raw → 24 clean → 24 manifest documents → 24 Chroma documents,
+collection đúng `papers-baseline`, model đúng MiniLM, 0/30 câu hỏi trỏ tới `paper_id` không tồn
+tại, và cả 4 metric tính lại từ `baseline_answers.json` đều khớp `baseline_metrics.json`.
+
+#### Hai lỗi audit bắt được là của chính Role 1 — đã sửa
+
+- `phase1.py` truyền `raw_records` nhưng `generate_phase1_report` đọc key `total_records`, nên
+  mục Source Summary của report in `N/A`. Đã sửa ở phía caller.
+- Bản audit đầu tiên báo nhầm `retrieval_hit_rate` "không có trong report", vì report in dạng
+  phần trăm `100.00%` còn metrics lưu `1.0`. Lỗi của script audit, đã sửa để đối chiếu cả hai dạng.
+
+#### BLOCKER 6 — `build_freshness_report` đọc sai tên cột (chặn)
+
+`src/observability/quality.py` đọc `df["published_date"]`, nhưng cột trong clean contract tên là
+**`published`**. Cột đó không tồn tại nên hàm luôn rơi vào nhánh `latest, oldest = None, None`.
+
+**Bằng chứng:** `data/quality/freshness_report.json` ghi `latest_published: null`,
+`oldest_published: null` trong khi 24/24 dòng có `published` hợp lệ. Report cũng in
+`**Latest Published:** None`.
+
+#### BLOCKER 7 — ngưỡng freshness hard-code 365, không đọc `Settings` (chặn)
+
+Cùng hàm đó dùng `df["age_days"].gt(365)`, trong khi `settings.freshness_threshold_days = 180`.
+Và `is_fresh` được định nghĩa là "stale < 50% tổng số dòng".
+
+**Bằng chứng — mô phỏng đúng kịch bản corruption của phase 2:**
+
+| Tình huống | `stale_rows` báo về | Đúng phải là | `is_fresh` |
+| :-- | :-: | :-: | :-: |
+| Làm cả 24 dòng cũ đi 200 ngày (vượt ngưỡng 180) | **0** | 24 | **True** (sai) |
+| 11/24 dòng cũ 400 ngày | 11 | 11 | **True** (sai) |
+
+Đây là lỗi nguy hiểm nhất tới giờ, vì nó **im lặng**: corruption "làm cũ dữ liệu" là một trong
+sáu kịch bản bắt buộc của phase 2, mà freshness check sẽ báo `is_fresh: true` như không có gì
+xảy ra. Nhóm sẽ kết luận "corruption không bị phát hiện" trong khi thực ra là **checker hỏng**,
+không phải pipeline không phát hiện được.
+
+#### BLOCKER 4 (nhắc lại) — judge vẫn 30/30 dùng heuristic fallback
+
+Audit xác nhận lại bằng cách đếm chuỗi `"Fallback heuristic"` trong `baseline_answers.json`.
+
+### Chốt lại
+
+Baseline **chưa hoàn tất** theo tiêu chí của BTC: artifact đầy đủ và nhất quán, nhưng report
+không khớp dữ liệu thật ở mục Freshness, và judge metrics chưa có giá trị bằng chứng.
+
+Thứ tự xử lý đề xuất trước khi sang phase 2:
+
+1. **R4** sửa Blocker 6 + 7 (`published_date` → `published`; dùng `settings.freshness_threshold_days`
+   thay 365; xem lại định nghĩa `is_fresh`). Không sửa cái này thì phase 2 không đo được gì.
+2. **R4 + R3** chốt cách xử lý Blocker 1 (ngôn ngữ test set) và Blocker 2 (`ground_truth` dạng list).
+3. **R1** điền API key, chạy lại `run_phase1.py` rồi `verify_baseline.py` cho tới khi 32/32 pass.
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement

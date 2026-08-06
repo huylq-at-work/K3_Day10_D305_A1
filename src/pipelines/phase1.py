@@ -135,6 +135,9 @@ def main() -> None:
         "query": settings.source_query,
         "filter": settings.source_filter,
         "max_results": settings.max_results,
+        # `total_records` la key ma generate_phase1_report doc; giu ca `raw_records`
+        # cho cac cho khac dang dung ten cu.
+        "total_records": len(records),
         "raw_records": len(records),
         "clean_rows": int(len(clean_df)),
         "clean_contract": contract_stats,
