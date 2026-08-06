@@ -103,3 +103,27 @@ Outputs:
 
 The lineage sample is deliberately included in `missing_summary`; repair must
 rebuild it from `data/raw/crossref_records.json`, never from the corrupted row.
+
+## Raw-to-repaired recovery handoff
+
+Run the final Role 2 recovery checkpoint with source refresh disabled:
+
+```bash
+REFRESH_SOURCE=0 python -m ingestion.recovery_checkpoint
+```
+
+This command reloads the locked `crossref_records.json` snapshot and runs the
+cleaning producer again. It never copies baseline/corrupted rows into repaired
+data and never calls Crossref. It validates all damaged IDs against their raw
+record, clean baseline, corrupted state, and newly rebuilt repaired row.
+
+It also scans Git-tracked files for likely credential literals, verifies `.env`
+is ignored/untracked and has never been committed, and checks that sensitive
+settings are loaded with `os.getenv`. Secret values are never written to the
+audit output.
+
+Team handoff artifacts:
+
+- `recovery_evidence.json`: source hashes, repair producer, per-record lineage,
+  schema/quality comparison, and secret audit;
+- `RECOVERY_HANDOFF.md`: concise clean/corrupted/repaired comparison for review.
