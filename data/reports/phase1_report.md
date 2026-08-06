@@ -1,7 +1,7 @@
 # Phase 1: Baseline Evaluation Report
 
 ## 1. Source Summary
-- **Total Records:** N/A
+- **Total Records:** 24
 
 ## 2. Data Quality
 - **Row Count:** 24
