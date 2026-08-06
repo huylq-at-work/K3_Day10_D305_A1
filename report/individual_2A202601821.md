@@ -31,7 +31,7 @@
 | ------------ | ------------------------------ | --------- |
 | Lấy sample raw payload từ Crossref và ghi chú 4 điểm dễ vấp | Nguyễn Chí Hướng (`src/ingestion/`) | Gói zip kèm ghi chú: `subject` rỗng 24/24, abstract là XML JATS, `date-parts` có 2 hoặc 3 phần tử, `pdf_url` thiếu 15/24 |
 | Sửa 5 blocker quá hạn từ CP1–CP2 | R3 (`qa.py`), R4 (`quality.py`, `testset.py`) | `mean_token_f1` 0.1357 → 0.8475; chi tiết ở mục 6 |
-| Sửa hệ quả test lineage gãy sau thay đổi của mình | Nguyễn Chí Hướng (`src/ingestion/lineage.py`) | 12/12 test pass |
+| Sửa hệ quả test lineage gãy sau thay đổi của mình | Nguyễn Chí Hướng (`src/ingestion/lineage.py`) | Test suite trở lại xanh (nay 14/14) |
 | Dựng branch, thứ tự merge, bảng sở hữu file | Cả nhóm | `TEAMMATES.md` |
 
 ## 3. Kết quả theo vai trò
@@ -40,7 +40,7 @@
 | --------------------------- | ----------------------------- | ------------------ | --------------- |
 | Chốt clean contract 16 cột, 8 điều kiện dừng | `src/core/contract.py` | `data/quality/clean_contract.json` | Chạy trên data thật: PASS, 0 blocker, 1 warning |
 | Gate chặn index/test set khi clean data hỏng | `phase1.py::enforce_clean_contract` | `ContractViolation` | Thử với data hỏng mô phỏng: bắt đủ 4 blocker và dừng |
-| Ghép baseline 8 bước | `script/run_phase1.py` | 10 artifact trong `data/` | `verify_baseline.py` → 32/33 |
+| Ghép baseline 8 bước | `script/run_phase1.py` | 10 artifact trong `data/` | `verify_baseline.py` → 33/33 |
 | Ghép corruption flow 7 bước | `script/run_corruption_flow.py` | 3 bộ metrics/answers/quality | Baseline nguyên vẹn sau khi chạy |
 | Audit chéo artifact | `script/verify_baseline.py` | 33 check | Phát hiện 3 lỗi thật + 2 lỗi của chính mình |
 | Trang demo | `script/build_demo.py` | `data/reports/demo.html` | 13/24 dòng bị tác động hiển thị đúng |
@@ -110,8 +110,8 @@ uv run python script/build_demo.py
 
 - **Kết quả mong đợi:** baseline tạo đủ 10 artifact và audit pass; corruption flow tạo 3 bộ
   metrics mà không đụng baseline.
-- **Kết quả thực tế:** đúng như vậy. Audit 32/33 — fail duy nhất là judge dùng heuristic fallback
-  vì chưa có API key, đây là hạn chế đã ghi nhận chứ không phải lỗi code. `pytest` 12/12 pass.
+- **Kết quả thực tế:** đúng như vậy. Sau khi nạp API key và chạy lại cả ba trạng thái, audit đạt
+  **33/33**, 0/40 câu dùng heuristic fallback ở mỗi trạng thái, agent demo chạy được. `pytest` 14/14 pass.
 - **Artifact/log:** `data/quality/clean_contract.json`, `data/results/*_metrics.json`,
   `data/reports/`. Không chứa secret.
 
@@ -159,7 +159,7 @@ uv run python script/build_demo.py
   `mean_token_f1` 0.1357 → 0.8475, `judge_accuracy` 0.0667 → 0.8000, audit 29/32 → 32/33.
   Sau đó `pytest tests/` phát hiện một test lineage gãy do thay đổi này: `_as_list` tách chuỗi
   joined theo dấu phẩy, mà `"Innovative economy: information, analytics, forecasts"` tự nó có dấu
-  phẩy. Đã sửa tối thiểu trong `lineage.py`, 12/12 pass.
+  phẩy. Đã sửa tối thiểu trong `lineage.py`, test suite trở lại xanh.
 - **Điều học được:** Hai chỉ số mâu thuẫn nhau là tín hiệu đáng tin hơn một chỉ số xấu.
   `retrieval_hit_rate = 1.000` cùng `token_f1 = 0.000` không thể cùng đúng — chính chỗ mâu thuẫn
   đó chỉ ra lỗi nằm ở bước sau retrieval. Nếu chỉ nhìn `mean_token_f1` tổng là 0.1357 thì rất dễ
@@ -204,8 +204,8 @@ uv run python script/build_demo.py
 | ---------------------- | -------: | --------: | -------: | ----------------------- |
 | `retrieval_hit_rate` | 1.0000 | 0.8000 | 1.0000 | 8/40 câu mất tài liệu đúng. Nhưng chỉ số này **bão hoà**, xem phần dưới |
 | `mean_token_f1` | 0.8475 | 0.6574 | 0.8475 | Chỉ số phản ánh trung thực nhất trong bộ này |
-| `judge_accuracy` | 0.8000 | 0.6250 | 0.8000 | **Không dùng làm bằng chứng** — heuristic fallback, chưa có API key |
-| `mean_judge_score` | 4.1500 | 3.4500 | 4.1500 | như trên |
+| `judge_accuracy` | 0.7750 | 0.6500 | 0.7750 | Do `gpt-4o-mini` chấm thật, 0/40 câu fallback |
+| `mean_judge_score` | 4.3250 | 3.8250 | 4.3250 | như trên |
 | Quality checks | 0 lỗi | dup 2, summary rỗng 2, stale 4 | 0 lỗi | Phát hiện đủ cả 3 loại |
 | Freshness status | Fresh | Stale | Fresh | Chỉ lật được sau khi sửa ngưỡng, xem mục 6 |
 

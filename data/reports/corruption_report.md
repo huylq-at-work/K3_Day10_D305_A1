@@ -33,8 +33,8 @@ Ba trang thai dung chung mot test set, cung top_k va cung evaluator.
 |---|---|---|---|---|---|
 | Retrieval Hit Rate | 100.00% | 80.00% | 100.00% | -20.00% | yes |
 | Mean Token F1 | 0.8475 | 0.6574 | 0.8475 | -0.1901 | yes |
-| Judge Accuracy | 80.00% | 62.50% | 80.00% | -17.50% | yes |
-| Mean Judge Score | 4.15 | 3.45 | 4.15 | -0.70 | yes |
+| Judge Accuracy | 77.50% | 65.00% | 77.50% | -12.50% | yes |
+| Mean Judge Score | 4.33 | 3.83 | 4.33 | -0.50 | yes |
 
 Samples: 40 cau hoi cho moi trang thai.
 

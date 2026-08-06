@@ -40,9 +40,10 @@ chèn nhiễu 2 bài, lùi ngày 4 bài về 730 ngày trước, nhân bản 2 d
 từ 0.257 và 0.178 về 0.000.
 
 Repair clean lại từ `data/raw/` và **khôi phục hoàn toàn cả 4 metric lẫn 5 tín hiệu quality** về
-đúng giá trị baseline. Giới hạn quan trọng nhất còn lại: chưa có API key nên `judge_accuracy` và
-`mean_judge_score` do heuristic fallback sinh ra, không phải đánh giá của LLM; và
-`retrieval_hit_rate` bị bão hoà ở 1.000 vì mọi câu hỏi đều trích nguyên tiêu đề bài báo.
+đúng giá trị baseline. Toàn bộ 120 câu (40 × 3 trạng thái) được `gpt-4o-mini` chấm thật, không có câu nào rơi về
+heuristic fallback, và `script/verify_baseline.py` đạt **33/33**. Giới hạn quan trọng nhất còn
+lại: `retrieval_hit_rate` bị bão hoà ở 1.000 vì mọi câu hỏi đều trích nguyên tiêu đề bài báo, nên
+chỉ số này chưa đo được chất lượng retrieval theo nghĩa chặt.
 
 ## 3. Kiến trúc và luồng dữ liệu
 
@@ -84,8 +85,8 @@ nguồn duy nhất để repair ở phase 2, nên sau khi lưu thì không ai đ
 
 | Biến/cấu hình             | Giá trị sử dụng |
 | ---------------------------- | ------------------- |
-| `LLM_PROVIDER`             | `gemini` |
-| `LLM_MODEL`                | `gemini-2.5-flash` |
+| `LLM_PROVIDER`             | `openai` |
+| `LLM_MODEL`                | `gpt-4o-mini` |
 | Embedding model              | `sentence-transformers/all-MiniLM-L6-v2` |
 | Số lượng Crossref records | `max_results=24`, nhận về đúng 24 |
 | Retrieval `top_k`           | `4` |
@@ -130,8 +131,8 @@ uv run python -c "import core.config, ingestion.crossref, retrieval.index, evalu
 | `uv sync` | Thành công | 2026-08-06 | `.venv` với Python 3.13.14 |
 | Baseline pipeline | Thành công | 2026-08-06 | `data/results/baseline_metrics.json`, `data/reports/phase1_report.md` |
 | Corruption flow | Thành công | 2026-08-06 | `data/results/corruption_log.json`, `corrupted_metrics.json`, `repaired_metrics.json`, `data/reports/corruption_report.md` |
-| `script/verify_baseline.py` | 32/33 check pass | 2026-08-06 | Fail duy nhất là judge dùng heuristic fallback (thiếu API key) |
-| `pytest tests/` | 12/12 pass | 2026-08-06 | — |
+| `script/verify_baseline.py` | **33/33 check pass** | 2026-08-06 | Bao gồm check judge không dùng heuristic fallback |
+| `pytest tests/` | 14/14 pass | 2026-08-06 | — |
 
 **Ghi chú môi trường:** Python hệ thống là 3.14, nằm ngoài khoảng `>=3.11,<3.14` của
 `pyproject.toml`, nên `uv` tự tải 3.13 vào `.venv`. Lần đầu `uv sync` có thể báo
@@ -198,7 +199,7 @@ Một ràng buộc phát sinh từ dữ liệu thật: Crossref trả `subject: 
 | Embedding model                          | `sentence-transformers/all-MiniLM-L6-v2` |
 | Vector store/collection                  | Chroma persistent tại `data/chroma/`; collection `papers-baseline` / `papers-corrupted` / `papers-repaired` |
 | Retrieval `top_k`                       | `4` |
-| LLM provider/model                       | `gemini` / `gemini-2.5-flash` |
+| LLM provider/model                       | `openai` / `gpt-4o-mini`, endpoint `https://api.openai.com/v1` |
 | Test set dùng chung cho ba trạng thái | `data/eval/test_set.json` |
 
 Giải thích vì sao test set được giữ nguyên khi đánh giá baseline, corrupted và repaired:
@@ -228,8 +229,8 @@ sinh một lần ở baseline và chỉ tạo lại khi đặt `REFRESH_TEST_SET
 | ---------------------- | --------------: | --------------------------------------- |
 | `retrieval_hit_rate` | 1.0000 | 40/40 câu lấy đúng tài liệu. **Chỉ số này bão hoà** — xem mục 12 |
 | `mean_token_f1`      | 0.8475 | authors/date/categories đạt 1.000; summary 0.390 |
-| `judge_accuracy`     | 0.8000 | **Do heuristic fallback**, không phải LLM judge |
-| `mean_judge_score`   | 4.1500 | như trên |
+| `judge_accuracy`     | 0.7750 | Do `gpt-4o-mini` chấm, 0/40 câu dùng heuristic fallback |
+| `mean_judge_score`   | 4.3250 | như trên |
 | Ragas, nếu có        | Không chạy | Mặc định tắt; bật bằng `RUN_RAGAS=1` |
 
 Vì sao `mean_token_f1` không đạt 1.000: câu hỏi loại summary có ground truth là cả abstract, còn
@@ -297,8 +298,8 @@ contract thì **dừng hẳn** chứ không sửa tay metrics. Index cũng dựn
 | ------------------------ | -------: | --------: | -------: | -----------------------: | --------------: | ------------ |
 | `retrieval_hit_rate`   | 1.0000 | 0.8000 | 1.0000 | −0.2000 | 100% | 8/40 câu mất tài liệu đúng |
 | `mean_token_f1`        | 0.8475 | 0.6574 | 0.8475 | −0.1901 | 100% | — |
-| `judge_accuracy`       | 0.8000 | 0.6250 | 0.8000 | −0.1750 | 100% | Heuristic judge, xem mục 12 |
-| `mean_judge_score`     | 4.1500 | 3.4500 | 4.1500 | −0.7000 | 100% | như trên |
+| `judge_accuracy`       | 0.7750 | 0.6500 | 0.7750 | −0.1250 | 100% | LLM judge `gpt-4o-mini` |
+| `mean_judge_score`     | 4.3250 | 3.8250 | 4.3250 | −0.5000 | 100% | như trên |
 | `paper_id` trùng | 0 | 2 | 0 | +2 | 100% | — |
 | `summary` thiếu/rỗng | 0 | 2 | 0 | +2 | 100% | — |
 | Dòng quá hạn | 0 | 4 | 0 | +4 | 100% | — |
@@ -358,7 +359,7 @@ lại dấu vết nào.
 
 | Giới hạn hiện tại | Ảnh hưởng   | Hướng cải thiện có thể kiểm chứng |
 | --------------------- | -------------- | ----------------------------------------- |
-| Chưa có API key LLM | 40/40 câu dùng heuristic fallback; `judge_accuracy` và `mean_judge_score` **không phải** đánh giá của LLM | Điền key rồi chạy lại; kiểm bằng cách tìm chuỗi `"Fallback heuristic judge"` trong `baseline_answers.json` — phải về 0 |
+| ~~Chưa có API key LLM~~ **Đã xử lý** | Đã nạp key OpenAI, chạy lại cả ba trạng thái. 0/40 câu dùng fallback ở mỗi trạng thái; `verify_baseline.py` từ 32/33 lên **33/33** | — |
 | `retrieval_hit_rate` bão hoà ở 1.000 | Mọi câu hỏi đều trích nguyên tiêu đề trong dấu nháy đơn, mà `answer_question` bắt tiêu đề bằng regex rồi lookup chính xác — tài liệu đúng luôn được chèn lên đầu bất kể embedding tốt hay xấu | Thêm câu hỏi **không** chứa nguyên văn tiêu đề, rồi so lại hit rate ba trạng thái |
 | Crossref trả `subject: []` ở 24/24 bài | `categories` phải fallback sang `container-title`/`type`; 9/24 dòng dùng chung giá trị (7 bài cùng `posted-content`) nên câu hỏi loại categories không phân biệt được bài | Sinh câu hỏi categories chỉ từ 15 bài có giá trị duy nhất, hoặc đổi nguồn category |
 | Corpus chỉ 24 tài liệu | Vài câu sai đã làm metric dao động mạnh; khó tách tác động corruption khỏi nhiễu nền | Ghi rõ cỡ mẫu cạnh mỗi metric; tăng `max_results` nếu Crossref trả đủ |
