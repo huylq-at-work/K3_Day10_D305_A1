@@ -77,3 +77,29 @@ clean data. This is intentional: a valid clean contract does not make a stale
 freshness report or mismatched evaluation IDs valid. It recomputes quality and
 freshness values from `papers_clean.json` rather than trusting a stored `pass`
 flag.
+
+## Deterministic corruption and repair evidence
+
+Run the Role 2 corruption-only checkpoint before the full comparison flow:
+
+```bash
+python -m ingestion.corruption_checkpoint
+```
+
+It first verifies `data/raw/baseline_source_lock.json`, then corrupts a copy of
+the baseline clean data without fetching Crossref. The default deterministic
+plan drops the 3 latest records, blanks 2 summaries, injects noise into 2
+summaries, shifts 4 publication dates back 730 days, and appends 2 duplicate
+rows. Every event logs its paper IDs, parameters, and before/after row counts.
+
+Outputs:
+
+- `papers_clean_corrupted.csv/json`: isolated corrupted dataset;
+- `data/results/corruption_log.json`: event-level audit log;
+- `corruption_validation.json`: independent proof that the output matches the
+  log and raw hashes did not change. When the repaired artifact exists, this
+  file also proves its schema, IDs, row count, full fingerprint, and lineage
+  record match the baseline exactly.
+
+The lineage sample is deliberately included in `missing_summary`; repair must
+rebuild it from `data/raw/crossref_records.json`, never from the corrupted row.

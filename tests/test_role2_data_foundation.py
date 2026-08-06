@@ -21,6 +21,11 @@ from ingestion.crossref import (
     load_raw_records,
     parse_crossref_payload,
 )
+from ingestion.corruption import (
+    corrupt_clean_dataframe,
+    validate_corruption_against_log,
+    validate_repair_against_baseline,
+)
 from ingestion.lineage import (
     build_baseline_lineage_evidence,
     verify_or_create_source_lock,
@@ -289,3 +294,71 @@ def test_phase1_uses_raw_snapshot_without_fetching(tmp_path, monkeypatch) -> Non
 
     assert resolved == records
     assert source_mode == "raw snapshot"
+
+
+def test_corruption_is_deterministic_logged_and_matches_artifact(tmp_path) -> None:
+    settings = load_settings()
+    baseline = pd.DataFrame(
+        json.loads(settings.paths.clean_json.read_text(encoding="utf-8"))
+    )
+    baseline_before = baseline.copy(deep=True)
+    first_log_path = tmp_path / "first_corruption_log.json"
+    second_log_path = tmp_path / "second_corruption_log.json"
+
+    first = corrupt_clean_dataframe(baseline, first_log_path)
+    second = corrupt_clean_dataframe(baseline, second_log_path)
+    first_log = json.loads(first_log_path.read_text(encoding="utf-8"))
+    second_log = json.loads(second_log_path.read_text(encoding="utf-8"))
+    validation = validate_corruption_against_log(baseline, first, first_log)
+
+    pd.testing.assert_frame_equal(baseline, baseline_before)
+    pd.testing.assert_frame_equal(first, second)
+    assert first_log["plan"] == second_log["plan"]
+    assert first_log["events"] == second_log["events"]
+    assert [event["type"] for event in first_log["events"]] == [
+        "drop_latest",
+        "missing_summary",
+        "noise_injection",
+        "old_published_date",
+        "duplicate_rows",
+    ]
+    assert len(first) == 23
+    assert first["paper_id"].duplicated().sum() == 2
+    assert validation["passed"] is True
+
+
+def test_lineage_candidate_can_be_repaired_from_raw(tmp_path) -> None:
+    settings = load_settings()
+    baseline = pd.DataFrame(
+        json.loads(settings.paths.clean_json.read_text(encoding="utf-8"))
+    )
+    corrupted = corrupt_clean_dataframe(baseline, tmp_path / "corruption_log.json")
+    log = json.loads((tmp_path / "corruption_log.json").read_text(encoding="utf-8"))
+    paper_id = log["lineage_repair_candidate"]["paper_id"]
+
+    corrupted_summary = corrupted.loc[
+        corrupted["paper_id"] == paper_id, "summary"
+    ].iloc[0]
+    raw_records = load_raw_records(settings.paths.raw_records_json)
+    run_date = datetime.fromisoformat(
+        json.loads(
+            (settings.paths.clean_json.parent / "cleaning_report.json").read_text(
+                encoding="utf-8"
+            )
+        )["run_date"]
+    )
+    repaired = build_clean_dataframe(raw_records, run_date)
+    repair_validation = validate_repair_against_baseline(baseline, repaired, paper_id)
+
+    assert corrupted_summary == ""
+    assert repair_validation["passed"] is True
+    assert repair_validation["checks"]["records_exactly_match_baseline"] is True
+    assert repair_validation["lineage"]["checks"]["summary_restored"] is True
+    assert repaired.loc[repaired["paper_id"] == paper_id, "summary"].iloc[0] == (
+        baseline.loc[baseline["paper_id"] == paper_id, "summary"].iloc[0]
+    )
+    assert repaired.loc[
+        repaired["paper_id"] == paper_id, "text_for_embedding"
+    ].iloc[0] == baseline.loc[
+        baseline["paper_id"] == paper_id, "text_for_embedding"
+    ].iloc[0]
