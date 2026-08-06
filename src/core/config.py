@@ -47,6 +47,7 @@ class Settings:
     google_api_key: str | None
     openai_api_key: str | None
     openai_base_url: str
+    openai_fallback_model: str
     anthropic_api_key: str | None
     openrouter_api_key: str | None
     openrouter_base_url: str
@@ -115,6 +116,7 @@ def load_settings(project_dir: Path | None = None) -> Settings:
         google_api_key=os.getenv("GOOGLE_API_KEY"),
         openai_api_key=os.getenv("OPENAI_API_KEY"),
         openai_base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
+        openai_fallback_model=os.getenv("OPENAI_FALLBACK_MODEL", "gpt-4o-mini"),
         anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
         openrouter_api_key=os.getenv("OPENROUTER_API_KEY"),
         openrouter_base_url=os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"),
@@ -144,6 +146,66 @@ def normalized_provider(settings: Settings) -> str:
     if provider == "customllm":
         return "custom"
     return provider
+
+
+SUPPORTED_PROVIDERS = ("openai", "gemini", "anthropic", "openrouter", "ollama", "custom")
+FALLBACK_PROVIDER = "openai"
+
+
+def has_llm_credentials(settings: Settings, provider: str) -> bool:
+    """Provider nay du credential de goi chua?"""
+    if provider == "gemini":
+        return bool(settings.google_api_key)
+    if provider == "openai":
+        return bool(settings.openai_api_key)
+    if provider == "anthropic":
+        return bool(settings.anthropic_api_key)
+    if provider == "openrouter":
+        return bool(settings.openrouter_api_key)
+    if provider == "ollama":
+        return True  # chay local, khong can key
+    if provider == "custom":
+        return bool(settings.custom_llm_base_url)
+    return False
+
+
+def resolve_llm(settings: Settings) -> tuple[str, str, str | None]:
+    """Chon provider VA model thuc su dung duoc.
+
+    Tra ve `(provider, model, ly_do_fallback)`. `ly_do_fallback` la None khi
+    dung dung provider da cau hinh.
+
+    Doi provider thi phai doi ca model: fallback tu gemini sang openai ma van
+    giu `LLM_MODEL=gemini-2.5-flash` thi OpenAI tra ve loi model khong ton tai.
+    Model dung khi fallback lay tu `OPENAI_FALLBACK_MODEL` (mac dinh gpt-4o-mini).
+
+    Fallback co chu y KHONG im lang: provider nao sinh ra `judge_accuracy` la
+    thong tin phai ghi vao report, doi provider giua cac lan chay ma khong biet
+    thi so lieu het so sanh duoc voi nhau.
+    """
+    provider = normalized_provider(settings)
+    if provider not in SUPPORTED_PROVIDERS:
+        raise RuntimeError(
+            f"LLM_PROVIDER={settings.llm_provider!r} khong ho tro. "
+            f"Chon mot trong: {', '.join(SUPPORTED_PROVIDERS)}."
+        )
+    if has_llm_credentials(settings, provider):
+        return provider, settings.model_name, None
+    if provider != FALLBACK_PROVIDER and has_llm_credentials(settings, FALLBACK_PROVIDER):
+        model = settings.openai_fallback_model
+        return FALLBACK_PROVIDER, model, (
+            f"LLM_PROVIDER={provider} nhung thieu credential; da fallback sang "
+            f"{FALLBACK_PROVIDER} model={model} ({settings.openai_base_url}). "
+            f"Ghi dieu nay vao report - metric duoc cham boi model nay, khong phai {settings.model_name}."
+        )
+    require_llm_credentials(settings)  # khong co duong lui - bao loi ro rang
+    return provider, settings.model_name, None
+
+
+def resolve_provider(settings: Settings) -> tuple[str, str | None]:
+    """Giu lai cho code chi can biet provider."""
+    provider, _model, reason = resolve_llm(settings)
+    return provider, reason
 
 
 def require_llm_credentials(settings: Settings) -> None:
