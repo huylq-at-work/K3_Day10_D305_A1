@@ -1,4 +1,4 @@
-# DANH SÁCH THÀNH VIÊN NHÓM
+# BÁO CÁO NHÓM — DAY 10
 
 > Day 10 — Data Pipeline & Data Observability · Đại học VinUni
 > Repo: `K3_Day10_LeQuangHuy` · Thư mục làm việc: [`src/`](src/)
@@ -55,6 +55,140 @@ artifact trong `data/` truy được về đúng người tạo ra nó.
 4. Liệt kê artifact phải có sau baseline và corruption flow.
 5. Định nghĩa tín hiệu: row count, null, duplicate, `age_days`, nguồn timestamp.
 6. Phác thảo report chứng minh data xấu làm RAG kém đi.
+
+## 2b. Checkpoint 0 — kết quả Role 1 (Lê Quang Huy)
+
+### (1) Tiêu chí hoàn thành & artifact bàn giao
+
+Mỗi role coi là xong khi **file artifact tồn tại đúng path dưới đây** và mở ra đọc được —
+không tính "code chạy không lỗi". Path lấy nguyên từ `Paths` trong
+[`src/core/config.py`](src/core/config.py), **không ai được tự đặt tên khác**.
+
+| Role | Artifact phải có | Tiêu chí hoàn thành |
+| :-- | :-- | :-- |
+| R2 | `data/raw/crossref_response.json`, `data/raw/crossref_records.json` | Raw lưu **trước** khi parse; retry `429`/`503` có thật |
+| R2 | `data/clean/papers_clean.csv`, `data/clean/papers_clean.json` | Đủ cột `paper_id`, `title`, `summary`, `authors_joined`, `categories_joined`, `published`, `age_days`, `text_for_embedding`; `paper_id` unique, không null |
+| R3 | `data/embeddings/papers_embeddings.json`, `data/chroma/` | Manifest có `collection_name`, `embedding_model`, `documents`; `search()` và `lookup()` trả kết quả trên corpus thật |
+| R4 | `data/eval/test_set.json` | Mỗi row đủ `id`, `question_type`, `question`, `ground_truth`, `ground_truth_doc_ids`; **mọi `ground_truth_doc_ids` phải tồn tại trong `papers_clean.csv`** |
+| R4 | `data/results/baseline_metrics.json`, `baseline_answers.json` | Có `retrieval_hit_rate`, `mean_token_f1`, `judge_accuracy`, `mean_judge_score` |
+| R4 | `data/quality/`, `data/quality/freshness_report.json` | Freshness có `latest_published`, `oldest_published`, `stale_rows`, `total_rows`, `is_fresh` |
+| R4 | `data/reports/phase1_report.md` | Số trong report khớp artifact thật |
+| R1 | `data/results/corruption_log.json`, `corrupted_metrics.json`, `repaired_metrics.json`, `data/reports/corruption_report.md` | Chạy được `run_phase1.py` rồi `run_corruption_flow.py` liên tiếp trên máy sạch |
+
+### (2) Kiểm tra môi trường — đã chạy trên máy R1
+
+| Hạng mục | Trạng thái | Ghi chú |
+| :-- | :-- | :-- |
+| Python | ✅ 3.13.14 | `pyproject.toml` yêu cầu `>=3.11,<3.14`. Python hệ thống là 3.14 (ngoài khoảng) nên `uv` tự tải 3.13 vào `.venv` |
+| Dependencies | ✅ `uv sync` | Cài theo `uv.lock`. Lần đầu có thể lỗi `Missing expected target directory for Python minor version link` — **chạy lại `uv sync` là qua** |
+| Import package | ✅ | `core`, `ingestion`, `retrieval`, `evaluation`, `observability`, `pipelines` import được (nhờ `pip install -e .` / `uv sync`, không phải `requirements.txt`) |
+| `.env` | ✅ tạo từ `.env.example` | Đã nằm trong `.gitignore` |
+| Provider config | ⚠️ thiếu key | `LLM_PROVIDER=gemini`, `LLM_MODEL=gemini-2.5-flash`, nhưng `GOOGLE_API_KEY` rỗng → `require_llm_credentials()` raise |
+| Starter TODO | ✅ 24 chỗ | Xem bảng phân bổ dưới |
+
+**Việc mỗi người phải tự làm:** điền `GOOGLE_API_KEY` vào `.env` của máy mình (hoặc đổi
+`LLM_PROVIDER` sang provider có key). Thiếu key thì `_judge_answer` rơi về heuristic fallback
+và `judge_accuracy` **không dùng được làm bằng chứng**.
+
+Lệnh dựng môi trường (một lần, tại thư mục gốc repo):
+
+```bash
+uv sync
+```
+
+Kiểm tra nhanh trước khi bắt đầu code:
+
+```bash
+uv run python -c "import core.config, ingestion.crossref, retrieval.index, evaluation.metrics, observability.quality, pipelines.phase1; print('OK')"
+```
+
+**Phân bổ 24 chỗ `TODO(student)`/`NotImplementedError`:**
+
+| File | Số chỗ | Role |
+| :-- | :-: | :-- |
+| `src/ingestion/crossref.py` | 6 | R2 |
+| `src/ingestion/cleaning.py` | 2 | R2 |
+| `src/ingestion/corruption.py` | 2 | R2 |
+| `src/observability/quality.py` | 4 | R4 |
+| `src/observability/reporting.py` | 4 | R4 |
+| `src/evaluation/testset.py` | 2 | R4 |
+| `src/pipelines/phase1.py` | 2 | R1 |
+| `src/pipelines/corruption_flow.py` | 2 | R1 |
+
+`src/retrieval/` **không có TODO** — `LocalEmbeddingIndex`, `MiniLMEmbeddings`, `agent.py`,
+`qa.py` đã viết sẵn. Phần của R3 là đọc hiểu và chốt tham số, không phải viết lại.
+
+### (3) Sơ đồ handoff
+
+#### Phase 1 — baseline
+
+```text
+   [R2]              [R2]                [R2]                  [R3]
+Crossref API ──► data/raw/           ──► data/clean/       ──► data/chroma/
+   fetch          crossref_response      papers_clean.csv      + data/embeddings/
+   retry 429/503  crossref_records       papers_clean.json       papers_embeddings.json
+                       │                        │                       │
+                  NGUON REPAIR                  │                       │
+                  (khong ghi de)                ▼                       │
+                                          [R4] data/eval/               │
+                                              test_set.json ────────────┤
+                                                                        ▼
+                                                              [R4] evaluate
+                                                            data/results/
+                                                            baseline_metrics.json
+                                                            baseline_answers.json
+                                       [R4] data/quality/              │
+                    papers_clean ─────► quality checks ────────────────┤
+                                        freshness_report.json          │
+                                                                       ▼
+                                                            [R4] data/reports/
+                                                              phase1_report.md
+
+════════ [R1] ghep toan bo: src/pipelines/phase1.py ← script/run_phase1.py ════════
+```
+
+`test_set.json` sinh **từ `papers_clean`** và đi **vào** bước evaluate — không phải sinh ra từ
+metrics. Quality checks đọc thẳng `papers_clean`, chạy song song với evaluate, cả hai cùng đổ
+vào report cuối.
+
+#### Phase 2 — corruption / repair
+
+```text
+                    ┌─── [R2] corrupt ──► papers_clean_corrupted ──► re-index ──► corrupted_metrics
+papers_clean ───────┤                     corruption_log.json                     corrupted_answers
+  (baseline)        │
+                    └─── giu nguyen ────► baseline_metrics (da co tu phase 1)
+
+data/raw/ ─────────────► [R2] clean lai ─► papers_clean_repaired ──► re-index ──► repaired_metrics
+(khong bao gio sua)                                                               repaired_answers
+                                                                                        │
+                                            CUNG MOT test_set.json cho ca 3 trang thai   │
+                                                                                        ▼
+                                                                        [R4] data/reports/
+                                                                          corruption_report.md
+```
+
+#### Hợp đồng bàn giao
+
+| # | Từ | Đến | File bàn giao | Người sau chỉ được đọc, không sửa |
+| :-: | :-- | :-- | :-- | :-- |
+| 1 | R2 | R2 | `data/raw/crossref_records.json` | R2 giữ nguyên sau khi ghi |
+| 2 | R2 | R3, R4 | `data/clean/papers_clean.csv` / `.json` | R3 index, R4 sinh test set + quality |
+| 3 | R3 | R4 | `data/embeddings/papers_embeddings.json` + `data/chroma/` | R4 chỉ query, không rebuild |
+| 4 | R4 | R4, R1 | `data/eval/test_set.json` | Cố định cho cả 3 trạng thái |
+| 5 | R4 | R1 | `data/results/*_metrics.json` | R1 đưa vào report so sánh |
+
+Điểm bàn giao giữa hai role là **file trên đĩa, không phải object trong RAM**. Ai xong phần
+mình thì commit artifact tương ứng để người sau chạy được ngay, không phải chờ chạy lại từ đầu.
+
+Ba ràng buộc không được vi phạm:
+
+1. **`data/raw/` là nguồn duy nhất để repair.** R2 lưu raw xong thì không được ghi đè — phase 2
+   phục hồi bằng cách clean lại từ chính raw đó. Mất raw là mất luôn khả năng chứng minh repair.
+2. **Một `test_set.json` duy nhất cho baseline / corrupted / repaired.** Đổi test set giữa các
+   lần đo thì chênh lệch metric không quy được về corruption, bảng so sánh mất giá trị.
+3. **Mỗi trạng thái một collection riêng** (`papers-baseline` / `papers-corrupted` /
+   `papers-repaired`). Ghi đè chung một collection là mất baseline để đối chiếu.
 
 ### Quy tắc sở hữu file — đọc kỹ
 
