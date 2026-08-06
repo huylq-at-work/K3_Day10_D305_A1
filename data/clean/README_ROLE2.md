@@ -48,3 +48,26 @@ objects and writes:
   coverage, and one real sample record for the cleaning owner.
 - `data/clean/cleaning_report.json`: input/clean/filter/dedupe counts, reason
   counts, affected source indexes, and the independent clean-contract result.
+
+## Baseline lineage and source evidence
+
+After Role 1 has produced the index manifest and Role 4 has produced the test
+set/baseline answers, run this read-only checkpoint (it never calls Crossref):
+
+```bash
+python -m ingestion.lineage
+```
+
+It creates/verifies `data/raw/baseline_source_lock.json` using SHA-256 hashes of
+the raw response and parsed records. A later change to either raw artifact stops
+the checkpoint instead of silently changing the baseline.
+
+`data/clean/baseline_lineage_evidence.json` then records:
+
+- one stable ID across raw DOI, `PaperRecord`, clean row, index content/metadata,
+  and test-set references;
+- corpus-wide empty embedding text and duplicate-ID checks;
+- a row-by-row test-set cleanliness and ground-truth audit;
+- raw source pointers plus clean/answer hashes and previews for incorrect
+  evaluator/agent answers;
+- whether the clean schema actually needs a contract change.

@@ -5,6 +5,7 @@ from datetime import UTC, datetime
 import json
 
 import pandas as pd
+import pytest
 
 from core.config import load_settings
 from ingestion.cleaning import (
@@ -19,6 +20,10 @@ from ingestion.crossref import (
     fetch_source_records,
     load_raw_records,
     parse_crossref_payload,
+)
+from ingestion.lineage import (
+    build_baseline_lineage_evidence,
+    verify_or_create_source_lock,
 )
 
 
@@ -208,3 +213,49 @@ def test_raw_handoff_and_clean_artifact_writers(tmp_path) -> None:
     assert report["clean_records"] == 1
     assert (clean_dir / "papers.csv").exists()
     assert (clean_dir / "papers.json").exists()
+
+
+def test_baseline_lineage_and_testset_are_traceable() -> None:
+    report = build_baseline_lineage_evidence(load_settings())
+
+    assert report["status"] == "passed"
+    assert report["lineage"]["passed"] is True
+    assert report["lineage"]["checks"]["index_content_matches_text_for_embedding"]
+    assert report["clean_index_checks"]["empty_text_for_embedding"] == 0
+    assert report["clean_index_checks"]["duplicate_clean_paper_ids"] == 0
+    assert report["clean_index_checks"]["duplicate_index_paper_ids"] == 0
+    assert report["test_set_audit"]["blockers"] == []
+    assert report["test_set_audit"]["duplicate_sample_ids"] == 0
+    assert all(
+        row["raw_record_found"]
+        and row["clean_record_found"]
+        and row["index_document_found"]
+        for row in report["test_set_audit"]["rows"]
+    )
+    assert report["schema_decision"]["clean_contract_change_required"] is False
+    assert report["incorrect_answer_source_evidence"]
+    assert all(
+        item["ground_truth_matches_clean_semantically"]
+        for item in report["incorrect_answer_source_evidence"]
+    )
+    assert all(
+        item["raw_source_value"]["chars"] > 0
+        for item in report["incorrect_answer_source_evidence"]
+    )
+
+
+def test_source_lock_detects_mid_baseline_refresh(tmp_path) -> None:
+    settings = load_settings(tmp_path)
+    settings.paths.raw_api_response.parent.mkdir(parents=True)
+    settings.paths.raw_api_response.write_text('{"snapshot": 1}', encoding="utf-8")
+    settings.paths.raw_records_json.write_text("[]", encoding="utf-8")
+    lock_path = settings.paths.raw_records_json.parent / "baseline_source_lock.json"
+
+    created = verify_or_create_source_lock(settings, lock_path)
+    verified = verify_or_create_source_lock(settings, lock_path)
+    assert created["status"] == "created"
+    assert verified["status"] == "verified"
+
+    settings.paths.raw_records_json.write_text('[{"changed": true}]', encoding="utf-8")
+    with pytest.raises(RuntimeError, match="Baseline source changed"):
+        verify_or_create_source_lock(settings, lock_path)

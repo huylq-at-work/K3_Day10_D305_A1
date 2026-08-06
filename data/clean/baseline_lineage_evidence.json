@@ -1,0 +1,1850 @@
+{
+  "status": "passed",
+  "lineage": {
+    "paper_id": "10.21203/rs.3.rs-10012178/v1",
+    "passed": true,
+    "checks": {
+      "raw_doi_normalizes_to_paper_id": true,
+      "raw_record_paper_id_matches": true,
+      "clean_paper_id_matches": true,
+      "index_document_paper_id_matches": true,
+      "index_metadata_paper_id_matches": true,
+      "index_content_matches_text_for_embedding": true,
+      "all_index_metadata_matches_clean": true
+    },
+    "metadata_field_matches": {
+      "paper_id": true,
+      "title": true,
+      "published": true,
+      "authors_joined": true,
+      "categories_joined": true,
+      "summary": true,
+      "abs_url": true,
+      "pdf_url": true
+    },
+    "raw": {
+      "path": "data/raw/crossref_response.json",
+      "message_item_index": 11,
+      "doi": "10.21203/rs.3.rs-10012178/v1",
+      "title": [
+        "Retrieval-Augmented Generation (RAG), Generative AI, and\nAgentic AI Governance: An Integrated Enterprise Governance\nPrioritization Architecture"
+      ]
+    },
+    "raw_record": {
+      "path": "data/raw/crossref_records.json",
+      "paper_id": "10.21203/rs.3.rs-10012178/v1"
+    },
+    "clean": {
+      "path": "data/clean/papers_clean.json",
+      "paper_id": "10.21203/rs.3.rs-10012178/v1",
+      "text_for_embedding": {
+        "chars": 2831,
+        "sha256": "f08febdfae81eb950b5ac51e26765f10674d6ca66021a95775d8e71497929520",
+        "preview": "Title: Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture\nAuthors: Audrey Rah, Sven Hahues\nCategories: posted-content\nAbstract: Abstract Enterprise"
+      }
+    },
+    "index_manifest": {
+      "path": "data/embeddings/papers_embeddings.json",
+      "collection_name": "papers-baseline",
+      "paper_id": "10.21203/rs.3.rs-10012178/v1",
+      "record_id": "10.21203/rs.3.rs-10012178/v1::8",
+      "content": {
+        "chars": 2831,
+        "sha256": "f08febdfae81eb950b5ac51e26765f10674d6ca66021a95775d8e71497929520",
+        "preview": "Title: Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture\nAuthors: Audrey Rah, Sven Hahues\nCategories: posted-content\nAbstract: Abstract Enterprise"
+      },
+      "metadata": {
+        "paper_id": "10.21203/rs.3.rs-10012178/v1",
+        "title": "Retrieval-Augmented Generation (RAG), Generative AI, and Agentic AI Governance: An Integrated Enterprise Governance Prioritization Architecture",
+        "published": "2026-06-15",
+        "authors_joined": "Audrey Rah, Sven Hahues",
+        "categories_joined": "posted-content",
+        "summary": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybersecurity, and executive oversight practices. This paper develops a proposed integrated AI governance prioritization architecture using a design-science research approach, supported by exploratory platform-risk analysis, a reproducible platform-risk dataset, a Monte Carlo robustness assessment, a framework coverage matrix, a Governance Priority Score (GPS)-based demonstration, and a public-document relevance assessment. The primary contribution is an integrated governance decision-support architecture that uses the Enterprise AI Platform Taxonomy (EAPT) to estimate platform burden, the Enterprise AI Risk Taxonomy (EART) to organize governance-risk exposure, the Enterprise AI Governance Maturity Model (EAGM) to represent organizational readiness, and the Integrated Agentic AI Governance Framework (IAGF) to identify agentic AI oversight requirements within a unified workflow. These components are operationally connected through GPS, which links platform burden, governancerisk gaps, organizational readiness, agentic runtime-control needs, and executive decision support. The proposed architecture draws upon NIST AI RMF, NIST AI 600-1, ISO/IEC 42001, COBIT, OWASP LLM Top 10, MITRE ATLAS, the EU AI Act, and related AI governance literature. A rubric-based analytical dataset covering 19 enterprise AI platforms evaluates each platform across eight subdimensions, with final platform-risk scores computed as the arithmetic mean of data access scope, operational autonomy, tool/API integration breadth, external connectivity, governance burden, cybersecurity exposure, adoption and shadow-AI risk, and supply-chain integrity. TThe expanded scoring method produces high rank stability relative to the original final-score dataset, with Spearman\u2019s \u03c1 = 0.996, and remains directionally stable under coding-uncertainty stress testing; these results are interpreted only as internal coding stability and robustness, not external validation. Public evidence from U.S. government agencies, universities, healthcare systems, and financial institutions is used to assess architecture relevance and observability, not to claim organizational effectiveness. The paper contributes a bounded design-science foundation for future inter-rater reliability testing, Delphi expert validation, organizational pilots, psychometric evaluation, and dashboard usability assessment.",
+        "abs_url": "https://doi.org/10.21203/rs.3.rs-10012178/v1",
+        "pdf_url": ""
+      }
+    },
+    "test_set_references": [
+      "d47fe500-c670-404f-96c9-47adad7fa20c",
+      "e7697da0-c94b-46a4-ae59-f8e5a7ad2524",
+      "6544edd5-bc1d-46a5-b50f-7593c5d9775b"
+    ]
+  },
+  "clean_index_checks": {
+    "clean_rows": 24,
+    "index_documents": 24,
+    "empty_text_for_embedding": 0,
+    "duplicate_clean_paper_ids": 0,
+    "duplicate_index_paper_ids": 0,
+    "empty_index_content": 0,
+    "clean_and_index_id_sets_match": true,
+    "missing_clean_contract_columns": [],
+    "missing_index_metadata_fields": []
+  },
+  "test_set_audit": {
+    "samples": 30,
+    "duplicate_sample_ids": 0,
+    "question_type_counts": {
+      "authors": 10,
+      "categories": 10,
+      "summary": 10
+    },
+    "blockers": [],
+    "warnings": [
+      "row_1:ground_truth_serialized_as_python_list_string",
+      "row_2:category_ground_truth_shared_by_7_clean_rows",
+      "row_2:ground_truth_serialized_as_python_list_string",
+      "row_4:ground_truth_serialized_as_python_list_string",
+      "row_5:ground_truth_serialized_as_python_list_string",
+      "row_7:ground_truth_serialized_as_python_list_string",
+      "row_8:ground_truth_serialized_as_python_list_string",
+      "row_10:ground_truth_serialized_as_python_list_string",
+      "row_11:ground_truth_serialized_as_python_list_string",
+      "row_13:ground_truth_serialized_as_python_list_string",
+      "row_14:ground_truth_serialized_as_python_list_string",
+      "row_16:ground_truth_serialized_as_python_list_string",
+      "row_17:ground_truth_serialized_as_python_list_string",
+      "row_19:ground_truth_serialized_as_python_list_string",
+      "row_20:ground_truth_serialized_as_python_list_string",
+      "row_22:ground_truth_serialized_as_python_list_string",
+      "row_23:ground_truth_serialized_as_python_list_string",
+      "row_25:ground_truth_serialized_as_python_list_string",
+      "row_26:ground_truth_serialized_as_python_list_string",
+      "row_28:ground_truth_serialized_as_python_list_string",
+      "row_29:ground_truth_serialized_as_python_list_string",
+      "No date questions were generated although clean schema provides `published`; the test-set consumer must read `published`, not `published_date`."
+    ],
+    "rows": [
+      {
+        "sample_index": 0,
+        "id": "d47fe500-c670-404f-96c9-47adad7fa20c",
+        "question_type": "summary",
+        "paper_id": "10.21203/rs.3.rs-10012178/v1",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 1,
+        "id": "e7697da0-c94b-46a4-ae59-f8e5a7ad2524",
+        "question_type": "authors",
+        "paper_id": "10.21203/rs.3.rs-10012178/v1",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 2,
+        "id": "6544edd5-bc1d-46a5-b50f-7593c5d9775b",
+        "question_type": "categories",
+        "paper_id": "10.21203/rs.3.rs-10012178/v1",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "category_ground_truth_shared_by_7_clean_rows",
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 3,
+        "id": "03781fb0-026e-49a7-aa4c-37288458716d",
+        "question_type": "summary",
+        "paper_id": "10.1093/sleep/zsag091.0346",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 4,
+        "id": "1e4e2ceb-b6a5-45d1-aa26-9b682e69592e",
+        "question_type": "authors",
+        "paper_id": "10.1093/sleep/zsag091.0346",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 5,
+        "id": "1997fe0c-6043-4efe-ace3-4162d7839120",
+        "question_type": "categories",
+        "paper_id": "10.1093/sleep/zsag091.0346",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 6,
+        "id": "361129a6-3a03-400e-971f-1b80d05d8e29",
+        "question_type": "summary",
+        "paper_id": "10.2118/234689-pa",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 7,
+        "id": "6c0531c0-522f-477e-959c-cae33f679d2a",
+        "question_type": "authors",
+        "paper_id": "10.2118/234689-pa",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 8,
+        "id": "dacedc3f-27e7-4256-b3db-f6122de09400",
+        "question_type": "categories",
+        "paper_id": "10.2118/234689-pa",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 9,
+        "id": "fcb8c026-d83f-4c1c-9132-455bcaaed77e",
+        "question_type": "summary",
+        "paper_id": "10.70121/001c.158711",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 10,
+        "id": "dbfc66bc-c88c-4458-94ba-4925e0e2f569",
+        "question_type": "authors",
+        "paper_id": "10.70121/001c.158711",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 11,
+        "id": "4ec43d72-28e7-454c-a7bc-abdfe6f951de",
+        "question_type": "categories",
+        "paper_id": "10.70121/001c.158711",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 12,
+        "id": "a37a47e5-5415-4cd6-83a5-4605d915c100",
+        "question_type": "summary",
+        "paper_id": "10.1148/radiol.251581",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 13,
+        "id": "2a7e4710-e037-47b8-891d-23b398cb635d",
+        "question_type": "authors",
+        "paper_id": "10.1148/radiol.251581",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 14,
+        "id": "1bcaade6-ead3-49a8-bfea-d571f3deaf5a",
+        "question_type": "categories",
+        "paper_id": "10.1148/radiol.251581",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 15,
+        "id": "ce64f321-50e9-4106-b6f5-2632f1b9df16",
+        "question_type": "summary",
+        "paper_id": "10.47576/2949-1894.2026.7.7.023",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 16,
+        "id": "88fc7ffb-c418-4eb0-82ef-76e1d9909163",
+        "question_type": "authors",
+        "paper_id": "10.47576/2949-1894.2026.7.7.023",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 17,
+        "id": "981c20b4-a729-49e0-b8c6-230f1aa450a4",
+        "question_type": "categories",
+        "paper_id": "10.47576/2949-1894.2026.7.7.023",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 18,
+        "id": "b7535086-1265-4c28-b265-de6fee657fd5",
+        "question_type": "summary",
+        "paper_id": "10.54254/2753-8818/2026.dl34055",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 19,
+        "id": "09723899-0d49-4fea-a7a5-20aba9bd5afd",
+        "question_type": "authors",
+        "paper_id": "10.54254/2753-8818/2026.dl34055",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 20,
+        "id": "d416e0cf-1616-4be8-9767-ad417566c5d3",
+        "question_type": "categories",
+        "paper_id": "10.54254/2753-8818/2026.dl34055",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 21,
+        "id": "c8af5a86-056e-41f2-b089-60c9f93645fe",
+        "question_type": "summary",
+        "paper_id": "10.1007/s10278-026-02086-9",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 22,
+        "id": "c4a9e4b7-000e-4417-a3cf-954a5c4a97b9",
+        "question_type": "authors",
+        "paper_id": "10.1007/s10278-026-02086-9",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 23,
+        "id": "86859102-5152-4ca7-b024-973a35aae09a",
+        "question_type": "categories",
+        "paper_id": "10.1007/s10278-026-02086-9",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 24,
+        "id": "44ba386c-ba30-426a-957d-22674b67633a",
+        "question_type": "summary",
+        "paper_id": "10.3390/app16052244",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 25,
+        "id": "61a1774b-0c90-4275-b83d-dc5cb0e7aa40",
+        "question_type": "authors",
+        "paper_id": "10.3390/app16052244",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 26,
+        "id": "85e49127-ea50-4369-b747-3fcb14d2ae8d",
+        "question_type": "categories",
+        "paper_id": "10.3390/app16052244",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 27,
+        "id": "3a0bd65e-c5c5-435b-ba73-4abedc4f2837",
+        "question_type": "summary",
+        "paper_id": "10.21079/11681/50309",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": []
+      },
+      {
+        "sample_index": 28,
+        "id": "0bff3f7a-8a29-4c54-9bac-a7ed88d11a9b",
+        "question_type": "authors",
+        "paper_id": "10.21079/11681/50309",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      },
+      {
+        "sample_index": 29,
+        "id": "18b32e71-2f74-44aa-8e5b-fbf08af97491",
+        "question_type": "categories",
+        "paper_id": "10.21079/11681/50309",
+        "raw_record_found": true,
+        "clean_record_found": true,
+        "index_document_found": true,
+        "ground_truth_matches_clean_semantically": true,
+        "issues": [],
+        "warnings": [
+          "ground_truth_serialized_as_python_list_string"
+        ]
+      }
+    ]
+  },
+  "incorrect_answer_source_evidence": [
+    {
+      "question_id": "d47fe500-c670-404f-96c9-47adad7fa20c",
+      "question_type": "summary",
+      "paper_id": "10.21203/rs.3.rs-10012178/v1",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 11,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 2648,
+        "sha256": "081d1ad955b1fe75b4606f8d04d655e97087284f6cfaae59b5d22069772a48cc",
+        "preview": "<title>Abstract</title>\n                <p>Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can a"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 2610,
+        "sha256": "7863afaa929f098f19db00cc35fd533bcb25cb1adb0bb1ff4023b57cec2a7d7b",
+        "preview": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybe"
+      },
+      "clean_expected": {
+        "chars": 2610,
+        "sha256": "7863afaa929f098f19db00cc35fd533bcb25cb1adb0bb1ff4023b57cec2a7d7b",
+        "preview": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybe"
+      },
+      "actual_answer": {
+        "chars": 285,
+        "sha256": "411d4da9a1aa65a8b4b731faf619677620573317aa4d1d73fb68e7afce2315a4",
+        "preview": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybe"
+      },
+      "retrieved_doc_ids": [
+        "10.21203/rs.3.rs-10012178/v1",
+        "10.63646/kpqm1958",
+        "10.3390/buildings16132637",
+        "10.7717/peerj-cs.3882"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.25680933852140075,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "e7697da0-c94b-46a4-ae59-f8e5a7ad2524",
+      "question_type": "authors",
+      "paper_id": "10.21203/rs.3.rs-10012178/v1",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 11,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 420,
+        "sha256": "b792ab105745bd4be0922afc17a4abd53aa87b08242474862fd0dd77a071962b",
+        "preview": "[{\"ORCID\": \"https://orcid.org/0000-0001-7501-7809\", \"affiliation\": [{\"name\": \"University of Houston\"}], \"authenticated-orcid\": false, \"family\": \"Rah\", \"given\": \"Audrey\", \"role\": [{\"role\": \"author\", \"vocabulary\": \"crossref\"}], \"sequence\": \"f"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 29,
+        "sha256": "54db7a6bf5bba2258da7e5f6256b5e498b4b3b05b20d4f58a7216f9d6144f89b",
+        "preview": "['Audrey Rah', 'Sven Hahues']"
+      },
+      "clean_expected": {
+        "chars": 29,
+        "sha256": "54db7a6bf5bba2258da7e5f6256b5e498b4b3b05b20d4f58a7216f9d6144f89b",
+        "preview": "['Audrey Rah', 'Sven Hahues']"
+      },
+      "actual_answer": {
+        "chars": 285,
+        "sha256": "411d4da9a1aa65a8b4b731faf619677620573317aa4d1d73fb68e7afce2315a4",
+        "preview": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybe"
+      },
+      "retrieved_doc_ids": [
+        "10.21203/rs.3.rs-10012178/v1",
+        "10.63646/kpqm1958",
+        "10.3390/buildings16132637",
+        "10.21079/11681/50309"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "6544edd5-bc1d-46a5-b50f-7593c5d9775b",
+      "question_type": "categories",
+      "paper_id": "10.21203/rs.3.rs-10012178/v1",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 11,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 14,
+        "sha256": "e41c95a8d1d61f759005d91ea9d37c7d8ae836ad55ffba6624a9cdd0edf4d1c0",
+        "preview": "posted-content"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 18,
+        "sha256": "51fc01e9066b383eb72de7a583711c4adf8da4168a0836616750765a2ab52cb9",
+        "preview": "['posted-content']"
+      },
+      "clean_expected": {
+        "chars": 18,
+        "sha256": "51fc01e9066b383eb72de7a583711c4adf8da4168a0836616750765a2ab52cb9",
+        "preview": "['posted-content']"
+      },
+      "actual_answer": {
+        "chars": 285,
+        "sha256": "411d4da9a1aa65a8b4b731faf619677620573317aa4d1d73fb68e7afce2315a4",
+        "preview": "Abstract Enterprise adoption of artificial intelligence (AI) systems, including Generative AI (GenAI), Retrieval-Augmented Generation (RAG), and agentic AI, is advancing faster than many organizations can adapt their governance, audit, cybe"
+      },
+      "retrieved_doc_ids": [
+        "10.21203/rs.3.rs-10012178/v1",
+        "10.63646/kpqm1958",
+        "10.3390/buildings16132637",
+        "10.7717/peerj-cs.3882"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "03781fb0-026e-49a7-aa4c-37288458716d",
+      "question_type": "summary",
+      "paper_id": "10.1093/sleep/zsag091.0346",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 20,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 3118,
+        "sha256": "d64af3a3eeb4350e7a04ff141acc6a99e828fab1bf30dd1691c14292b83f51e4",
+        "preview": "<jats:title>Abstract</jats:title>\n                  <jats:sec>\n                    <jats:title>Introduction</jats:title>\n                    <jats:p>While Large Language Models (LLMs) offer generative capabilities, generic models often lack"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 2491,
+        "sha256": "7df15bb691ab41bf3cabc549dd9ed8788d3ae7e320aa7463117f144711ed4352",
+        "preview": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain-specific grounding, leading to hallucinations in high-stakes contexts. However, LLMs can serve as clinical decision sup"
+      },
+      "clean_expected": {
+        "chars": 2491,
+        "sha256": "7df15bb691ab41bf3cabc549dd9ed8788d3ae7e320aa7463117f144711ed4352",
+        "preview": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain-specific grounding, leading to hallucinations in high-stakes contexts. However, LLMs can serve as clinical decision sup"
+      },
+      "actual_answer": {
+        "chars": 191,
+        "sha256": "d7c71ccd6c83eb1c4f9f9ae6c82ced6ce71dddae741be6888e47c16faacc7c3d",
+        "preview": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain-specific grounding, leading to hallucinations in high-stakes contexts."
+      },
+      "retrieved_doc_ids": [
+        "10.1093/sleep/zsag091.0346",
+        "10.70121/001c.158711",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.1148/radiol.251581"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.17796610169491525,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "1e4e2ceb-b6a5-45d1-aa26-9b682e69592e",
+      "question_type": "authors",
+      "paper_id": "10.1093/sleep/zsag091.0346",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 20,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 1243,
+        "sha256": "d709e0be488ead422f7c79529e8d907c3f0642b4d3d5b7e401cd9e3d81ad3618",
+        "preview": "[{\"affiliation\": [{\"name\": \"Mayo Clinic Jacksonville\"}], \"family\": \"Cheung\", \"given\": \"Joseph\", \"role\": [{\"role\": \"author\", \"vocabulary\": \"crossref\"}], \"sequence\": \"first\"}, {\"affiliation\": [{\"name\": \"Mayo Clinic Jacksonville\"}], \"family\": "
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 121,
+        "sha256": "39083d2256c94b8e490a21854b4edb205216e924e701ff388d7d092f710a808d",
+        "preview": "['Joseph Cheung', 'Pengze Li', 'Anshum Patel', 'SaiKrishna Vallamchetla', 'Het Contractor', 'Hayden Heninger', 'Cui Tao']"
+      },
+      "clean_expected": {
+        "chars": 121,
+        "sha256": "39083d2256c94b8e490a21854b4edb205216e924e701ff388d7d092f710a808d",
+        "preview": "['Joseph Cheung', 'Pengze Li', 'Anshum Patel', 'SaiKrishna Vallamchetla', 'Het Contractor', 'Hayden Heninger', 'Cui Tao']"
+      },
+      "actual_answer": {
+        "chars": 191,
+        "sha256": "d7c71ccd6c83eb1c4f9f9ae6c82ced6ce71dddae741be6888e47c16faacc7c3d",
+        "preview": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain-specific grounding, leading to hallucinations in high-stakes contexts."
+      },
+      "retrieved_doc_ids": [
+        "10.1093/sleep/zsag091.0346",
+        "10.70121/001c.158711",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.1148/radiol.251581"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "1997fe0c-6043-4efe-ace3-4162d7839120",
+      "question_type": "categories",
+      "paper_id": "10.1093/sleep/zsag091.0346",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 20,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 10,
+        "sha256": "d09daa188062f36e6fa6be1e8da738e5ce8bf07d0cc121dc36c4deacbd1f63b2",
+        "preview": "[\"SLEEPJ\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 10,
+        "sha256": "9fc45d5e9386f2fbe0a7702b77f3b465fd75479c7320d9ed7f2952994791d84c",
+        "preview": "['SLEEPJ']"
+      },
+      "clean_expected": {
+        "chars": 10,
+        "sha256": "9fc45d5e9386f2fbe0a7702b77f3b465fd75479c7320d9ed7f2952994791d84c",
+        "preview": "['SLEEPJ']"
+      },
+      "actual_answer": {
+        "chars": 191,
+        "sha256": "d7c71ccd6c83eb1c4f9f9ae6c82ced6ce71dddae741be6888e47c16faacc7c3d",
+        "preview": "Abstract Introduction While Large Language Models (LLMs) offer generative capabilities, generic models often lack domain-specific grounding, leading to hallucinations in high-stakes contexts."
+      },
+      "retrieved_doc_ids": [
+        "10.1093/sleep/zsag091.0346",
+        "10.70121/001c.158711",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.1148/radiol.251581"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "361129a6-3a03-400e-971f-1b80d05d8e29",
+      "question_type": "summary",
+      "paper_id": "10.2118/234689-pa",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 13,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 1499,
+        "sha256": "cb93de9f5774b21317b8fe95cfd486bfce1952b5fd25391e77442059aaae6f5c",
+        "preview": "<jats:title>Summary</jats:title>\n                  <jats:p>In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow. However"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 1404,
+        "sha256": "418f4d202dfabad25591eb38c96796b8a23f487156882e11ce39b7607c27c795",
+        "preview": "Summary In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow. However, this approach is fundamentally constrained by the"
+      },
+      "clean_expected": {
+        "chars": 1404,
+        "sha256": "418f4d202dfabad25591eb38c96796b8a23f487156882e11ce39b7607c27c795",
+        "preview": "Summary In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow. However, this approach is fundamentally constrained by the"
+      },
+      "actual_answer": {
+        "chars": 181,
+        "sha256": "4263f50204d165c4c9ed19d7d24b844e1ada8e13724c6d6e31182893add37da1",
+        "preview": "Summary In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow."
+      },
+      "retrieved_doc_ids": [
+        "10.2118/234689-pa",
+        "10.55041/isjem07213",
+        "10.7717/peerj-cs.3882",
+        "10.20944/preprints202604.0339.v1"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.3116883116883117,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "6c0531c0-522f-477e-959c-cae33f679d2a",
+      "question_type": "authors",
+      "paper_id": "10.2118/234689-pa",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 13,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 1034,
+        "sha256": "bebce7bf49addfa0f3fa5c2aabe6ef8451e9271cc85d0da9fb65b2e9228882ab",
+        "preview": "[{\"ORCID\": \"https://orcid.org/0000-0001-7491-5201\", \"affiliation\": [{\"name\": \"College of Safety and Ocean Engineering, China University of Petroleum, Beijing, China (Corresponding author)\"}], \"authenticated-orcid\": true, \"family\": \"Cao\", \"g"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 60,
+        "sha256": "2c4393d3a13d3e9947f9274e9eeb7ed1ae35e38690eb09fa868e95f1ee541db6",
+        "preview": "['Qianwen Cao', 'Chiyu Zhang', 'Junxiong Ning', 'Gongru Li']"
+      },
+      "clean_expected": {
+        "chars": 60,
+        "sha256": "2c4393d3a13d3e9947f9274e9eeb7ed1ae35e38690eb09fa868e95f1ee541db6",
+        "preview": "['Qianwen Cao', 'Chiyu Zhang', 'Junxiong Ning', 'Gongru Li']"
+      },
+      "actual_answer": {
+        "chars": 181,
+        "sha256": "4263f50204d165c4c9ed19d7d24b844e1ada8e13724c6d6e31182893add37da1",
+        "preview": "Summary In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow."
+      },
+      "retrieved_doc_ids": [
+        "10.2118/234689-pa",
+        "10.55041/isjem07213",
+        "10.7717/peerj-cs.3882",
+        "10.20944/preprints202604.0339.v1"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "dacedc3f-27e7-4256-b3db-f6122de09400",
+      "question_type": "categories",
+      "paper_id": "10.2118/234689-pa",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 13,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 15,
+        "sha256": "12aa243f491f26bd509b5f18b29caf69903e72d16410fc21e5862c5b6de36827",
+        "preview": "[\"SPE Journal\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 15,
+        "sha256": "b95b25931bb15005a6eb98c9120805291b8fc095fc2c277f20bcab30bd3d1dbd",
+        "preview": "['SPE Journal']"
+      },
+      "clean_expected": {
+        "chars": 15,
+        "sha256": "b95b25931bb15005a6eb98c9120805291b8fc095fc2c277f20bcab30bd3d1dbd",
+        "preview": "['SPE Journal']"
+      },
+      "actual_answer": {
+        "chars": 181,
+        "sha256": "4263f50204d165c4c9ed19d7d24b844e1ada8e13724c6d6e31182893add37da1",
+        "preview": "Summary In high-risk industrial settings, leveraging large language models (LLMs) for automated accident analysis and generating safety reports has emerged as an efficient workflow."
+      },
+      "retrieved_doc_ids": [
+        "10.2118/234689-pa",
+        "10.55041/isjem07213",
+        "10.7717/peerj-cs.3882",
+        "10.1111/exsy.70341"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "fcb8c026-d83f-4c1c-9132-455bcaaed77e",
+      "question_type": "summary",
+      "paper_id": "10.70121/001c.158711",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 15,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 1129,
+        "sha256": "71a0fec96eb71d837b500631d8c3072c8f5ae1cad7e9fdd3b466d17104918241",
+        "preview": "<jats:p>Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusti"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 1112,
+        "sha256": "c95178397535f8db4e38c6cd73abed142c069f337276e0576b0d81d055860ae2",
+        "preview": "Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusting and a"
+      },
+      "clean_expected": {
+        "chars": 1112,
+        "sha256": "c95178397535f8db4e38c6cd73abed142c069f337276e0576b0d81d055860ae2",
+        "preview": "Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusting and a"
+      },
+      "actual_answer": {
+        "chars": 315,
+        "sha256": "51c6c4fe1c0f0a96d73d90153419c138599e453ba5646cc037ef56e7cc7795d4",
+        "preview": "Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusting and a"
+      },
+      "retrieved_doc_ids": [
+        "10.70121/001c.158711",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.1148/radiol.251581",
+        "10.1093/sleep/zsag091.0346"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.490066225165563,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "dbfc66bc-c88c-4458-94ba-4925e0e2f569",
+      "question_type": "authors",
+      "paper_id": "10.70121/001c.158711",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 15,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 132,
+        "sha256": "3ed6b0e063c76c70b7d9bd257f0e4a08867f29c01c3b154c14034057b4dcc948",
+        "preview": "[{\"affiliation\": [], \"family\": \"Ni\", \"given\": \"Eason\", \"role\": [{\"role\": \"author\", \"vocabulary\": \"crossref\"}], \"sequence\": \"first\"}]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 12,
+        "sha256": "a5eb3e6bc38a0d333f6615e59839b55c359ea92aece6b02582b8cb860687bd9e",
+        "preview": "['Eason Ni']"
+      },
+      "clean_expected": {
+        "chars": 12,
+        "sha256": "a5eb3e6bc38a0d333f6615e59839b55c359ea92aece6b02582b8cb860687bd9e",
+        "preview": "['Eason Ni']"
+      },
+      "actual_answer": {
+        "chars": 315,
+        "sha256": "51c6c4fe1c0f0a96d73d90153419c138599e453ba5646cc037ef56e7cc7795d4",
+        "preview": "Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusting and a"
+      },
+      "retrieved_doc_ids": [
+        "10.70121/001c.158711",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.1148/radiol.251581",
+        "10.20944/preprints202602.0996.v1"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "4ec43d72-28e7-454c-a7bc-abdfe6f951de",
+      "question_type": "categories",
+      "paper_id": "10.70121/001c.158711",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 15,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 28,
+        "sha256": "4a6fa2c052e48f64c08e65c662be782038fa5600748704b69a5e8d2de075d51e",
+        "preview": "[\"Scholarly Review Journal\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 28,
+        "sha256": "f9cd6b2a9b35df70ceb2a4eaeed552898450c08f09d032579ab09a2fa116ed54",
+        "preview": "['Scholarly Review Journal']"
+      },
+      "clean_expected": {
+        "chars": 28,
+        "sha256": "f9cd6b2a9b35df70ceb2a4eaeed552898450c08f09d032579ab09a2fa116ed54",
+        "preview": "['Scholarly Review Journal']"
+      },
+      "actual_answer": {
+        "chars": 315,
+        "sha256": "51c6c4fe1c0f0a96d73d90153419c138599e453ba5646cc037ef56e7cc7795d4",
+        "preview": "Large Language Models (LLMs) that rely solely on parametric memory learned through training have demonstrated strong performance in biomedical question-answering, but their tendency to hallucinate facts and the difficulty of adjusting and a"
+      },
+      "retrieved_doc_ids": [
+        "10.70121/001c.158711",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.1093/sleep/zsag091.0346",
+        "10.1148/radiol.251581"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "2a7e4710-e037-47b8-891d-23b398cb635d",
+      "question_type": "authors",
+      "paper_id": "10.1148/radiol.251581",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 23,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 2630,
+        "sha256": "70192556cea08fe93699b99c19136093aa20461c9d887e168a9c6265720696d9",
+        "preview": "[{\"ORCID\": \"https://orcid.org/0000-0002-2221-3512\", \"affiliation\": [{\"name\": \"Mallinckrodt Institute of Radiology, Washington                     University School of Medicine, 510 S Kingshighway Blvd, St Louis, MO 63110\"}], \"authenticated-"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 122,
+        "sha256": "fe864f3b5be9a72717f1acd73d683f1eba61a83cf0b19acd722c197d2749cf29",
+        "preview": "['Karan Jani', 'Govind Mattay', 'Vamsi Narra', 'Anup Shetty', 'Glenwood Stancil', 'Andrew Bierhals', 'Yasasvi Tadavarthi']"
+      },
+      "clean_expected": {
+        "chars": 122,
+        "sha256": "fe864f3b5be9a72717f1acd73d683f1eba61a83cf0b19acd722c197d2749cf29",
+        "preview": "['Karan Jani', 'Govind Mattay', 'Vamsi Narra', 'Anup Shetty', 'Glenwood Stancil', 'Andrew Bierhals', 'Yasasvi Tadavarthi']"
+      },
+      "actual_answer": {
+        "chars": 228,
+        "sha256": "664e2527067871fc6c9de89fe9e1c5b08ca973598929b95fc74825b74282bcab",
+        "preview": "A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and completeness; speed and performance varied depending on the model used (GPT-4o mini, o3-mini, GPT-5-mini [OpenAI])."
+      },
+      "retrieved_doc_ids": [
+        "10.1148/radiol.251581",
+        "10.70121/001c.158711",
+        "10.1007/s10278-026-02086-9",
+        "10.1093/sleep/zsag091.0346"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "1bcaade6-ead3-49a8-bfea-d571f3deaf5a",
+      "question_type": "categories",
+      "paper_id": "10.1148/radiol.251581",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 23,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 13,
+        "sha256": "1b680bc57c72d5bfd02116e9b030bf5c9432b86ddd4d60f79ddc41f5e0e62a00",
+        "preview": "[\"Radiology\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 13,
+        "sha256": "7ba46d7f9a5d2ca08933f7f38e9418a1c45aa0cc0dad57396980c02cd79316e1",
+        "preview": "['Radiology']"
+      },
+      "clean_expected": {
+        "chars": 13,
+        "sha256": "7ba46d7f9a5d2ca08933f7f38e9418a1c45aa0cc0dad57396980c02cd79316e1",
+        "preview": "['Radiology']"
+      },
+      "actual_answer": {
+        "chars": 228,
+        "sha256": "664e2527067871fc6c9de89fe9e1c5b08ca973598929b95fc74825b74282bcab",
+        "preview": "A large language model pipeline automatically summarized oncologic histories with high efficiency, accuracy, and completeness; speed and performance varied depending on the model used (GPT-4o mini, o3-mini, GPT-5-mini [OpenAI])."
+      },
+      "retrieved_doc_ids": [
+        "10.1148/radiol.251581",
+        "10.70121/001c.158711",
+        "10.1093/sleep/zsag091.0346",
+        "10.1007/s10278-026-02086-9"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "ce64f321-50e9-4106-b6f5-2632f1b9df16",
+      "question_type": "summary",
+      "paper_id": "10.47576/2949-1894.2026.7.7.023",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 1,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 1652,
+        "sha256": "86dd2dc58646407d6a09f621e3f079a025a001c14cf2be9831de7486f65cefa9",
+        "preview": "<jats:p>\u0412 \u0441\u0442\u0430\u0442\u044c\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model)  \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation) \u0432 \u0441\u043e\u0432\u0440"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 1597,
+        "sha256": "4d2a65a7f9261311f9a799c7810b7328d0fc0edbc07d9abe997111e0a88a1ad5",
+        "preview": "\u0412 \u0441\u0442\u0430\u0442\u044c\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation) \u0432 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u0443"
+      },
+      "clean_expected": {
+        "chars": 1597,
+        "sha256": "4d2a65a7f9261311f9a799c7810b7328d0fc0edbc07d9abe997111e0a88a1ad5",
+        "preview": "\u0412 \u0441\u0442\u0430\u0442\u044c\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation) \u0432 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u0443"
+      },
+      "actual_answer": {
+        "chars": 248,
+        "sha256": "44024094d1948f2b1015536877c46f6c9b9882d1e3b6f69a76dbf4a265fef5f2",
+        "preview": "\u0412 \u0441\u0442\u0430\u0442\u044c\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation) \u0432 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u0443"
+      },
+      "retrieved_doc_ids": [
+        "10.47576/2949-1894.2026.7.7.023",
+        "10.52060/juptik.v4i1.4318",
+        "10.35314/3y9hy151",
+        "10.54254/2753-8818/2026.dl34055"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.32298136645962733,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "88fc7ffb-c418-4eb0-82ef-76e1d9909163",
+      "question_type": "authors",
+      "paper_id": "10.47576/2949-1894.2026.7.7.023",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 1,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 506,
+        "sha256": "15d0d3c66e775c1e820551f44e850674ee4725b9d8c2a704248d9cd2a7c3f998",
+        "preview": "[{\"affiliation\": [{\"name\": \"\u0418\u043d\u0441\u0442\u0438\u0442\u0443\u0442 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u0438\u0445 \u0440\u0435\u0433\u0438\u043e\u043d\u0430\u043b\u044c\u043d\u044b\u0445 \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0439\"}], \"family\": \"\u0415\u0440\u043c\u0430\u043a\u043e\u0432\", \"given\": \"\u0418.\u0412.\", \"role\": [{\"role\": \"author\", \"vocabulary\": \"crossref\"}], \"sequence\": \"first\"}, {\"affiliation\": [{\"name\": \"\u0420\u043e\u0441\u0441\u0438\u0439\u0441\u043a\u0438\u0439 \u0433\u043e\u0441\u0443\u0434"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 32,
+        "sha256": "aec5b0321c841740f239096bf14411f7d366f4e86a216736513fba69a94aeb1b",
+        "preview": "['\u0418.\u0412. \u0415\u0440\u043c\u0430\u043a\u043e\u0432', '\u0412.\u0412. \u0424\u0438\u043b\u0430\u0442\u043e\u0432']"
+      },
+      "clean_expected": {
+        "chars": 32,
+        "sha256": "aec5b0321c841740f239096bf14411f7d366f4e86a216736513fba69a94aeb1b",
+        "preview": "['\u0418.\u0412. \u0415\u0440\u043c\u0430\u043a\u043e\u0432', '\u0412.\u0412. \u0424\u0438\u043b\u0430\u0442\u043e\u0432']"
+      },
+      "actual_answer": {
+        "chars": 248,
+        "sha256": "44024094d1948f2b1015536877c46f6c9b9882d1e3b6f69a76dbf4a265fef5f2",
+        "preview": "\u0412 \u0441\u0442\u0430\u0442\u044c\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation) \u0432 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u0443"
+      },
+      "retrieved_doc_ids": [
+        "10.47576/2949-1894.2026.7.7.023",
+        "10.52060/juptik.v4i1.4318",
+        "10.35314/3y9hy151",
+        "10.54254/2753-8818/2026.dl34055"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "981c20b4-a729-49e0-b8c6-230f1aa450a4",
+      "question_type": "categories",
+      "paper_id": "10.47576/2949-1894.2026.7.7.023",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 1,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 57,
+        "sha256": "7012d6d6dd81a86b98bbdf1d1a41e6f318ba41cf8ac7baeeb296f11e1fa9978f",
+        "preview": "[\"Innovative economy: information, analytics, forecasts\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 57,
+        "sha256": "8751653c3d4fec3006053127a6cc4adab2c7a1411a291f55b709fda244de4c8a",
+        "preview": "['Innovative economy: information, analytics, forecasts']"
+      },
+      "clean_expected": {
+        "chars": 57,
+        "sha256": "8751653c3d4fec3006053127a6cc4adab2c7a1411a291f55b709fda244de4c8a",
+        "preview": "['Innovative economy: information, analytics, forecasts']"
+      },
+      "actual_answer": {
+        "chars": 248,
+        "sha256": "44024094d1948f2b1015536877c46f6c9b9882d1e3b6f69a76dbf4a265fef5f2",
+        "preview": "\u0412 \u0441\u0442\u0430\u0442\u044c\u0435 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043e \u0438\u0441\u0441\u043b\u0435\u0434\u043e\u0432\u0430\u043d\u0438\u0435 \u043e\u0441\u043e\u0431\u0435\u043d\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u043d\u0438\u0436\u0435\u043d\u0438\u044f \u0440\u0438\u0441\u043a\u043e\u0432 \u043f\u0440\u0438\u043c\u0435\u043d\u0435\u043d\u0438\u044f LLM (Large Language Model) \u0432 \u0441\u0444\u0435\u0440\u0435 \u044d\u043a\u043e\u043d\u043e\u043c\u0438\u0447\u0435\u0441\u043a\u043e\u0439 \u0431\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u0438 \u043f\u0440\u0435\u0434\u043f\u0440\u0438\u044f\u0442\u0438\u0439 \u043c\u043e\u043b\u043e\u0447\u043d\u043e\u0439 \u043f\u0440\u043e\u043c\u044b\u0448\u043b\u0435\u043d\u043d\u043e\u0441\u0442\u0438 \u043d\u0430 \u043e\u0441\u043d\u043e\u0432\u0435 \u043f\u043e\u0434\u0445\u043e\u0434\u0430 RAG (Retrieval-Augmented Generation) \u0432 \u0441\u043e\u0432\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445 \u0443"
+      },
+      "retrieved_doc_ids": [
+        "10.47576/2949-1894.2026.7.7.023",
+        "10.52060/juptik.v4i1.4318",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.35314/3y9hy151"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "b7535086-1265-4c28-b265-de6fee657fd5",
+      "question_type": "summary",
+      "paper_id": "10.54254/2753-8818/2026.dl34055",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 22,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 1586,
+        "sha256": "c52a949b34260526e493fe48c090a5f6cb07ec2e32382bf89ca66b9c2ed344fb",
+        "preview": "<jats:p>Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks. However, their outputs remain vulnerable to hallucination, including factual errors, unsuppor"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 1569,
+        "sha256": "af0bedbe0029f7e06e7c6c3f790a82f3451b0477f67d1ba514f219d253f57bea",
+        "preview": "Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks. However, their outputs remain vulnerable to hallucination, including factual errors, unsupported clai"
+      },
+      "clean_expected": {
+        "chars": 1569,
+        "sha256": "af0bedbe0029f7e06e7c6c3f790a82f3451b0477f67d1ba514f219d253f57bea",
+        "preview": "Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks. However, their outputs remain vulnerable to hallucination, including factual errors, unsupported clai"
+      },
+      "actual_answer": {
+        "chars": 138,
+        "sha256": "598a9ffb2eec8edbbc826fe6f861f590265a1e22132fee305ea0dac90eb708e6",
+        "preview": "Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks."
+      },
+      "retrieved_doc_ids": [
+        "10.54254/2753-8818/2026.dl34055",
+        "10.7717/peerj-cs.3882",
+        "10.1093/sleep/zsag091.0346",
+        "10.20944/preprints202604.0339.v1"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.1871345029239766,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "09723899-0d49-4fea-a7a5-20aba9bd5afd",
+      "question_type": "authors",
+      "paper_id": "10.54254/2753-8818/2026.dl34055",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 22,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 168,
+        "sha256": "550eb4e795251949192ac7dc486548d02b610ee9aa18afaa11032c5d0bcf95de",
+        "preview": "[{\"affiliation\": [{\"name\": \"Southwest University\"}], \"family\": \"Yang\", \"given\": \"Haopeng\", \"role\": [{\"role\": \"author\", \"vocabulary\": \"crossref\"}], \"sequence\": \"first\"}]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 16,
+        "sha256": "e38b46c23a1b805c97a03ad2003b72837b47e635f4962665938fdaa8bb575a58",
+        "preview": "['Haopeng Yang']"
+      },
+      "clean_expected": {
+        "chars": 16,
+        "sha256": "e38b46c23a1b805c97a03ad2003b72837b47e635f4962665938fdaa8bb575a58",
+        "preview": "['Haopeng Yang']"
+      },
+      "actual_answer": {
+        "chars": 138,
+        "sha256": "598a9ffb2eec8edbbc826fe6f861f590265a1e22132fee305ea0dac90eb708e6",
+        "preview": "Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks."
+      },
+      "retrieved_doc_ids": [
+        "10.54254/2753-8818/2026.dl34055",
+        "10.7717/peerj-cs.3882",
+        "10.63646/kpqm1958",
+        "10.70121/001c.158711"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "d416e0cf-1616-4be8-9767-ad417566c5d3",
+      "question_type": "categories",
+      "paper_id": "10.54254/2753-8818/2026.dl34055",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 22,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 35,
+        "sha256": "6c90a4352abf4b4206da0d281351555d697c4edae5fe4cd604320da486da565a",
+        "preview": "[\"Theoretical and Natural Science\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 35,
+        "sha256": "779e09a8ad80dba85f73cca08dd897cdb070b41a8be61d6e595ad028dd64f977",
+        "preview": "['Theoretical and Natural Science']"
+      },
+      "clean_expected": {
+        "chars": 35,
+        "sha256": "779e09a8ad80dba85f73cca08dd897cdb070b41a8be61d6e595ad028dd64f977",
+        "preview": "['Theoretical and Natural Science']"
+      },
+      "actual_answer": {
+        "chars": 138,
+        "sha256": "598a9ffb2eec8edbbc826fe6f861f590265a1e22132fee305ea0dac90eb708e6",
+        "preview": "Large language models have demonstrated strong generative capability in question answering, dialogue, and other knowledge-intensive tasks."
+      },
+      "retrieved_doc_ids": [
+        "10.54254/2753-8818/2026.dl34055",
+        "10.1093/sleep/zsag091.0346",
+        "10.7717/peerj-cs.3882",
+        "10.70121/001c.158711"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.1,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "c8af5a86-056e-41f2-b089-60c9f93645fe",
+      "question_type": "summary",
+      "paper_id": "10.1007/s10278-026-02086-9",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 12,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 2314,
+        "sha256": "4c3c1ef00678f19a8dbdb56a625ebb7e0aceebee1b9e5e8ab1f6df304c2e19bb",
+        "preview": "<jats:title>Abstract</jats:title>\n                  <jats:p>\n                    Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinica"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 1869,
+        "sha256": "44dfa15a953bf4d399466494f3ae8079c45a3d50f3f606ba14ab567c06f6c058",
+        "preview": "Abstract Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinical reasoning. This study aimed to develop and validate JADE-Plus, a novel"
+      },
+      "clean_expected": {
+        "chars": 1869,
+        "sha256": "44dfa15a953bf4d399466494f3ae8079c45a3d50f3f606ba14ab567c06f6c058",
+        "preview": "Abstract Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinical reasoning. This study aimed to develop and validate JADE-Plus, a novel"
+      },
+      "actual_answer": {
+        "chars": 180,
+        "sha256": "26c0fd886729eb1ffe3e59aac8c58300d2e660d9991c1fcb5902eada6f18eca3",
+        "preview": "Abstract Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinical reasoning."
+      },
+      "retrieved_doc_ids": [
+        "10.1007/s10278-026-02086-9",
+        "10.1148/radiol.251581",
+        "10.1093/sleep/zsag091.0346",
+        "10.70121/001c.158711"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.23280423280423285,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "c4a9e4b7-000e-4417-a3cf-954a5c4a97b9",
+      "question_type": "authors",
+      "paper_id": "10.1007/s10278-026-02086-9",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 12,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 1132,
+        "sha256": "19da31f0474123be53bd38e4fbdd9749834ae2bf444765cc04fb0e12d97f4422",
+        "preview": "[{\"ORCID\": \"https://orcid.org/0000-0002-2092-6076\", \"affiliation\": [], \"authenticated-orcid\": false, \"family\": \"Baseri Saadi\", \"given\": \"Soroush\", \"role\": [{\"role\": \"author\", \"vocabulary\": \"crossref\"}], \"sequence\": \"first\"}, {\"ORCID\": \"http"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 112,
+        "sha256": "a0084e6a1df1b404546d1612bc8b572f450ce3b59f390a445a0343322a3347d4",
+        "preview": "['Soroush Baseri Saadi', 'Jonas Ver Berne', 'Rocharles Cavalcante Fontenele', 'Peter Claes', 'Reinhilde Jacobs']"
+      },
+      "clean_expected": {
+        "chars": 112,
+        "sha256": "a0084e6a1df1b404546d1612bc8b572f450ce3b59f390a445a0343322a3347d4",
+        "preview": "['Soroush Baseri Saadi', 'Jonas Ver Berne', 'Rocharles Cavalcante Fontenele', 'Peter Claes', 'Reinhilde Jacobs']"
+      },
+      "actual_answer": {
+        "chars": 180,
+        "sha256": "26c0fd886729eb1ffe3e59aac8c58300d2e660d9991c1fcb5902eada6f18eca3",
+        "preview": "Abstract Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinical reasoning."
+      },
+      "retrieved_doc_ids": [
+        "10.1007/s10278-026-02086-9",
+        "10.1148/radiol.251581",
+        "10.70121/001c.158711",
+        "10.1093/sleep/zsag091.0346"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "86859102-5152-4ca7-b024-973a35aae09a",
+      "question_type": "categories",
+      "paper_id": "10.1007/s10278-026-02086-9",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 12,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 46,
+        "sha256": "426a7ca6e9ada3193a2460992d13aa2c357d1889c63d79f61e47864501560cfc",
+        "preview": "[\"Journal of Imaging Informatics in Medicine\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 46,
+        "sha256": "b13d016ec8d3956e323166edcba227aa3dfaf2765c49840f1e8beed43afa7978",
+        "preview": "['Journal of Imaging Informatics in Medicine']"
+      },
+      "clean_expected": {
+        "chars": 46,
+        "sha256": "b13d016ec8d3956e323166edcba227aa3dfaf2765c49840f1e8beed43afa7978",
+        "preview": "['Journal of Imaging Informatics in Medicine']"
+      },
+      "actual_answer": {
+        "chars": 180,
+        "sha256": "26c0fd886729eb1ffe3e59aac8c58300d2e660d9991c1fcb5902eada6f18eca3",
+        "preview": "Abstract Diagnosing jawbone lesions in oral and maxillofacial radiology remains challenging due to overlapping radiological features and the need for integrated clinical reasoning."
+      },
+      "retrieved_doc_ids": [
+        "10.1007/s10278-026-02086-9",
+        "10.1148/radiol.251581",
+        "10.1093/sleep/zsag091.0346",
+        "10.70121/001c.158711"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.07142857142857144,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "44ba386c-ba30-426a-957d-22674b67633a",
+      "question_type": "summary",
+      "paper_id": "10.3390/app16052244",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 3,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 1592,
+        "sha256": "8c2d7636c4c2d42c5541bc1391b9271ccd5160c234f830c84046d896c9d44a8b",
+        "preview": "<jats:p>Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 1575,
+        "sha256": "b021505157cea216553eb860787543fccbeccc8a70d52aba04130ca7580bd74f",
+        "preview": "Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop reasoni"
+      },
+      "clean_expected": {
+        "chars": 1575,
+        "sha256": "b021505157cea216553eb860787543fccbeccc8a70d52aba04130ca7580bd74f",
+        "preview": "Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop reasoni"
+      },
+      "actual_answer": {
+        "chars": 249,
+        "sha256": "e577f1b130f6f76f5dc3b77c6a4b400ab8e76181c054cd3764629d260c57ecf5",
+        "preview": "Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop reasoni"
+      },
+      "retrieved_doc_ids": [
+        "10.3390/app16052244",
+        "10.36227/techrxiv.177272838.89432844/v1",
+        "10.7717/peerj-cs.3882",
+        "10.54254/2753-8818/2026.dl34055"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.3604651162790698,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "61a1774b-0c90-4275-b83d-dc5cb0e7aa40",
+      "question_type": "authors",
+      "paper_id": "10.3390/app16052244",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 3,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 677,
+        "sha256": "5422424965f81a06e5452432c2003d43e40fa65feec9b9aed776b1f5da9b4f20",
+        "preview": "[{\"ORCID\": \"https://orcid.org/0009-0003-9573-2916\", \"affiliation\": [{\"name\": \"Department of Computer Science and Engineering, Chungnam National University, Daejeon 34134, Republic of Korea\"}], \"authenticated-orcid\": false, \"family\": \"Lee\", "
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 28,
+        "sha256": "8184c0a4b28fc55352a3682bc3bbd462c4211ab38a98c1a6ff45c42dc6ae3810",
+        "preview": "['Hyewon Lee', 'Sungsu Lim']"
+      },
+      "clean_expected": {
+        "chars": 28,
+        "sha256": "8184c0a4b28fc55352a3682bc3bbd462c4211ab38a98c1a6ff45c42dc6ae3810",
+        "preview": "['Hyewon Lee', 'Sungsu Lim']"
+      },
+      "actual_answer": {
+        "chars": 249,
+        "sha256": "e577f1b130f6f76f5dc3b77c6a4b400ab8e76181c054cd3764629d260c57ecf5",
+        "preview": "Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop reasoni"
+      },
+      "retrieved_doc_ids": [
+        "10.3390/app16052244",
+        "10.7717/peerj-cs.3882",
+        "10.36227/techrxiv.177272838.89432844/v1",
+        "10.55041/isjem07213"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "85e49127-ea50-4369-b747-3fcb14d2ae8d",
+      "question_type": "categories",
+      "paper_id": "10.3390/app16052244",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 3,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 20,
+        "sha256": "45e312cb9556dd5f3526307d66b6a16bdb3c095175ca343f869d229d935a7ebd",
+        "preview": "[\"Applied Sciences\"]"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 20,
+        "sha256": "141b8857cee7d85317bb798f7c2737c68d556c58ea67c48d27333f9ee327a820",
+        "preview": "['Applied Sciences']"
+      },
+      "clean_expected": {
+        "chars": 20,
+        "sha256": "141b8857cee7d85317bb798f7c2737c68d556c58ea67c48d27333f9ee327a820",
+        "preview": "['Applied Sciences']"
+      },
+      "actual_answer": {
+        "chars": 249,
+        "sha256": "e577f1b130f6f76f5dc3b77c6a4b400ab8e76181c054cd3764629d260c57ecf5",
+        "preview": "Recent GraphRAG methods based on knowledge graphs (KGs) primarily rely on either under-reasoning or a structural path-level retriever, which prevents them from jointly capturing fine-grained semantic relevance and explicit multi-hop reasoni"
+      },
+      "retrieved_doc_ids": [
+        "10.3390/app16052244",
+        "10.55041/isjem07213",
+        "10.54254/2753-8818/2026.dl34055",
+        "10.36227/techrxiv.177272838.89432844/v1"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "3a0bd65e-c5c5-435b-ba73-4abedc4f2837",
+      "question_type": "summary",
+      "paper_id": "10.21079/11681/50309",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 7,
+        "source_field": "abstract"
+      },
+      "raw_source_value": {
+        "chars": 851,
+        "sha256": "7fbf62241887ca20b50f2e4376b1886b6676084ae5a8186da7a18d52c9245ab7",
+        "preview": "<jats:p>The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&amp;D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a s"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 826,
+        "sha256": "08c0c82ba391aa813593bbb4336e85d0e12227f2d8f76402550cc9c08f7ce267",
+        "preview": "The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a safer, more p"
+      },
+      "clean_expected": {
+        "chars": 826,
+        "sha256": "08c0c82ba391aa813593bbb4336e85d0e12227f2d8f76402550cc9c08f7ce267",
+        "preview": "The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a safer, more p"
+      },
+      "actual_answer": {
+        "chars": 277,
+        "sha256": "d984dd409111b29cc782f21fe4cfed458ac138a295bacc0a3a407e8d013129ce",
+        "preview": "The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a safer, more p"
+      },
+      "retrieved_doc_ids": [
+        "10.21079/11681/50309",
+        "10.35314/3y9hy151",
+        "10.63646/kpqm1958",
+        "10.52060/juptik.v4i1.4318"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.56,
+      "judge": {
+        "score": 3,
+        "correct": true,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "0bff3f7a-8a29-4c54-9bac-a7ed88d11a9b",
+      "question_type": "authors",
+      "paper_id": "10.21079/11681/50309",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 7,
+        "source_field": "author"
+      },
+      "raw_source_value": {
+        "chars": 718,
+        "sha256": "062780a250de89a4c40a53d6956cf98372ca6aa5ec28b093bd8d35aa31a81665",
+        "preview": "[{\"affiliation\": [], \"family\": \"Autrey\", \"given\": \"Janet L.\", \"role\": [{\"role\": \"author\", \"vocabulary\": \"crossref\"}], \"sequence\": \"first\"}, {\"affiliation\": [], \"family\": \"Duckworth\", \"given\": \"Lacey S.\", \"role\": [{\"role\": \"author\", \"vocabul"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 98,
+        "sha256": "f6294ab36d95db5a110221b6f674fd8d770581776b98222cf3d1a576bf7d0e57",
+        "preview": "['Janet L. Autrey', 'Lacey S. Duckworth', 'Ashly N. Horner', 'Thomas Sigler', 'Victoria D. Moore']"
+      },
+      "clean_expected": {
+        "chars": 98,
+        "sha256": "f6294ab36d95db5a110221b6f674fd8d770581776b98222cf3d1a576bf7d0e57",
+        "preview": "['Janet L. Autrey', 'Lacey S. Duckworth', 'Ashly N. Horner', 'Thomas Sigler', 'Victoria D. Moore']"
+      },
+      "actual_answer": {
+        "chars": 277,
+        "sha256": "d984dd409111b29cc782f21fe4cfed458ac138a295bacc0a3a407e8d013129ce",
+        "preview": "The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a safer, more p"
+      },
+      "retrieved_doc_ids": [
+        "10.21079/11681/50309",
+        "10.63646/kpqm1958",
+        "10.35314/3y9hy151",
+        "10.36227/techrxiv.177272838.89432844/v1"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    },
+    {
+      "question_id": "18b32e71-2f74-44aa-8e5b-fbf08af97491",
+      "question_type": "categories",
+      "paper_id": "10.21079/11681/50309",
+      "raw_source_pointer": {
+        "path": "data/raw/crossref_response.json",
+        "message_item_index": 7,
+        "source_field": "subject/container-title/type"
+      },
+      "raw_source_value": {
+        "chars": 6,
+        "sha256": "845e91831319e89c4d656bdb80c278ac09a7230d61e5dfd2e1b1fbb436ac8917",
+        "preview": "report"
+      },
+      "ground_truth_matches_clean_semantically": true,
+      "answer_matches_clean_semantically": false,
+      "ground_truth": {
+        "chars": 10,
+        "sha256": "071ba076988f6b0d2becab73b5210f8f050e2365235ac78f3a5556b6b2ac3112",
+        "preview": "['report']"
+      },
+      "clean_expected": {
+        "chars": 10,
+        "sha256": "071ba076988f6b0d2becab73b5210f8f050e2365235ac78f3a5556b6b2ac3112",
+        "preview": "['report']"
+      },
+      "actual_answer": {
+        "chars": 277,
+        "sha256": "d984dd409111b29cc782f21fe4cfed458ac138a295bacc0a3a407e8d013129ce",
+        "preview": "The US Army Corps of Engineers (USACE) Civil Works (CW) research and development (R&D) mission is to address challenging environmental sustainability problems through innovative science and engineering, which helps to ensure a safer, more p"
+      },
+      "retrieved_doc_ids": [
+        "10.21079/11681/50309",
+        "10.35314/3y9hy151",
+        "10.52060/juptik.v4i1.4318",
+        "10.63646/kpqm1958"
+      ],
+      "retrieval_hit": true,
+      "token_f1": 0.0,
+      "judge": {
+        "score": 1,
+        "correct": false,
+        "reasoning": "Fallback heuristic judge used because the LLM evaluator was unavailable."
+      }
+    }
+  ],
+  "schema_decision": {
+    "clean_contract_change_required": false,
+    "missing_clean_contract_columns": [],
+    "missing_index_metadata_fields": [],
+    "decision": "No schema change: index consumes all contracted fields. The missing date questions are a test-set consumer bug (`published_date` vs `published`)."
+  },
+  "source_lock": {
+    "version": 1,
+    "source_mode": "raw snapshot",
+    "refresh_source_required": false,
+    "refresh_source_setting": false,
+    "paths": {
+      "raw_api_response": "data/raw/crossref_response.json",
+      "raw_records": "data/raw/crossref_records.json"
+    },
+    "sha256": {
+      "raw_api_response": "bc114697b45d5937ccd0282b92afe9f39512d327a800275624a9103f51b5b635",
+      "raw_records": "e1c6ee0379653af909c1deae6566b0a745ef658d0f31406332d612699a510ebb"
+    },
+    "status": "verified",
+    "matches_existing_lock": true
+  }
+}
