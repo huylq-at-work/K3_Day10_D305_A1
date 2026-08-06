@@ -461,6 +461,55 @@ Thứ tự xử lý đề xuất trước khi sang phase 2:
 2. **R4 + R3** chốt cách xử lý Blocker 1 (ngôn ngữ test set) và Blocker 2 (`ground_truth` dạng list).
 3. **R1** điền API key, chạy lại `run_phase1.py` rồi `verify_baseline.py` cho tới khi 32/32 pass.
 
+## 2f. Checkpoint 4 — baseline checklist trước giờ nghỉ (Role 1)
+
+Mốc này là **nghỉ 15 phút**. Việc của Role 1: chốt checklist baseline và blocker còn lại để
+quay lại làm phase 2 ngay, không phải dò lại từ đầu.
+
+### Baseline checklist — trạng thái tại giờ nghỉ
+
+Chạy lại `uv run python script/verify_baseline.py` sau khi rebase: **29/32 pass**.
+
+| # | Hạng mục | Trạng thái |
+| :-: | :-- | :-- |
+| 1 | 10 artifact bắt buộc tồn tại và đọc được | ✅ |
+| 2 | Clean contract còn pass trên file đã ghi | ✅ 0 blocker |
+| 3 | Count khớp xuyên tầng: 24 raw → 24 clean → 24 manifest → 24 Chroma | ✅ |
+| 4 | Collection `papers-baseline`, model MiniLM khớp `Settings` | ✅ |
+| 5 | 3 trạng thái dùng collection và path riêng | ✅ chưa ghi đè gì |
+| 6 | 30/30 `ground_truth_doc_ids` tồn tại trong clean data | ✅ |
+| 7 | 4 metric tính lại từ answers khớp file metrics | ✅ |
+| 8 | Report chứa đúng số của metrics, Source Summary có số thật | ✅ |
+| 9 | Freshness phản ánh dữ liệu thật | ❌ `latest/oldest_published: null` |
+| 10 | Judge gọi LLM thật | ❌ 30/30 heuristic fallback |
+| 11 | Agent demo chạy được | ❌ thiếu API key |
+| 12 | `retrieval_hit_rate` đo được chất lượng retrieval | ❌ bão hoà 1.00 |
+
+### Blocker còn lại — ưu tiên số 1 khi quay lại
+
+**Ngưỡng freshness hard-code 365 (Blocker 7).** Sau rebase kiểm lại: chưa sửa, và tệ hơn dự
+đoán ban đầu — `df["age_days"].gt(365)` xuất hiện ở **cả hai** hàm trong
+`src/observability/quality.py`: `run_data_quality_checks` (dòng 27) và `build_freshness_report`
+(dòng 58). `settings.freshness_threshold_days` là **180**.
+
+Chọn đây làm blocker số 1 vì phase 2 sẽ bắt đầu bằng corruption, mà "làm cũ dữ liệu" là một
+trong sáu kịch bản bắt buộc. Với ngưỡng 365, làm 24 dòng cũ đi 200 ngày vẫn cho `stale_rows: 0`
+và `is_fresh: true` ở **cả hai** report. Nhóm sẽ ghi vào báo cáo "corruption không bị phát hiện"
+trong khi thực tế là checker hỏng.
+
+Việc quay lại làm ngay, theo thứ tự:
+
+1. **R4** — `published_date` → `published`; thay `365` bằng `settings.freshness_threshold_days`
+   ở cả hai hàm; xem lại `is_fresh` (hiện là "stale < 50%", nên 11/24 dòng cũ 400 ngày vẫn báo fresh).
+2. **R4 + R3** — chốt Blocker 1 (test set tiếng Việt vs router tiếng Anh trong `qa.py`) và
+   Blocker 2 (`ground_truth` của authors/categories đang là list). Kiểm lại sau rebase:
+   `ground_truth` của câu summary đã là `str`, nhưng câu hỏi vẫn tiếng Việt.
+3. **R1** — điền API key, chạy lại `run_phase1.py` → `verify_baseline.py` tới khi 32/32 pass,
+   **rồi mới** chạy corruption.
+
+Ràng buộc không đổi khi sang phase 2: giữ nguyên `test_set.json`, `top_k`, evaluator; ba trạng
+thái dùng ba collection riêng; repair chạy lại từ `data/raw/`, không sửa tay metrics.
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement
