@@ -190,6 +190,93 @@ Ba ràng buộc không được vi phạm:
 3. **Mỗi trạng thái một collection riêng** (`papers-baseline` / `papers-corrupted` /
    `papers-repaired`). Ghi đè chung một collection là mất baseline để đối chiếu.
 
+## 2c. Checkpoint 1 — kết quả Role 1 (Lê Quang Huy)
+
+### (1) Clean contract đã chốt
+
+Contract nằm ở [`src/core/contract.py`](src/core/contract.py) — **cố ý đặt trong `core/`, không
+đặt trong `ingestion/`**. Nếu để cùng chỗ với code cleaning thì người implement vừa viết code
+vừa tự định nghĩa tiêu chí đúng/sai cho chính mình, và gate ở `phase1` không còn độc lập.
+
+| Hạng mục | Chốt |
+| :-- | :-- |
+| Input | `list[PaperRecord]` từ `data/raw/crossref_records.json` + `run_date` |
+| Đầu ra | `pandas.DataFrame` đúng 16 cột theo `CLEAN_COLUMNS`, đúng thứ tự |
+| Tên file | `data/clean/papers_clean.csv` và `papers_clean.json` (path lấy từ `Paths`, không tự đặt) |
+| Kết quả kiểm | `data/quality/clean_contract.json` |
+
+**Điều kiện dừng** — pipeline raise `ContractViolation` và **không index, không sinh test set**
+khi vi phạm bất kỳ điều nào:
+
+| # | Blocker | Vì sao chặn |
+| :-: | :-- | :-- |
+| 1 | Thiếu cột trong `CLEAN_COLUMNS` | R3/R4 đọc thẳng tên cột, thiếu là vỡ ở tận bước index |
+| 2 | < 5 dòng clean | Corpus quá nhỏ, metric vô nghĩa |
+| 3 | Null/rỗng ở `paper_id`, `title`, `summary`, `published`, `authors_joined`, `categories_joined`, `text_for_embedding` | Đây đều là nguồn ground truth hoặc đầu vào embedding |
+| 4 | `paper_id` trùng | `ground_truth_doc_ids` của R4 thành mơ hồ |
+| 5 | `published` không phải ISO `YYYY-MM-DD` | Ground truth câu hỏi date và freshness đều dựa vào |
+| 6 | Còn `None` ở cột metadata Chroma | Chroma từ chối metadata `None` |
+| 7 | `summary` còn tag markup | JATS lọt vào embedding và vào câu trả lời |
+| 8 | `age_days` lệch `published`, hoặc âm | Freshness report sai theo |
+
+Cảnh báo (**không** chặn, nhưng ghi vào report): summary quá ngắn, và nhiều dòng dùng chung
+`categories_joined`.
+
+### (2) Rà soát raw → clean
+
+Rà soát **độc lập** trên artifact của branch `role2-data-foundation` (commit `e8d0e04`), không
+lấy số R2 tự báo.
+
+| Chỉ số | Giá trị | Kết luận |
+| :-- | :-: | :-- |
+| Raw items từ Crossref | 24 | |
+| Parsed records | 24 | Không mất record khi parse |
+| Clean rows | 24 | **Drop = 0** |
+| `paper_id` unique | 24/24 | Đạt |
+| Tag markup còn sót | 0/24 | JATS đã strip sạch |
+| `age_days` lệch `published` | 0/24 | Khớp |
+| `published` lệch năm so với raw | 0/24 | Không bịa ngày |
+| `authors_joined` = "Unknown" | 0/24 | Không phải điền bù |
+| `summary` ngắn nhất | 228 ký tự | Trên ngưỡng 50 |
+| `age_days` | 5–175 | Trong ngưỡng freshness 180 |
+
+Chạy `validate_clean_dataframe` trên chính data đó: **PASS, 0 blocker, 1 warning.**
+
+#### Blocker ghi nhận
+
+Không có blocker chặn pipeline. Một vấn đề mức **cảnh báo nhưng cần cả nhóm quyết**:
+
+> **`categories_joined` bị dùng chung ở 9/24 dòng.** Cụ thể: 7 paper cùng giá trị
+> `posted-content`, 2 paper cùng `PeerJ Computer Science`.
+
+**Bằng chứng:** Crossref trả `subject: []` ở **cả 24/24 item** — kiểm cả bằng `select=subject`
+lẫn gọi thẳng record đầy đủ, không phải lỗi query. R2 buộc phải fallback
+`subject → container-title → type`; 8 dòng rơi xuống tận `type`, mà `type` chỉ có 3 giá trị
+(`journal-article`, `posted-content`, `report`) nên không phải "category" theo nghĩa nào cả.
+
+**Tác động:** với `question_type=categories`, câu hỏi về paper X có `ground_truth_doc_ids=[X]`
+nhưng 7 paper khác cùng đáp án `posted-content`. Retrieval trả về paper khác trong nhóm đó thì
+`token_f1` vẫn cao trong khi `retrieval_hit_rate` bị tính là miss — hai metric mâu thuẫn nhau
+trên cùng một câu. Ở phase 2 điều này còn tệ hơn: nhiễu sẵn có làm khó tách tác động của
+corruption ra khỏi nhiễu nền.
+
+**Đề xuất xử lý (R4 quyết, R1 và R2 đồng bộ theo):** sinh câu hỏi `categories` **chỉ từ các
+paper có `categories_joined` duy nhất** (15/24 dòng còn lại), hoặc bỏ `question_type` này và
+tăng số câu ở ba loại còn lại. Đừng để nguyên rồi giải thích sau trong report.
+
+### (3) Gate trước index/test set
+
+`src/pipelines/phase1.py` chạy theo thứ tự: load raw → clean → **kiểm contract** → index →
+test set → evaluate → quality → report → demo. Bước 3 raise `ContractViolation` là dừng hẳn.
+
+Lý do không cho chạy tiếp khi contract fail: index dựng trên clean data hỏng thì
+`baseline_metrics.json` không dùng làm mốc so sánh được, và toàn bộ phase 2
+(baseline vs corrupted vs repaired) mất ý nghĩa — nhưng pipeline vẫn "chạy xong" nên rất dễ
+tưởng là ổn.
+
+Đã kiểm gate bằng data hỏng mô phỏng (rỗng summary, sai định dạng date, sót tag, trùng
+`paper_id`): bắt đủ **4 blocker** và chặn đúng.
+
 ### Quy tắc sở hữu file — đọc kỹ
 
 **Chỉ R1 được sửa `src/core/config.py` và `src/pipelines/`.** Ba role còn lại implement

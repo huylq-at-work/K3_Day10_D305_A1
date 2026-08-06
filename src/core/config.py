@@ -46,6 +46,7 @@ class Settings:
     model_name: str
     google_api_key: str | None
     openai_api_key: str | None
+    openai_base_url: str
     anthropic_api_key: str | None
     openrouter_api_key: str | None
     openrouter_base_url: str
@@ -113,6 +114,7 @@ def load_settings(project_dir: Path | None = None) -> Settings:
         model_name=os.getenv("LLM_MODEL", "gemini-2.5-flash"),
         google_api_key=os.getenv("GOOGLE_API_KEY"),
         openai_api_key=os.getenv("OPENAI_API_KEY"),
+        openai_base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1"),
         anthropic_api_key=os.getenv("ANTHROPIC_API_KEY"),
         openrouter_api_key=os.getenv("OPENROUTER_API_KEY"),
         openrouter_base_url=os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"),
