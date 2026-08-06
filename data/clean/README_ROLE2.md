@@ -30,3 +30,21 @@ python script/validate_role2.py --run-date 2026-08-06
 ```
 
 This reads `data/raw/crossref_response.json`, writes parsed raw records and clean CSV/JSON, then writes `data/clean/cp1_validation.json`. A failed contract check exits non-zero.
+
+## Raw audit and clean reason log
+
+Run the current Role 2 checkpoint from the project root:
+
+```bash
+python -m ingestion.checkpoint --run-date 2026-08-06
+```
+
+The command reconciles the immutable API response with parsed `PaperRecord`
+objects and writes:
+
+- `data/raw/raw_snapshot_audit.json`: source-index/DOI trace, rejection reasons,
+  field coverage, and snapshot reconciliation.
+- `data/raw/cleaning_handoff.json`: exact raw paths, source-to-record field map,
+  coverage, and one real sample record for the cleaning owner.
+- `data/clean/cleaning_report.json`: input/clean/filter/dedupe counts, reason
+  counts, affected source indexes, and the independent clean-contract result.

@@ -7,8 +7,19 @@ import json
 import pandas as pd
 
 from core.config import load_settings
-from ingestion.cleaning import CLEAN_COLUMNS, build_clean_dataframe
-from ingestion.crossref import PaperRecord, fetch_source_records, load_raw_records, parse_crossref_payload
+from ingestion.cleaning import (
+    CLEAN_COLUMNS,
+    build_clean_dataframe,
+    write_clean_artifacts,
+)
+from ingestion.crossref import (
+    PaperRecord,
+    audit_crossref_payload,
+    audit_raw_snapshot,
+    fetch_source_records,
+    load_raw_records,
+    parse_crossref_payload,
+)
 
 
 def _item(doi: str = "10.1000/Test") -> dict:
@@ -57,11 +68,35 @@ def test_parse_drops_invalid_and_duplicate_doi() -> None:
     assert [record.paper_id for record in records] == ["10.1000/test"]
 
 
+def test_crossref_audit_traces_rejection_reasons() -> None:
+    duplicate = _item("https://doi.org/10.1000/test")
+    missing_doi = {**_item(), "DOI": ""}
+    invalid = {
+        **_item("10.1000/invalid"),
+        "abstract": "",
+        "published": {"date-parts": [[2026, 99, 1]]},
+    }
+    payload = {"message": {"items": [_item(), duplicate, missing_doi, invalid]}}
+
+    audit = audit_crossref_payload(payload)
+
+    assert audit["parsed_records"] == 1
+    assert audit["rejected_items"] == 3
+    assert audit["reason_counts"] == {
+        "duplicate_doi": 1,
+        "invalid_published_date": 1,
+        "missing_abstract": 1,
+        "missing_doi": 1,
+    }
+    assert audit["parser_trace_matches_records"] is True
+    assert audit["id_trace"][1]["normalized_paper_id"] == "10.1000/test"
+
+
 def test_clean_schema_deduplication_and_derived_fields() -> None:
     record = parse_crossref_payload({"message": {"items": [_item()]}})[0]
     richer = replace(
         record,
-        summary="A longer replacement abstract.",
+        summary="<jats:p>A  longer replacement abstract.</jats:p>",
         authors=[],
         categories=[],
         primary_category="",
@@ -85,6 +120,15 @@ def test_clean_schema_deduplication_and_derived_fields() -> None:
         "Title: Useful Paper\nAuthors: Unknown\nCategories: Unknown\n"
         "Abstract: A longer replacement abstract."
     )
+    report = dataframe.attrs["cleaning_report"]
+    assert report["input_records"] == 3
+    assert report["clean_records"] == 1
+    assert report["filtered_records"] == 1
+    assert report["deduplicated_records"] == 1
+    assert report["reason_counts"]["duplicate_paper_id"] == 1
+    assert report["reason_counts"]["invalid_published"] == 1
+    assert report["reason_counts"]["missing_title"] == 0
+    assert report["count_reconciled"] is True
 
 
 def test_fetch_retries_persists_and_loads(tmp_path, monkeypatch) -> None:
@@ -128,3 +172,39 @@ def test_cp1_snapshot_parses_and_cleans_without_jats() -> None:
     assert dataframe["authors_joined"].ne("").all()
     assert dataframe["categories_joined"].ne("").all()
     assert pd.api.types.is_integer_dtype(dataframe["age_days"])
+
+
+def test_raw_handoff_and_clean_artifact_writers(tmp_path) -> None:
+    payload = {"message": {"items": [_item()]}}
+    response_path = tmp_path / "data" / "raw" / "crossref_response.json"
+    records_path = tmp_path / "data" / "raw" / "crossref_records.json"
+    response_path.parent.mkdir(parents=True)
+    response_path.write_text(json.dumps(payload), encoding="utf-8")
+    parsed = parse_crossref_payload(payload)
+    records_path.write_text(
+        json.dumps([record.__dict__ for record in parsed]), encoding="utf-8"
+    )
+    audit_path = response_path.parent / "raw_snapshot_audit.json"
+    handoff_path = response_path.parent / "cleaning_handoff.json"
+
+    audit, handoff = audit_raw_snapshot(
+        response_path, records_path, audit_path, handoff_path
+    )
+
+    assert audit["passed"] is True
+    assert handoff["raw_paths"]["api_response"] == "data/raw/crossref_response.json"
+    assert handoff["sample_record"]["paper_id"] == "10.1000/test"
+    assert handoff["cleaning_readiness"]["ready"] is True
+    assert audit_path.exists() and handoff_path.exists()
+
+    dataframe = build_clean_dataframe(parsed, datetime(2026, 8, 6, tzinfo=UTC))
+    clean_dir = tmp_path / "data" / "clean"
+    report = write_clean_artifacts(
+        dataframe,
+        clean_dir / "papers.csv",
+        clean_dir / "papers.json",
+        clean_dir / "cleaning_report.json",
+    )
+    assert report["clean_records"] == 1
+    assert (clean_dir / "papers.csv").exists()
+    assert (clean_dir / "papers.json").exists()
