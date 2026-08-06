@@ -375,8 +375,8 @@ lại dấu vết nào.
 - [x] Bảng metrics khớp với các file trong `data/results/` — `verify_baseline.py` tính lại từ `baseline_answers.json` và đối chiếu.
 - [x] Quality/freshness conclusions khớp với `data/quality/`.
 - [x] Các đường dẫn báo cáo và artifact truy cập được.
-- [ ] Mỗi thành viên đã hoàn thành báo cáo vai trò riêng. Quy ước đặt tên: `report/individual_<MSSV>.md`.
-  Đã nộp: Lê Quang Huy (`individual_2A202601821.md`), Nguyễn Chí Hướng (`individual_2A202601203.md`),
-  Nguyễn Tiến Đạt (`individual_2A202601387.md`). Còn thiếu: Phạm Thị Liên (`individual_2A202601795.md`).
+- [x] Mỗi thành viên đã hoàn thành báo cáo vai trò riêng. Quy ước đặt tên: `report/individual_<MSSV>.md`.
+  Đủ 4/4: Nguyễn Chí Hướng (`individual_2A202601203.md`), Nguyễn Tiến Đạt (`individual_2A202601387.md`),
+  Phạm Thị Liên (`individual_2A202601795.md`), Lê Quang Huy (`individual_2A202601821.md`).
 - [x] Không có `.env`, API key, token hoặc secret trong source, report, log hay ảnh — đã quét `sk-`, `AIza`, `ghp_`, `sk-ant-`.
 - [x] Không hard-code path tuyệt đối — `persist_path` trong embedding manifest đã chuyển sang tương đối.
