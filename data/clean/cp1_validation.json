@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "run_date": "2026-08-06",
+  "source_items": 24,
+  "parsed_records": 24,
+  "clean_records": 24,
+  "dropped_during_parse": 0,
+  "dropped_during_cleaning": 0,
+  "checks": {
+    "clean_schema_exact": true,
+    "has_clean_rows": true,
+    "paper_id_complete": true,
+    "paper_id_unique": true,
+    "title_complete": true,
+    "summary_complete": true,
+    "published_iso_date": true,
+    "authors_complete": true,
+    "categories_complete": true,
+    "embedding_text_complete": true,
+    "jats_removed": true,
+    "age_days_consistent": true
+  }
+}
